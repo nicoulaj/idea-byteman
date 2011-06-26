@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+  ~
+  ~ This file is part of idea-byteman.
+  ~
+  ~ idea-byteman is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ idea-byteman is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with idea-byteman.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
+<idea-plugin version="2" url="http://github.com/nicoulaj/idea-byteman">
+  <id>net.nicoulaj.idea.byteman</id>
+  <name>Byteman</name>
+  <category>Custom Languages</category>
+  <vendor url="http://twitter.com/nicoulaj" email="julien.nicoulaud@gmail.com">Julien Nicoulaud</vendor>
+  <version>0.1</version>
+  <idea-version since-build="99.18"/>
+  <depends>com.intellij.modules.lang</depends>
+  <description>
+    <![CDATA[
+      <b><a href="http://www.jboss.org/byteman">Byteman</a> support for IntelliJ IDEA.</b>
+    ]]>
+  </description>
+  <change-notes>
+    <![CDATA[
+      <p>
+        <b>0.1</b><br/>
+        <ul>
+          <li>TODO</li>
+        </ul>
+      </p>
+    ]]>
+  </change-notes>
+  <application-components>
+    <component>
+      <implementation-class>net.nicoulaj.idea.byteman.BytemanLoader</implementation-class>
+    </component>
+  </application-components>
+  <extensions defaultExtensionNs="com.intellij">
+    <fileTypeFactory implementation="net.nicoulaj.idea.byteman.file.BytemanFileTypeFactory"/>
+  </extensions>
+</idea-plugin>
