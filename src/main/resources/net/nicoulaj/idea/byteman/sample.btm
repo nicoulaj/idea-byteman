@@ -1,0 +1,41 @@
+########################################################################
+#
+# Rule to trace thread creation
+#
+
+RULE ThreadMonitor trace create
+CLASS java.lang.Thread
+METHOD <init>
+HELPER org.jboss.byteman.sample.helper.ThreadMonitorHelper
+AT EXIT
+IF TRUE
+DO traceCreate($0)
+ENDRULE
+
+########################################################################
+#
+# Rule to trace thread start
+#
+
+RULE ThreadMonitor trace start
+CLASS java.lang.Thread
+METHOD start
+HELPER org.jboss.byteman.sample.helper.ThreadMonitorHelper
+AT EXIT
+IF TRUE
+DO traceStart($0)
+ENDRULE
+
+########################################################################
+#
+# Rule to trace thread exit
+#
+
+RULE ThreadMonitor trace exit
+CLASS java.lang.Thread
+METHOD exit
+HELPER org.jboss.byteman.sample.helper.ThreadMonitorHelper
+AT ENTRY
+IF TRUE
+DO traceExit($0)
+ENDRULE

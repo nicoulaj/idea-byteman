@@ -36,7 +36,8 @@
       <p>
         <b>0.1</b><br/>
         <ul>
-          <li>TODO</li>
+          <li><a href="https://github.com/nicoulaj/idea-byteman/issues/XXX">Issue #XXX</a>: Add syntax highlighting for *.btm files.</li></li>
+          <li><a href="https://github.com/nicoulaj/idea-byteman/issues/XXX">Issue #XXX</a>: Add color settings page.</li></li>
         </ul>
       </p>
     ]]>
@@ -48,5 +49,8 @@
   </application-components>
   <extensions defaultExtensionNs="com.intellij">
     <fileTypeFactory implementation="net.nicoulaj.idea.byteman.file.BytemanFileTypeFactory"/>
+    <syntaxHighlighter key="Byteman" implementationClass="net.nicoulaj.idea.byteman.highlighter.BytemanSyntaxHighlighter"/>
+    <colorSettingsPage implementation="net.nicoulaj.idea.byteman.highlighter.BytemanColorSettingsPage"/>
+    <lang.parserDefinition language="Byteman" implementationClass="net.nicoulaj.idea.byteman.lang.parser.BytemanParserDefinition"/>
   </extensions>
 </idea-plugin>
