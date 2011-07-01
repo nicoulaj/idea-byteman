@@ -13,7 +13,7 @@ Prerequisites
 
 * Configure the plugin as follows:
 
-         ![JFlex plugin setup](http://i.imgur.com/Ai4qe.png)
+![JFlex plugin setup](http://i.imgur.com/Ai4qe.png)
 
 
 ### IntelliJ IDEA Plugin SDK setup
