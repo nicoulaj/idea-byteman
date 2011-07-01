@@ -1,0 +1,8 @@
+RULE throw on Nth empty get
+CLASS org.my.BoundedBuffer
+METHOD get()
+AT INVOKE Object.wait()
+BIND buffer = $this
+IF countDown(buffer)
+DO throw new org.my.ClosedException(buffer)
+ENDRULE
