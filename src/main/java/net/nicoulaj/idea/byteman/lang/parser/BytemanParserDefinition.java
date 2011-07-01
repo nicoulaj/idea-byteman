@@ -83,17 +83,17 @@ public class BytemanParserDefinition implements ParserDefinition {
     /**
      * Get the set of token types which are treated as whitespace by the PSI builder.
      *
-     * @return {@link TokenSet#EMPTY}
+     * @return {@link BytemanTokenTypeSets#WHITE_SPACE_SET}
      */
     @NotNull
     public TokenSet getWhitespaceTokens() {
-        return TokenSet.EMPTY;
+        return BytemanTokenTypeSets.WHITE_SPACE_SET;
     }
 
     /**
      * Get the set of token types which are treated as comments by the PSI builder.
      *
-     * @return {@link TokenSet#EMPTY}
+     * @return {@link BytemanTokenTypeSets#COMMENT_SET}
      */
     @NotNull
     public TokenSet getCommentTokens() {
@@ -103,11 +103,11 @@ public class BytemanParserDefinition implements ParserDefinition {
     /**
      * Get the set of element types which are treated as string literals.
      *
-     * @return {@link TokenSet#EMPTY}
+     * @return {@link BytemanTokenTypeSets#STRING_SET}
      */
     @NotNull
     public TokenSet getStringLiteralElements() {
-        return TokenSet.EMPTY;
+        return BytemanTokenTypeSets.STRING_SET;
     }
 
     /**
