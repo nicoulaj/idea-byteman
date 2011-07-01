@@ -18,6 +18,7 @@
  */
 package net.nicoulaj.idea.byteman.highlighter;
 
+import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.editor.markup.EffectType;
 import com.intellij.openapi.editor.markup.TextAttributes;
@@ -32,7 +33,7 @@ import java.awt.*;
  * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
  * @since 0.1
  */
-public class BytemanHighlighterColors {
+public class BytemanHighlighterColors implements HighlighterColors {
 
     /**
      * Default style for TODO.
@@ -151,12 +152,5 @@ public class BytemanHighlighterColors {
      */
     public static TextAttributesKey COMMENT_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.COMMENT", new TextAttributes(Color.GRAY, null, null, null, Font.ITALIC)
-    );
-
-    /**
-     * Default style for errors.
-     */
-    public static TextAttributesKey ERROR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
-            "BYTEMAN.ERROR", new TextAttributes(Color.RED, null, null, null, Font.BOLD)
     );
 }

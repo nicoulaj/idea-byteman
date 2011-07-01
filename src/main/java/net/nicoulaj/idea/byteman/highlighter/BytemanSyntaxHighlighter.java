@@ -66,7 +66,7 @@ public class BytemanSyntaxHighlighter extends SyntaxHighlighterBase {
         fillMap(ATTRIBUTES, BytemanTokenTypeSets.STRING_SET, BytemanHighlighterColors.STRING_ATTR_KEY);
         fillMap(ATTRIBUTES, BytemanTokenTypeSets.WHITE_SPACE_SET, BytemanHighlighterColors.WHITE_SPACE_ATTR_KEY);
         fillMap(ATTRIBUTES, BytemanTokenTypeSets.COMMENT_SET, BytemanHighlighterColors.COMMENT_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.ERROR_SET, BytemanHighlighterColors.ERROR_ATTR_KEY);
+        fillMap(ATTRIBUTES, BytemanTokenTypeSets.ERROR_SET, BytemanHighlighterColors.BAD_CHARACTER);
     }
 
     /**

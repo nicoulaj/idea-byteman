@@ -153,7 +153,7 @@ public class BytemanColorSettingsPage implements ColorSettingsPage {
         );
         attributeDescriptors.add(new AttributesDescriptor(
         BytemanBundle.message("byteman.editor.colorsettingspage.error"),
-        BytemanHighlighterColors.ERROR_ATTR_KEY)
+        BytemanHighlighterColors.BAD_CHARACTER)
         );
     }
 
