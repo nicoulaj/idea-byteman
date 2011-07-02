@@ -288,9 +288,4 @@ public interface BytemanTokenTypes extends TokenType {
      * TODO token type.
      */
     IElementType QUOTEDIDENT = new BytemanElementType("QUOTEDIDENT");
-
-    /**
-     * TODO token type.
-     */
-    IElementType WHITE_SPACE = new BytemanElementType("WHITE_SPACE");
 }
