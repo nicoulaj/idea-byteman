@@ -45,6 +45,6 @@ public class TestUtils {
     /**
      * The pattern used for catching input test script files.
      */
-    public static final Pattern TEST_SCRIPTS_NAME_PATTERN = Pattern.compile(".+.btm");
+    public static final Pattern TEST_SCRIPTS_NAME_PATTERN = Pattern.compile(".+\\.btm");
 
 }
