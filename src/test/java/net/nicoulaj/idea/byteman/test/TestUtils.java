@@ -20,6 +20,8 @@ package net.nicoulaj.idea.byteman.test;
 
 import org.jetbrains.annotations.NonNls;
 
+import java.util.regex.Pattern;
+
 /**
  * Utils for tests.
  *
@@ -33,4 +35,16 @@ public class TestUtils {
      */
     @NonNls
     public static final String TEST_RESOURCES_DIR = "src/test/resources";
+
+    /**
+     * The path to the Byteman scripts used for running tests.
+     */
+    @NonNls
+    public static final String TEST_SCRIPTS_DIR = TEST_RESOURCES_DIR + "/scripts";
+
+    /**
+     * The pattern used for catching input test script files.
+     */
+    public static final Pattern TEST_SCRIPTS_NAME_PATTERN = Pattern.compile(".+.btm");
+
 }

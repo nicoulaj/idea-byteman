@@ -1,9 +1,0 @@
-RULE set up buffer countDown
-CLASS org.my.BoundedBuffer
-METHOD <init>(int)
-AT EXIT
-BIND buffer = $0;
-    size = $1
-IF $1 < 100
-DO createCountDown(buffer, size - 1)
-ENDRULE

@@ -21,7 +21,6 @@ package net.nicoulaj.idea.byteman.test.lexer;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.testFramework.UsefulTestCase;
 import net.nicoulaj.idea.byteman.test.TestUtils;
-import org.jetbrains.annotations.NonNls;
 import org.junit.runners.Parameterized;
 
 import java.io.File;
@@ -30,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Base class for testing {@link net.nicoulaj.idea.byteman.lang.lexer.BytemanLexer} against all available test input documents.
@@ -39,17 +37,6 @@ import java.util.regex.Pattern;
  * @since 0.1
  */
 public abstract class AbstractBytemanLexerTestCase extends UsefulTestCase {
-
-    /**
-     * The path to the data used for this test.
-     */
-    @NonNls
-    public static final String LEXER_TEST_RESOURCES_DIR = TestUtils.TEST_RESOURCES_DIR + "/lexer";
-
-    /**
-     * The pattern used for catching input test data files.
-     */
-    public static final Pattern TEST_FILES_PATTERN = Pattern.compile(".+.btm");
 
     /**
      * The file to test.
@@ -68,11 +55,11 @@ public abstract class AbstractBytemanLexerTestCase extends UsefulTestCase {
     /**
      * Generate the data to use to instantiate this test.
      *
-     * @return a {@link Collection} of parameters to pass to {@link #AbstractBytemanLexerTestCase(java.io.File)} implementations constructor.
+     * @return a {@link Collection} of parameters to pass to parameterized test constructor.
      */
     @Parameterized.Parameters
-    public static Collection<Object[]> getTestFiles() {
-        final List<File> dataFiles = FileUtil.findFilesByMask(TEST_FILES_PATTERN, new File(LEXER_TEST_RESOURCES_DIR));
+    public static Collection<Object[]> getTestScripts() {
+        final List<File> dataFiles = FileUtil.findFilesByMask(TestUtils.TEST_SCRIPTS_NAME_PATTERN, new File(TestUtils.TEST_SCRIPTS_DIR));
         Collections.sort(dataFiles);
         final Collection<Object[]> res = new ArrayList<Object[]>(dataFiles.size());
         for (File file : dataFiles) {
@@ -84,7 +71,7 @@ public abstract class AbstractBytemanLexerTestCase extends UsefulTestCase {
     /**
      * Get the file to run the test against.
      *
-     * @return a {@link File} from {@link #LEXER_TEST_RESOURCES_DIR}
+     * @return a {@link File}
      */
     protected File getTestFile() {
         return testFile;

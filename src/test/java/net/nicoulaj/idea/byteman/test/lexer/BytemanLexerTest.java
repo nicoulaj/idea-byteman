@@ -45,7 +45,7 @@ public class BytemanLexerTest extends AbstractBytemanLexerTestCase {
      * The files containing the expected lexer results are named after the test file file name + this suffix.
      */
     @NonNls
-    public static final String TEST_FILES_TOKENS_FILE_EXT = ".tokens.csv";
+    public static final String TEST_FILES_TOKENS_FILE_EXT = ".lexer.csv";
 
     /**
      * Build a new instance of {@link BytemanLexerTest}.
@@ -94,6 +94,9 @@ public class BytemanLexerTest extends AbstractBytemanLexerTestCase {
             }
             lexer.advance();
         }
+
+//        Uncomment to generate all lexer result files
+//        FileUtil.writeToFile(new File(getTestFile().getPath() + TEST_FILES_TOKENS_FILE_EXT), result);
 
         // Compare results with the expected ones.
         assertSameLinesWithFile(getTestFile().getPath() + TEST_FILES_TOKENS_FILE_EXT, result);
