@@ -18,7 +18,7 @@
  */
 
 /**
- * Implementation of the PSI parsing for Byteman.
+ * Implementation of the PSI for Byteman.
  *
  * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
  * @since 0.1

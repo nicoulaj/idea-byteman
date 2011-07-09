@@ -16,12 +16,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with idea-byteman.  If not, see <http://www.gnu.org/licenses/>.
  */
+package net.nicoulaj.idea.byteman.lang.psi;
+
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.tree.IElementType;
+import net.nicoulaj.idea.byteman.lang.BytemanElementTypes;
+import net.nicoulaj.idea.byteman.lang.psi.impl.BytemanPsiElementImpl;
 
 /**
- * API for Byteman PSI.
+ * TODO Add Javadoc comment.
  *
  * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
  * @since 0.1
- * @see net.nicoulaj.idea.byteman.lang.psi.impl
  */
-package net.nicoulaj.idea.byteman.lang.psi.api;
+public class BytemanPsiCreator implements BytemanElementTypes {
+
+    public static PsiElement createElement(ASTNode node) {
+        final IElementType element = node.getElementType();
+//        if (element.equals(CUSTOM_TYPE_REF)) return new PbRefImpl(node);
+        return new BytemanPsiElementImpl(node);
+    }
+}

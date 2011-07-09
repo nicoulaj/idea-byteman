@@ -31,8 +31,8 @@ import com.intellij.psi.tree.TokenSet;
 import net.nicoulaj.idea.byteman.file.BytemanFileElementType;
 import net.nicoulaj.idea.byteman.lang.BytemanTokenTypeSets;
 import net.nicoulaj.idea.byteman.lang.lexer.BytemanLexer;
+import net.nicoulaj.idea.byteman.lang.psi.BytemanPsiCreator;
 import net.nicoulaj.idea.byteman.lang.psi.impl.BytemanFileImpl;
-import net.nicoulaj.idea.byteman.lang.psi.impl.BytemanPsiElementImpl;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -118,7 +118,7 @@ public class BytemanParserDefinition implements ParserDefinition {
      */
     @NotNull
     public PsiElement createElement(ASTNode node) {
-        return new BytemanPsiElementImpl(node);
+        return BytemanPsiCreator.createElement(node);
     }
 
     /**

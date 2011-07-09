@@ -16,12 +16,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with idea-byteman.  If not, see <http://www.gnu.org/licenses/>.
  */
+package net.nicoulaj.idea.byteman.lang;
 
 /**
- * API for Byteman PSI.
+ * TODO Add Javadoc comment.
  *
  * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
  * @since 0.1
- * @see net.nicoulaj.idea.byteman.lang.psi.impl
  */
-package net.nicoulaj.idea.byteman.lang.psi.api;
+public interface BytemanElementTypes extends BytemanTokenTypeSets {
+    BytemanElementType ECA = new BytemanElementType("ECA");
+    BytemanElementType CA = new BytemanElementType("CA");
+    BytemanElementType RULE_STATEMENT = new BytemanElementType("RULE_STATEMENT");
+    BytemanElementType RULE_NAME_ELEMENT = new BytemanElementType("RULE_NAME_ELEMENT");
+    BytemanElementType CLASS_STATEMENT = new BytemanElementType("CLASS_STATEMENT");
+    BytemanElementType CLASS_REF_ELEMENT = new BytemanElementType("CLASS_NAME_ELEMENT");
+    BytemanElementType METHOD_STATEMENT = new BytemanElementType("METHOD_STATEMENT");
+    BytemanElementType METHOD_REF_ELEMENT = new BytemanElementType("METHOD_NAME_ELEMENT");
+    BytemanElementType HELPER_STATEMENT = new BytemanElementType("HELPER_STATEMENT");
+}

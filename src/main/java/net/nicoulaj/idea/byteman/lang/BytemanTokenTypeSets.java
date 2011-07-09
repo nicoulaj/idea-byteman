@@ -152,5 +152,10 @@ public interface BytemanTokenTypeSets extends BytemanTokenTypes {
     /**
      * TODO token type set.
      */
+    TokenSet COMMENT_OR_WHITE_SPACE_SET = TokenSet.orSet(COMMENT_SET,WHITE_SPACE_SET);
+
+    /**
+     * TODO token type set.
+     */
     TokenSet ERROR_SET = TokenSet.create(ERROR_ELEMENT);
 }

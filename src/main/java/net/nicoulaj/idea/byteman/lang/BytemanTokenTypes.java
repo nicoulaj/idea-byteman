@@ -67,6 +67,11 @@ public interface BytemanTokenTypes extends TokenType {
     /**
      * TODO token type.
      */
+    IElementType HELPER_KEYWORD = new BytemanElementType("HELPER_KEYWORD");
+
+    /**
+     * TODO token type.
+     */
     IElementType ENDRULE_KEYWORD = new BytemanElementType("ENDRULE_KEYWORD");
 
     /**
@@ -288,4 +293,24 @@ public interface BytemanTokenTypes extends TokenType {
      * TODO token type.
      */
     IElementType QUOTEDIDENT = new BytemanElementType("QUOTEDIDENT");
+
+    /**
+     * TODO token type.
+     */
+    IElementType RULE_NAME = new BytemanElementType("RULE_NAME");
+
+    /**
+     * TODO token type.
+     */
+    IElementType CLASS_REF = new BytemanElementType("CLASS_REF");
+
+    /**
+     * TODO token type.
+     */
+    IElementType METHOD_REF = new BytemanElementType("METHOD_REF");
+
+    /**
+     * TODO token type.
+     */
+    IElementType OVERRIDE_KEYWORD = new BytemanElementType("OVERRIDE_KEYWORD");
 }
