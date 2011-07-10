@@ -34,4 +34,5 @@ public interface BytemanElementTypes extends BytemanTokenTypeSets {
     BytemanElementType METHOD_STATEMENT = new BytemanElementType("METHOD_STATEMENT");
     BytemanElementType METHOD_REF_ELEMENT = new BytemanElementType("METHOD_NAME_ELEMENT");
     BytemanElementType HELPER_STATEMENT = new BytemanElementType("HELPER_STATEMENT");
+    BytemanElementType EXPRESSION_STATEMENT = new BytemanElementType("EXPRESSION_STATEMENT");
 }

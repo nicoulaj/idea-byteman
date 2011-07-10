@@ -56,7 +56,7 @@ public class BytemanParser implements PsiParser, BytemanElementTypes {
         while (!builder.eof()) {
             if (!parseRule(builder) && !parseHelperStatement(builder)) {
                 builder.error(BytemanBundle.message("byteman.lang.parser.error.expected-top-level-definition"));
-                builder.advanceLexer();
+                builder.advanceLexer(); // FIXME This should be unnecessary
             }
         }
     }
@@ -144,18 +144,177 @@ public class BytemanParser implements PsiParser, BytemanElementTypes {
     }
 
     public static boolean parseLocationStatement(PsiBuilder builder) {
-        return false;
+        return false; // TODO
     }
 
     public static boolean parseBindStatement(PsiBuilder builder) {
-        return false;
+        return false; // TODO
     }
 
     public static boolean parseIfStatement(PsiBuilder builder) {
+        return parseExpressionStatement(builder);
+    }
+
+    public static boolean parseExpressionStatement(PsiBuilder builder) {
+//        expr
+//            ::= ternary_oper_expr:e {: RESULT = e; :}
+//            |	binary_oper_expr:e {: RESULT = e; :}
+//            |	unary_oper_expr:e {: RESULT = e; :}
+//            |	array_expr:e {: RESULT = e; :}
+//            |	field_expr:e {: RESULT = e; :}
+//            |	meth_expr:e {: RESULT = e; :}
+//            |   new_expr:ne {: RESULT = ne; :}
+//            |	simple_expr:e {: RESULT = e; :}
+//            |   null_expr:e {: RESULT = e; :}
+//            |	simple_name:n {: RESULT = n; :}
+//            |   simple_name:s ASSIGN expr:e {: RESULT = node(ParseNode.ASSIGN, sleft, sright, s, e); :}
+//            |   DOLLAR:d ASSIGN expr:e {: RESULT = node(ParseNode.ASSIGN, dleft, dright, node(ParseNode.DOLLAR, dleft, dright, d), e); :}
+//            |   field_expr:f ASSIGN expr:e {: RESULT = node(ParseNode.ASSIGN, fleft, fright, f, e); :}
+//            |   array_expr:a ASSIGN expr:e {: RESULT = node(ParseNode.ASSIGN, aleft, aright, a, e); :}
+//            |   error:err expr:e {: error("invalid expression", errleft, errright); RESULT = e; :}
+//            ;
+        final PsiBuilder.Marker expressionStatementMarker = builder.mark();
+        if (!(
+        parseTernaryExpression(builder) ||
+        parseBinaryExpression(builder) ||
+        parseUnaryExpression(builder) ||
+        parseArrayExpression(builder) ||
+        parseFieldExpression(builder) ||
+        parseMethExpression(builder) ||
+        parseNewExpression(builder) ||
+        parseSimpleExpression(builder) ||
+        parseNullExpression(builder)
+        )) {
+            expressionStatementMarker.rollbackTo();
+            return false;
+        }
+        expressionStatementMarker.done(EXPRESSION_STATEMENT);
         return false;
     }
 
+    public static boolean parseTernaryExpression(PsiBuilder builder) {
+//        ternary_oper_expr
+//	::=	expr:cond TERN_IF expr:iftrue COLON expr:iffalse
+//		{: RESULT = node(ParseNode.TERNOP, condleft, condright, cond, iftrue, iffalse); :}
+//	;
+        return false; // TODO
+    }
+
+    public static boolean parseBinaryExpression(PsiBuilder builder) {
+//binary_oper_expr
+//	// logical operators
+//	::=	expr:e1 OR:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.OR, oleft, oright), e1, e2); :}
+//	|	expr:e1 AND:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.AND, oleft, oright), e1, e2); :}
+//	// comparison operators
+//	|	expr:e1 LT:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.LT, oleft, oright), e1, e2); :}
+//	|	expr:e1 LE:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.LE, oleft, oright), e1, e2); :}
+//	|	expr:e1 EQ:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.EQ, oleft, oright), e1, e2); :}
+//	|	expr:e1 NE:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.NE, oleft, oright), e1, e2); :}
+//	|	expr:e1 GE:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.GE, oleft, oright), e1, e2); :}
+//	|	expr:e1 GT:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.GT, oleft, oright), e1, e2); :}
+//	// bitwise operators
+//	|	expr:e1 BOR:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.BOR, oleft, oright), e1, e2); :}
+//	|	expr:e1 BAND:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.BAND, oleft, oright), e1, e2); :}
+//	|	expr:e1 BXOR:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.BXOR, oleft, oright), e1, e2); :}
+//	// arithmetic operators
+//	| expr:e1 PLUS:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.PLUS, oleft, oright), e1, e2); :}
+//	|	expr:e1 MINUS:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.MINUS, oleft, oright), e1, e2); :}
+//	|	expr:e1 MUL:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.MUL, oleft, oright), e1, e2); :}
+//	|	expr:e1 DIV:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.DIV, oleft, oright), e1, e2); :}
+//	|	expr:e1 MOD:o expr:e2 {: RESULT = node(ParseNode.BINOP, e1left, e1right, node(ParseNode.MOD, oleft, oright), e1, e2); :}
+//	;
+        return false; // TODO
+    }
+
+    public static boolean parseUnaryExpression(PsiBuilder builder) {
+//	/* logical operators */
+//	::=	NOT:o expr:e {: RESULT = node(ParseNode.UNOP, eleft, eright, node(ParseNode.NOT, oleft, oright), e); :}
+//	/* bitwise operators */
+//	|	TWIDDLE:o expr:e {: RESULT = node(ParseNode.UNOP, eleft, eright, node(ParseNode.TWIDDLE, oleft, oright), e); :}
+//	/* arithmetic operators */
+//    |   MINUS:o expr:e {: RESULT = node(ParseNode.UNOP, eleft, eright, node(ParseNode.UMINUS, oleft, oright), e); :} %prec UMINUS
+//	;
+        return false; // TODO
+    }
+
+    public static boolean parseArrayExpression(PsiBuilder builder) {
+//array_expr
+//	::=	simple_expr:se array_idx_list:ail
+//		{: RESULT = node(ParseNode.ARRAY, seleft, seright, se, ail); :}
+//	|	simple_name:name array_idx_list:ail
+//		{: RESULT = node(ParseNode.ARRAY, nameleft, nameright, name, ail); :}
+//	|	field_expr:fe array_idx_list:ail
+//		{: RESULT = node(ParseNode.ARRAY, feleft, feright, fe, ail); :}
+//	|	meth_expr:me array_idx_list:ail
+//		{: RESULT = node(ParseNode.ARRAY, meleft, meright, me, ail); :}
+//	;
+        return false; // TODO
+    }
+
+    public static boolean parseFieldExpression(PsiBuilder builder) {
+//	::=	path:p DOT simple_name:f
+//		{: RESULT = node(ParseNode.FIELD, fleft, fright, f, p); :}
+//	|	expr_field_expr:efe {: RESULT = efe; :}
+//	;
+        return false; // TODO
+    }
+
+    public static boolean parseMethExpression(PsiBuilder builder) {
+//	::=	simple_name:m LPAREN RPAREN
+//		{: RESULT = node(ParseNode.METH, mleft, mright, m, null, null); :}
+//	|	simple_name:m LPAREN expr_list:args RPAREN
+//		{: RESULT = node(ParseNode.METH, mleft, mright, m, null, args); :}
+//	|	path:p DOT simple_name:m LPAREN RPAREN
+//		{: RESULT = node(ParseNode.METH, mleft, mright, m, p, null); :}
+//	|	path:p DOT simple_name:m LPAREN expr_list:args RPAREN
+//		{: RESULT = node(ParseNode.METH, mleft, mright, m, p, args); :}
+//	|	expr_meth_expr:eme {: RESULT = eme; :}
+        return false; // TODO
+    }
+
+    public static boolean parseNewExpression(PsiBuilder builder) {
+//new_expr
+//    ::=	NEW name:i LPAREN RPAREN
+//		{: RESULT = node(ParseNode.NEW, ileft, iright, i, null, null); :}
+//	|	NEW name:i new_array_idx_list:as
+//		{: RESULT = node(ParseNode.NEW, ileft, iright, i, null, as); :}
+//	|	NEW name:i LPAREN expr_list:args RPAREN
+//		{: RESULT = node(ParseNode.NEW, ileft, iright, i, args, null); :}
+//	;
+        return false; // TODO
+    }
+
+    public static boolean parseSimpleExpression(PsiBuilder builder) {
+//simple_expr
+//	::=	INTEGER_LITERAL:i
+//		{: RESULT =  node(ParseNode.INTEGER_LITERAL, ileft, iright, i); :}
+//	|	FLOAT_LITERAL:f
+//		{: RESULT =  node(ParseNode.FLOAT_LITERAL, fleft, fright, f); :}
+//	|	BOOLEAN_LITERAL:b
+//		{: RESULT =  node(ParseNode.BOOLEAN_LITERAL, bleft, bright, b); :}
+//	|	STRING_LITERAL:s
+//		{: RESULT = node(ParseNode.STRING_LITERAL, sleft, sright, s); :}
+//	|	DOLLAR:s
+//	    {: RESULT = node(ParseNode.DOLLAR, sleft, sright, s); :}
+//	|	LPAREN expr:e RPAREN
+//		{: RESULT = e; :}
+//	;
+        return false; // TODO
+    }
+
+    public static boolean parseNullExpression(PsiBuilder builder) {
+//null_expr
+//    ::=	NULL_LITERAL:n
+//		{: RESULT = node(ParseNode.NULL_LITERAL, nleft, nright); :}
+//	;
+        return false; // TODO
+    }
+
     public static boolean parseDoStatement(PsiBuilder builder) {
-        return false;
+//        actions	::=	NOTHING:n {: RESULT = node(ParseNode.NOTHING, nleft, nright); :}
+//            |	action_expr_list:ael {: RESULT = ael; :}
+//            ;
+
+        return false; // TODO
     }
 }
