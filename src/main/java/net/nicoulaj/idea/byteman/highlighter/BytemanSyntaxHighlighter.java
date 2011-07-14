@@ -57,7 +57,7 @@ public class BytemanSyntaxHighlighter extends SyntaxHighlighterBase {
         fillMap(ATTRIBUTES, BytemanTokenTypeSets.ASSIGN_OPERATOR_SET, BytemanHighlighterColors.ASSIGN_OPERATOR_ATTR_KEY);
         fillMap(ATTRIBUTES, BytemanTokenTypeSets.LOGICAL_OPERATOR_SET, BytemanHighlighterColors.LOGICAL_OPERATOR_ATTR_KEY);
         fillMap(ATTRIBUTES, BytemanTokenTypeSets.COMPARISON_OPERATOR_SET, BytemanHighlighterColors.COMPARISON_OPERATOR_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.BYTEWISE_OPERATOR_SET, BytemanHighlighterColors.BYTEWISE_OPERATOR_ATTR_KEY);
+        fillMap(ATTRIBUTES, BytemanTokenTypeSets.BITWISE_OPERATOR_SET, BytemanHighlighterColors.BYTEWISE_OPERATOR_ATTR_KEY);
         fillMap(ATTRIBUTES, BytemanTokenTypeSets.ARITHMETIC_OPERATOR_SET, BytemanHighlighterColors.ARITHMETIC_OPERATOR_ATTR_KEY);
         fillMap(ATTRIBUTES, BytemanTokenTypeSets.TERNARY_CONDITION_SET, BytemanHighlighterColors.TERNARY_CONDITION_ATTR_KEY);
         fillMap(ATTRIBUTES, BytemanTokenTypeSets.DOLLAR_PREFIXED_IDENTIFIER_SET, BytemanHighlighterColors.DOLLAR_PREFIXED_IDENTIFIER_ATTR_KEY);

@@ -35,4 +35,18 @@ public interface BytemanElementTypes extends BytemanTokenTypeSets {
     BytemanElementType METHOD_REF_ELEMENT = new BytemanElementType("METHOD_NAME_ELEMENT");
     BytemanElementType HELPER_STATEMENT = new BytemanElementType("HELPER_STATEMENT");
     BytemanElementType EXPRESSION_STATEMENT = new BytemanElementType("EXPRESSION_STATEMENT");
+    BytemanElementType TERNARY_EXPRESSION = new BytemanElementType("TERNARY_EXPRESSION");
+    BytemanElementType BINARY_EXPRESSION = new BytemanElementType("BINARY_EXPRESSION");
+    BytemanElementType UNARY_EXPRESSION = new BytemanElementType("UNARY_EXPRESSION");
+    BytemanElementType SIMPLE_EXPRESSION = new BytemanElementType("SIMPLE_EXPRESSION");
+    BytemanElementType ACTIONS = new BytemanElementType("ACTIONS");
+    BytemanElementType ACTION_EXPRESSION_LIST = new BytemanElementType("ACTION_EXPRESSION_LIST");
+    BytemanElementType EXPRESSION_LIST = new BytemanElementType("EXPRESSION_LIST");
+    BytemanElementType ACTION_EXPRESSION = new BytemanElementType("ACTION_EXPRESSION");
+    BytemanElementType THROW_RETURN_EXPRESSION = new BytemanElementType("THROW_RETURN_EXPRESSION");
+    BytemanElementType IF_STATEMENT = new BytemanElementType("IF_STATEMENT");
+    BytemanElementType DO_STATEMENT = new BytemanElementType("DO_STATEMENT");
+    BytemanElementType PATH = new BytemanElementType("PATH");
+    BytemanElementType SIMPLE_NAME = new BytemanElementType("SIMPLE_NAME");
+    BytemanElementType NAME = new BytemanElementType("NAME");
 }

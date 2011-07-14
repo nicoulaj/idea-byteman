@@ -59,7 +59,7 @@ public interface BytemanTokenTypeSets extends BytemanTokenTypes {
     /**
      * TODO token type set.
      */
-    TokenSet EXPRESSION_SEPARATOR_SET = TokenSet.create(SEMI);
+    TokenSet EXPRESSION_SEPARATOR_SET = TokenSet.create(SEMI,COMMA);
 
     /**
      * TODO token type set.
@@ -96,10 +96,10 @@ public interface BytemanTokenTypeSets extends BytemanTokenTypes {
     /**
      * TODO token type set.
      */
-    TokenSet BYTEWISE_OPERATOR_SET = TokenSet.create(BOR,
-                                                     BAND,
-                                                     BXOR,
-                                                     TWIDDLE);
+    TokenSet BITWISE_OPERATOR_SET = TokenSet.create(BOR,
+                                                    BAND,
+                                                    BXOR,
+                                                    TWIDDLE);
 
     /**
      * TODO token type set.
@@ -109,6 +109,21 @@ public interface BytemanTokenTypeSets extends BytemanTokenTypes {
                                                        PLUS,
                                                        MINUS,
                                                        MOD);
+
+    /**
+     * TODO token type set.
+     */
+    TokenSet BINARY_EXPRESSION_OPERATOR_SET = TokenSet.orSet(TokenSet.create(AND, OR),
+                                                             COMPARISON_OPERATOR_SET,
+                                                             TokenSet.create(BOR, BAND, BXOR),
+                                                             ARITHMETIC_OPERATOR_SET);
+
+    /**
+     * TODO token type set.
+     */
+    TokenSet UNARY_EXPRESSION_OPERATOR_SET = TokenSet.create(NOT,
+                                                             TWIDDLE,
+                                                             MINUS);
 
     /**
      * TODO token type set.
@@ -152,7 +167,7 @@ public interface BytemanTokenTypeSets extends BytemanTokenTypes {
     /**
      * TODO token type set.
      */
-    TokenSet COMMENT_OR_WHITE_SPACE_SET = TokenSet.orSet(COMMENT_SET,WHITE_SPACE_SET);
+    TokenSet COMMENT_OR_WHITE_SPACE_SET = TokenSet.orSet(COMMENT_SET, WHITE_SPACE_SET);
 
     /**
      * TODO token type set.

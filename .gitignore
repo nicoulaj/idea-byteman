@@ -3,7 +3,7 @@ out/
 *.zip
 
 # Generated sources
-_*.java
+BytemanFlexLexer.java
 
 # Host specific config files
 *.iws

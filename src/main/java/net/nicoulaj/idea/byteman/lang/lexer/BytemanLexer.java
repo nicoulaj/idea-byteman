@@ -23,7 +23,7 @@ import com.intellij.lexer.FlexAdapter;
 /**
  * The {@link com.intellij.lexer.Lexer} implementation for Byteman.
  * <p/>
- * Uses {@link _BytemanLexer}, the JFlex lexer generated from {@code Byteman.flex}.
+ * Uses {@link BytemanFlexLexer}, the JFlex lexer generated from {@code Byteman.flex}.
  *
  * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
  * @since 0.1
@@ -34,6 +34,6 @@ public class BytemanLexer extends FlexAdapter {
      * Build a new instance of {@link BytemanLexer}.
      */
     public BytemanLexer() {
-        super(new _BytemanLexer());
+        super(new BytemanFlexLexer());
     }
 }
