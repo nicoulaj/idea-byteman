@@ -48,5 +48,14 @@ public interface BytemanElementTypes extends BytemanTokenTypeSets {
     BytemanElementType DO_STATEMENT = new BytemanElementType("DO_STATEMENT");
     BytemanElementType PATH = new BytemanElementType("PATH");
     BytemanElementType SIMPLE_NAME = new BytemanElementType("SIMPLE_NAME");
+    BytemanElementType FIELD = new BytemanElementType("FIELD");
+    BytemanElementType EXPRESSION_FIELD_EXPRESSION = new BytemanElementType("EXPRESSION_FIELD_EXPRESSION");
+    BytemanElementType NEW_EXPRESSION = new BytemanElementType("NEW_EXPRESSION");
+    BytemanElementType NEW_ARRAY_IDX_LIST = new BytemanElementType("NEW_ARRAY_IDX_LIST");
     BytemanElementType NAME = new BytemanElementType("NAME");
+    BytemanElementType METHOD_EXPRESSION = new BytemanElementType("METHOD_EXPRESSION");
+    BytemanElementType ARRAY_EXPRESSION = new BytemanElementType("ARRAY_EXPRESSION");
+    BytemanElementType ARRAY_IDX = new BytemanElementType("ARRAY_IDX");
+    BytemanElementType ARRAY_IDX_LIST = new BytemanElementType("ARRAY_IDX_LIST");
+    BytemanElementType EXPRESSION_METHOD_EXPRESSION = new BytemanElementType("EXPRESSION_METHOD_EXPRESSION");
 }

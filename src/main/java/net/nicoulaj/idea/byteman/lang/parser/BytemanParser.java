@@ -246,46 +246,35 @@ public class BytemanParser implements PsiParser, BytemanElementTypes {
             marker.rollbackTo();
             return false;
         }
-        marker.done(THROW_RETURN_EXPRESSION);
+        marker.done(EXPRESSION_LIST);
         return true;
     }
 
 
     public static boolean parseExpression(PsiBuilder builder) {
-        //        expr
-        //            ::= ternary_oper_expr:e {: RESULT = e; :}
-        //            |	binary_oper_expr:e {: RESULT = e; :}
-        //            |	unary_oper_expr:e {: RESULT = e; :}
-        //            |	array_expr:e {: RESULT = e; :}
-        //            |	field_expr:e {: RESULT = e; :}
-        //            |	meth_expr:e {: RESULT = e; :}
-        //            |   new_expr:ne {: RESULT = ne; :}
-        //            |	simple_expr:e {: RESULT = e; :}
-        //            |   null_expr:e {: RESULT = e; :}
-        //            |	simple_name:n {: RESULT = n; :}
-        //            |   simple_name:s ASSIGN expr:e {: RESULT = node(ParseNode.ASSIGN, sleft, sright, s, e); :}
-        //            |   DOLLAR:d ASSIGN expr:e {: RESULT = node(ParseNode.ASSIGN, dleft, dright, node(ParseNode.DOLLAR, dleft, dright, d), e); :}
-        //            |   field_expr:f ASSIGN expr:e {: RESULT = node(ParseNode.ASSIGN, fleft, fright, f, e); :}
-        //            |   array_expr:a ASSIGN expr:e {: RESULT = node(ParseNode.ASSIGN, aleft, aright, a, e); :}
-        //            |   error:err expr:e {: error("invalid expression", errleft, errright); RESULT = e; :}
-        //            ;
-        final PsiBuilder.Marker expressionStatementMarker = builder.mark();
-        if (!(
-            parseTernaryExpression(builder) ||
-            parseBinaryExpression(builder) ||
-            parseUnaryExpression(builder) ||
-            parseArrayExpression(builder) ||
-            parseFieldExpression(builder) ||
-            parseMethodExpression(builder) ||
-            parseNewExpression(builder) ||
-            parseSimpleExpression(builder) ||
-            parseNullExpression(builder)
-        )) {
-            expressionStatementMarker.rollbackTo();
-            return false;
+        final PsiBuilder.Marker marker = builder.mark();
+        if (!((expect(builder, DOLLAR_PREFIXED_IDENTIFIER_SET) || parseFieldExpression(builder) || parseArrayExpression(builder) || parseSimpleName(builder)) &&
+              expect(builder, ASSIGN) &&
+              parseExpression(builder))) {
+            marker.rollbackTo();
+            if (!(
+                parseTernaryExpression(builder) ||
+                parseBinaryExpression(builder) ||
+                parseUnaryExpression(builder) ||
+                parseArrayExpression(builder) ||
+                parseFieldExpression(builder) ||
+                parseMethodExpression(builder) ||
+                parseNewExpression(builder) ||
+                parseSimpleExpression(builder) ||
+                parseNullExpression(builder) ||
+                parseSimpleName(builder)
+            )) {
+                marker.rollbackTo();
+                return false;
+            }
         }
-        expressionStatementMarker.done(EXPRESSION_STATEMENT);
-        return false;
+        marker.done(EXPRESSION_STATEMENT);
+        return true;
     }
 
     public static boolean parseTernaryExpression(PsiBuilder builder) {
@@ -323,50 +312,121 @@ public class BytemanParser implements PsiParser, BytemanElementTypes {
     }
 
     public static boolean parseArrayExpression(PsiBuilder builder) {
-        //array_expr
-        //	::=	simple_expr:se array_idx_list:ail
-        //		{: RESULT = node(ParseNode.ARRAY, seleft, seright, se, ail); :}
-        //	|	simple_name:name array_idx_list:ail
-        //		{: RESULT = node(ParseNode.ARRAY, nameleft, nameright, name, ail); :}
-        //	|	field_expr:fe array_idx_list:ail
-        //		{: RESULT = node(ParseNode.ARRAY, feleft, feright, fe, ail); :}
-        //	|	meth_expr:me array_idx_list:ail
-        //		{: RESULT = node(ParseNode.ARRAY, meleft, meright, me, ail); :}
-        //	;
-        return false; // TODO
+        final PsiBuilder.Marker marker = builder.mark();
+        if (!(
+            (parseSimpleExpression(builder) || parseSimpleName(builder) || parseFieldExpression(builder) || parseMethodExpression(builder)) &&
+            parseArrayIdxList(builder)
+        )) {
+            marker.rollbackTo();
+            return false;
+        }
+        marker.done(ARRAY_EXPRESSION);
+        return true;
+    }
+
+    public static boolean parseArrayIdxList(PsiBuilder builder) {
+        final PsiBuilder.Marker marker = builder.mark();
+        if (!(parseArrayIdx(builder) && (parseArrayIdxList(builder) || true))) {
+            marker.rollbackTo();
+            return false;
+        }
+        marker.done(ARRAY_IDX_LIST);
+        return true;
+    }
+
+    public static boolean parseArrayIdx(PsiBuilder builder) {
+        final PsiBuilder.Marker marker = builder.mark();
+        if (!(expect(builder, LSQUARE) && parseExpression(builder) && expect(builder, RSQUARE))) {
+            marker.rollbackTo();
+            return false;
+        }
+        marker.done(ARRAY_IDX);
+        return true;
     }
 
     public static boolean parseFieldExpression(PsiBuilder builder) {
-        //	::=	path:p DOT simple_name:f
-        //		{: RESULT = node(ParseNode.FIELD, fleft, fright, f, p); :}
-        //	|	expr_field_expr:efe {: RESULT = efe; :}
-        //	;
-        return false; // TODO
+        final PsiBuilder.Marker marker = builder.mark();
+        if (!(
+            parseExpressionFieldExpression(builder) ||
+            parsePath(builder) && expect(builder, DOT) && parseSimpleName(builder)
+        )) {
+            marker.rollbackTo();
+            return false;
+        }
+        marker.done(FIELD);
+        return true;
+    }
+
+    public static boolean parseExpressionFieldExpression(PsiBuilder builder) {
+        final PsiBuilder.Marker marker = builder.mark();
+        if (!(
+            (parseSimpleExpression(builder) || parseMethodExpression(builder) || parseExpressionFieldExpression(builder)) &&
+            expect(builder, DOT) &&
+            parseSimpleName(builder)
+        )) {
+            marker.rollbackTo();
+            return false;
+        }
+        marker.done(EXPRESSION_FIELD_EXPRESSION);
+        return true;
     }
 
     public static boolean parseMethodExpression(PsiBuilder builder) {
-        //	::=	simple_name:m LPAREN RPAREN
-        //		{: RESULT = node(ParseNode.METH, mleft, mright, m, null, null); :}
-        //	|	simple_name:m LPAREN expr_list:args RPAREN
-        //		{: RESULT = node(ParseNode.METH, mleft, mright, m, null, args); :}
-        //	|	path:p DOT simple_name:m LPAREN RPAREN
-        //		{: RESULT = node(ParseNode.METH, mleft, mright, m, p, null); :}
-        //	|	path:p DOT simple_name:m LPAREN expr_list:args RPAREN
-        //		{: RESULT = node(ParseNode.METH, mleft, mright, m, p, args); :}
-        //	|	expr_meth_expr:eme {: RESULT = eme; :}
-        return false; // TODO
+        final PsiBuilder.Marker marker = builder.mark();
+        if (!(parseExpressionMethodExpression(builder) ||
+              (parseSimpleName(builder) || parsePath(builder)) && expect(builder, LPAREN) && (parseExpressionList(builder) || true) && expect(builder, RPAREN)
+        )) {
+            marker.rollbackTo();
+            return false;
+        }
+        marker.done(METHOD_EXPRESSION);
+        return true;
+    }
+
+    public static boolean parseExpressionMethodExpression(PsiBuilder builder) {
+        final PsiBuilder.Marker marker = builder.mark();
+        if (!(
+            (parseSimpleExpression(builder) || parseMethodExpression(builder) || parseExpressionFieldExpression(builder)) &&
+            expect(builder, DOT) &&
+            parseSimpleName(builder) &&
+            expect(builder, LPAREN) &&
+            (parseExpressionList(builder) || true) &&
+            expect(builder, RPAREN)
+        )) {
+            marker.rollbackTo();
+            return false;
+        }
+        marker.done(EXPRESSION_METHOD_EXPRESSION);
+        return true;
     }
 
     public static boolean parseNewExpression(PsiBuilder builder) {
-        //new_expr
-        //    ::=	NEW name:i LPAREN RPAREN
-        //		{: RESULT = node(ParseNode.NEW, ileft, iright, i, null, null); :}
-        //	|	NEW name:i new_array_idx_list:as
-        //		{: RESULT = node(ParseNode.NEW, ileft, iright, i, null, as); :}
-        //	|	NEW name:i LPAREN expr_list:args RPAREN
-        //		{: RESULT = node(ParseNode.NEW, ileft, iright, i, args, null); :}
-        //	;
-        return false; // TODO
+        final PsiBuilder.Marker marker = builder.mark();
+        if (!(
+            expect(builder, NEW_KEYWORD) &&
+            parseName(builder) &&
+            (parseNewArrayIdxList(builder) || expect(builder, LPAREN) && (parseExpressionList(builder) || true) && expect(builder, RPAREN))
+        )) {
+            marker.rollbackTo();
+            return false;
+        }
+        marker.done(NEW_EXPRESSION);
+        return true;
+    }
+
+    public static boolean parseNewArrayIdxList(PsiBuilder builder) {
+        final PsiBuilder.Marker marker = builder.mark();
+        if (!(
+            expect(builder, LSQUARE) &&
+            (parseExpression(builder) || true) &&
+            expect(builder, RSQUARE) &&
+            (parseNewArrayIdxList(builder) || true)
+        )) {
+            marker.rollbackTo();
+            return false;
+        }
+        marker.done(NEW_ARRAY_IDX_LIST);
+        return true;
     }
 
     public static boolean parseSimpleExpression(PsiBuilder builder) {
@@ -423,7 +483,7 @@ public class BytemanParser implements PsiParser, BytemanElementTypes {
             marker.rollbackTo();
             return false;
         }
-        marker.done(SIMPLE_EXPRESSION);
+        marker.done(PATH);
         return true;
     }
 }
