@@ -33,124 +33,124 @@ import java.awt.*;
  * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
-public class BytemanHighlighterColors implements HighlighterColors {
+class BytemanHighlighterColors implements HighlighterColors {
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey KEYWORD_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey KEYWORD_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.KEYWORD", new TextAttributes(Color.BLUE, null, null, null, Font.BOLD)
     );
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey BRACKETS_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey BRACKETS_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.BRACKETS", new TextAttributes(null, null, null, null, Font.PLAIN)
     );
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey EXPRESSION_SEPARATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey EXPRESSION_SEPARATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.EXPRESSION_SEPARATOR", new TextAttributes(null, null, null, null, Font.PLAIN)
     );
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey BINDING_SEPARATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey BINDING_SEPARATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.BINDING_SEPARATOR", new TextAttributes(null, null, null, null, Font.PLAIN)
     );
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey IDENTIFIER_PUNCTUATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey IDENTIFIER_PUNCTUATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.IDENTIFIER_PUNCTUATOR", new TextAttributes(null, null, null, null, Font.PLAIN)
     );
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey ASSIGN_OPERATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey ASSIGN_OPERATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.ASSIGN_OPERATOR", new TextAttributes(null, null, null, null, Font.PLAIN)
     );
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey LOGICAL_OPERATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey LOGICAL_OPERATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.LOGICAL_OPERATOR", new TextAttributes(null, null, null, null, Font.PLAIN)
     );
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey COMPARISON_OPERATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey COMPARISON_OPERATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.COMPARISON_OPERATOR", new TextAttributes(null, null, null, null, Font.PLAIN)
     );
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey BYTEWISE_OPERATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey BYTEWISE_OPERATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.BYTEWISE_OPERATOR", new TextAttributes(null, null, null, null, Font.PLAIN)
     );
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey ARITHMETIC_OPERATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey ARITHMETIC_OPERATOR_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.ARITHMETIC_OPERATOR", new TextAttributes(null, null, null, null, Font.PLAIN)
     );
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey TERNARY_CONDITION_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey TERNARY_CONDITION_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.TERNARY_CONDITION", new TextAttributes(null, null, null, null, Font.PLAIN)
     );
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey DOLLAR_PREFIXED_IDENTIFIER_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey DOLLAR_PREFIXED_IDENTIFIER_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.DOLLAR_PREFIXED_IDENTIFIER", new TextAttributes(null, null, Color.BLACK, EffectType.LINE_UNDERSCORE, Font.PLAIN)
     );
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey IDENTIFIER_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey IDENTIFIER_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.IDENTIFIER", new TextAttributes(null, null, null, null, Font.PLAIN)
     );
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey NUMBER_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey NUMBER_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.NUMBER", new TextAttributes(null, null, null, null, Font.PLAIN)
     );
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey STRING_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey STRING_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.STRING", new TextAttributes(null, null, null, null, Font.PLAIN)
     );
 
     /**
      * Default style for TODO.
      */
-    public static TextAttributesKey WHITE_SPACE_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey WHITE_SPACE_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.WHITE_SPACE", new TextAttributes(null, null, null, null, Font.PLAIN)
     );
 
     /**
      * Default style for comments.
      */
-    public static TextAttributesKey COMMENT_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
+    public static final TextAttributesKey COMMENT_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
             "BYTEMAN.COMMENT", new TextAttributes(Color.GRAY, null, null, null, Font.ITALIC)
     );
 }

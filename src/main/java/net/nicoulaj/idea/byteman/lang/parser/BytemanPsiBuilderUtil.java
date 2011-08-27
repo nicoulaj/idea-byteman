@@ -26,7 +26,7 @@ import com.intellij.lang.PsiBuilder;
  * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since ?
  */
-public class BytemanPsiBuilderUtil {
+class BytemanPsiBuilderUtil {
 
     private BytemanPsiBuilderUtil() {
     }

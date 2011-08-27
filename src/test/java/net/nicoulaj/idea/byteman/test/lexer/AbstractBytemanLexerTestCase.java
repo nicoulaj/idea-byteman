@@ -41,14 +41,14 @@ public abstract class AbstractBytemanLexerTestCase extends UsefulTestCase {
     /**
      * The file to test.
      */
-    private File testFile;
+    private final File testFile;
 
     /**
      * Build a new instance of {@link AbstractBytemanLexerTestCase}.
      *
      * @param testFile the file to test
      */
-    protected AbstractBytemanLexerTestCase(File testFile) {
+    AbstractBytemanLexerTestCase(File testFile) {
         this.testFile = testFile;
     }
 
@@ -73,7 +73,7 @@ public abstract class AbstractBytemanLexerTestCase extends UsefulTestCase {
      *
      * @return a {@link File}
      */
-    protected File getTestFile() {
+    File getTestFile() {
         return testFile;
     }
 
@@ -83,7 +83,7 @@ public abstract class AbstractBytemanLexerTestCase extends UsefulTestCase {
      * @return the test file data in a single {@link String}
      * @throws IOException if the data could not be loaded
      */
-    protected String getTestFileData() throws IOException {
+    String getTestFileData() throws IOException {
         return new String(FileUtil.loadFileText(testFile));
     }
 
