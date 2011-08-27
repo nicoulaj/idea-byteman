@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 /**
  * {@link ResourceBundle}/localization utils for the Byteman plugin.
  *
- * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
 public class BytemanBundle {

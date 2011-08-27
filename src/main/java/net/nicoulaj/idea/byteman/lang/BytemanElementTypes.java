@@ -21,7 +21,7 @@ package net.nicoulaj.idea.byteman.lang;
 /**
  * TODO Add Javadoc comment.
  *
- * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
 public interface BytemanElementTypes extends BytemanTokenTypeSets {

@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * Base class for testing {@link net.nicoulaj.idea.byteman.lang.lexer.BytemanLexer} against all available test input documents.
  *
- * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
 public abstract class AbstractBytemanLexerTestCase extends UsefulTestCase {

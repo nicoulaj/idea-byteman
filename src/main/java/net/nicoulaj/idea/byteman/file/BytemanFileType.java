@@ -31,7 +31,7 @@ import javax.swing.*;
 /**
  * The {@link LanguageFileType} for Byteman files.
  *
- * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
 public class BytemanFileType extends LanguageFileType {

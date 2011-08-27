@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * {@link ApplicationComponent} loading Byteman support.
  *
- * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
 public class BytemanLoader implements ApplicationComponent {

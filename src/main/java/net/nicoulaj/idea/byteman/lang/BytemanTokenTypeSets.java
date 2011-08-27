@@ -23,7 +23,7 @@ import com.intellij.psi.tree.TokenSet;
 /**
  * Token type sets for the Byteman language.
  *
- * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
 public interface BytemanTokenTypeSets extends BytemanTokenTypes {

@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * {@link com.intellij.openapi.fileTypes.SyntaxHighlighter} implementation for the Byteman language.
  *
- * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
 public class BytemanSyntaxHighlighter extends SyntaxHighlighterBase {

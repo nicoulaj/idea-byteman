@@ -30,9 +30,11 @@ import static com.intellij.lang.PsiBuilderUtil.expect;
 import static net.nicoulaj.idea.byteman.lang.parser.BytemanPsiBuilderUtil.rollbackTo;
 
 /**
- * Parser implementation for Byteman.
+ * {@link PsiParser} implementation for Byteman.
+ * <p/>
+ * Written from scratch after {@code ECAGrammar.cup}, undoubtedly very buggy.
  *
- * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
 public class BytemanParser implements PsiParser, BytemanElementTypes {
@@ -305,9 +307,9 @@ public class BytemanParser implements PsiParser, BytemanElementTypes {
         System.out.println("parseExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
         final PsiBuilder.Marker marker = builder.mark();
         if (!(
-            (expect(builder, DOLLAR_PREFIXED_IDENTIFIER_SET) || parseFieldExpression(builder) || parseArrayExpression(builder) || parseSimpleName(builder)) &&
-            expect(builder, ASSIGN) &&
-            parseExpression(builder) ||
+            //            (expect(builder, DOLLAR_PREFIXED_IDENTIFIER_SET) || parseFieldExpression(builder) || parseArrayExpression(builder) || parseSimpleName(builder)) &&
+            //            expect(builder, ASSIGN) &&
+            //            parseExpression(builder) ||
             rollbackTo(marker) && parseNullExpression(builder) ||
             parseSimpleName(builder) ||
             parseSimpleExpression(builder) ||
@@ -436,8 +438,7 @@ public class BytemanParser implements PsiParser, BytemanElementTypes {
         if (!(
             (
                 parseSimpleExpression(builder) ||
-                parseMethodExpression(builder)
-                ||
+                parseMethodExpression(builder) ||
                 parseExpressionFieldExpression(builder)
             ) &&
             expect(builder, DOT) &&
@@ -456,9 +457,8 @@ public class BytemanParser implements PsiParser, BytemanElementTypes {
         System.out.println("parseMethodExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
         final PsiBuilder.Marker marker = builder.mark();
         if (!(
-            parseName(builder) && expect(builder, LPAREN) && (parseExpressionList(builder) || true) && expect(builder, RPAREN)
-//            ||
-//            rollbackTo(marker) && parseExpressionMethodExpression(builder)
+            parseName(builder) && expect(builder, LPAREN) && (parseExpressionList(builder) || true) && expect(builder, RPAREN) ||
+            rollbackTo(marker) && parseExpressionMethodExpression(builder)
         )) {
             marker.rollbackTo();
             System.out.println("false");

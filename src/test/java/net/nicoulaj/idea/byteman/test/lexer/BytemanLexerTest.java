@@ -35,7 +35,7 @@ import java.io.IOException;
  * <p/>
  * Lexes some input files and compares result with expected output.
  *
- * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
 @RunWith(value = Parameterized.class)

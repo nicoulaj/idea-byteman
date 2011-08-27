@@ -20,7 +20,7 @@
 /**
  * Byteman support plugin for IntelliJ IDEA.
  *
- * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
 package net.nicoulaj.idea.byteman;

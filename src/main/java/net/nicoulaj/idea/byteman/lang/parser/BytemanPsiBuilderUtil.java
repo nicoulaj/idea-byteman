@@ -23,7 +23,7 @@ import com.intellij.lang.PsiBuilder;
 /**
  * TODO Add Javadoc comment.
  *
- * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since ?
  */
 public class BytemanPsiBuilderUtil {

@@ -21,11 +21,11 @@ package net.nicoulaj.idea.byteman.lang.lexer;
 import com.intellij.lexer.FlexAdapter;
 
 /**
- * The {@link com.intellij.lexer.Lexer} implementation for Byteman.
+ * {@link com.intellij.lexer.Lexer} implementation for Byteman.
  * <p/>
  * Uses {@link BytemanFlexLexer}, the JFlex lexer generated from {@code Byteman.flex}.
  *
- * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
 public class BytemanLexer extends FlexAdapter {

@@ -34,7 +34,7 @@ import net.nicoulaj.idea.byteman.lang.BytemanTokenTypes;
  * <p/>
  * Derived from Byteman project's <code>ECAToken.flex</code> JFlex file.
  *
- * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
 @SuppressWarnings({"ALL"})

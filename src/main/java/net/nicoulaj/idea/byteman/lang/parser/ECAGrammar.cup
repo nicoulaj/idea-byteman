@@ -68,21 +68,20 @@ expr_list
 	|	error:err SEMI expr_list:el
 
 expr
-  ::= ternary_oper_expr:e {: RESULT = e; :}
-  |	binary_oper_expr:e {: RESULT = e; :}
-	|	unary_oper_expr:e {: RESULT = e; :}
-	|	array_expr:e {: RESULT = e; :}
-	|	field_expr:e {: RESULT = e; :}
-	|	meth_expr:e {: RESULT = e; :}
-	|   new_expr:ne {: RESULT = ne; :}
-	|	simple_expr:e {: RESULT = e; :}
-	|   null_expr:e {: RESULT = e; :}
-	|	simple_name:n {: RESULT = n; :}
-	|   simple_name:s ASSIGN expr:e {: RESULT = node(ParseNode.ASSIGN, sleft, sright, s, e); :}
-	|   DOLLAR:d ASSIGN expr:e {: RESULT = node(ParseNode.ASSIGN, dleft, dright, node(ParseNode.DOLLAR, dleft, dright, d), e); :}
-	|   field_expr:f ASSIGN expr:e {: RESULT = node(ParseNode.ASSIGN, fleft, fright, f, e); :}
-	|   array_expr:a ASSIGN expr:e {: RESULT = node(ParseNode.ASSIGN, aleft, aright, a, e); :}
-	|   error:err expr:e {: error("invalid expression", errleft, errright); RESULT = e; :}
+  ::= ternary_oper_expr:e
+  |	binary_oper_expr:e
+	|	unary_oper_expr:e
+	|	array_expr:e
+	|	field_expr:e
+	|	meth_expr:e
+	| new_expr:ne
+	|	simple_expr:e
+	| null_expr:e
+	|	simple_name:n
+	| simple_name:s ASSIGN expr:e
+	| DOLLAR:d      ASSIGN expr:e
+	| field_expr:f  ASSIGN expr:e
+	| array_expr:a  ASSIGN expr:e
 
 ternary_oper_expr
 	::=	expr:cond TERN_IF expr:iftrue COLON expr:iffalse

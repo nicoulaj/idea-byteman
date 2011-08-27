@@ -28,7 +28,7 @@ import java.text.MessageFormat;
 /**
  * {@link IElementType} implementation for Byteman.
  *
- * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
 public class BytemanElementType extends IElementType {

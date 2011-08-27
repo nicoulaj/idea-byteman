@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 /**
  * Utils for tests.
  *
- * @author Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
 public class TestUtils {
