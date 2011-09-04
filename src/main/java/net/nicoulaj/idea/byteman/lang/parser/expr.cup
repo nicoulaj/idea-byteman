@@ -1,0 +1,123 @@
+expr
+  	|	(NOT|TWIDDLE|MINUS) expr
+  	|	array_expr
+  	|	field_or_meth_expr
+  	|	NEW name ( LSQUARE expr? RSQUARE )+
+  	|	NEW name LPAREN expr_list? RPAREN
+    |	simple_expr
+    | NULL_LITERAL
+  	|	IDENTIFIER
+  	| IDENTIFIER  ASSIGN expr
+  	| DOLLAR      ASSIGN expr
+  	| field_expr  ASSIGN expr
+  	| array_expr  ASSIGN expr
+    | expr TERN_IF expr COLON expr
+    |	expr (OR|AND|LT|LE|EQ|NE|GE|GT|BOR|BAND|BXOR|PLUS|MINUS|MUL|DIV|MOD) expr
+
+simple_expr
+	  |	INTEGER_LITERAL
+	  |	FLOAT_LITERAL
+	  |	BOOLEAN_LITERAL
+	  |	STRING_LITERAL
+	  |	DOLLAR
+	  |	LPAREN expr RPAREN
+
+name
+    |	( IDENTIFIER DOT )* IDENTIFIER
+
+field_or_meth_expr
+    | ( ( name | simple_expr ) DOT IDENTIFIER (LPAREN expr_list? RPAREN)? )+
+
+array_expr
+    |	(simple_expr|IDENTIFIER|field_or_meth_expr) (LSQUARE expr RSQUARE)+
+
+
+
+======================================================================================================================================
+FULL
+======================================================================================================================================
+
+expr
+    | ternary_oper_expr
+    |	binary_oper_expr
+  	|	unary_oper_expr
+  	|	array_expr
+  	|	field_expr
+  	|	meth_expr
+  	| new_expr
+  	|	simple_expr
+  	| NULL_LITERAL
+  	|	IDENTIFIER
+  	| IDENTIFIER  ASSIGN expr
+  	| DOLLAR      ASSIGN expr
+  	| field_expr  ASSIGN expr
+  	| array_expr  ASSIGN expr
+
+ternary_oper_expr
+	  |	expr TERN_IF expr COLON expr
+
+binary_oper_expr
+    |	expr (OR|AND|LT|LE|EQ|NE|GE|GT|BOR|BAND|BXOR|PLUS|MINUS|MUL|DIV|MOD) expr
+
+unary_oper_expr
+	  |	(NOT|TWIDDLE|MINUS) expr
+
+simple_expr
+	  |	INTEGER_LITERAL
+	  |	FLOAT_LITERAL
+	  |	BOOLEAN_LITERAL
+	  |	STRING_LITERAL
+	  |	DOLLAR
+	  |	LPAREN expr RPAREN
+
+name
+    |	IDENTIFIER
+	  |	name DOT IDENTIFIER
+
+field_expr
+  |	name DOT IDENTIFIER
+	|	expr_field_expr
+
+expr_field_expr
+	  |	simple_expr      DOT IDENTIFIER
+	 |	meth_expr        DOT IDENTIFIER
+	 |	expr_field_expr  DOT IDENTIFIER
+
+meth_expr
+    |	IDENTIFIER          LPAREN           RPAREN
+	  |	IDENTIFIER          LPAREN expr_list RPAREN
+	  |	name DOT IDENTIFIER LPAREN           RPAREN
+	  |	name DOT IDENTIFIER LPAREN expr_list RPAREN
+	  |	expr_meth_expr
+
+expr_meth_expr
+    |	simple_expr     DOT IDENTIFIER LPAREN           RPAREN
+	  |	simple_expr     DOT IDENTIFIER LPAREN expr_list RPAREN
+	  |	meth_expr       DOT IDENTIFIER LPAREN           RPAREN
+	  |	meth_expr       DOT IDENTIFIER LPAREN expr_list RPAREN
+	  |	expr_field_expr DOT IDENTIFIER LPAREN           RPAREN
+	  |	expr_field_expr DOT IDENTIFIER LPAREN expr_list RPAREN
+
+new_expr
+    |	NEW name LPAREN                RPAREN
+  	|	NEW name new_array_idx_list
+  	|	NEW name LPAREN expr_list      RPAREN
+
+new_array_idx_list
+    | LSQUARE      RSQUARE
+    | LSQUARE expr RSQUARE
+    | LSQUARE      RSQUARE new_array_idx_list
+    | LSQUARE expr RSQUARE new_array_idx_list
+
+array_expr
+    |	simple_expr array_idx_list
+  	|	IDENTIFIER  array_idx_list
+  	|	field_expr  array_idx_list
+  	|	meth_expr   array_idx_list
+
+array_idx_list
+	  |	array_idx array_idx_list
+	  | array_idx
+
+array_idx
+	  |	LSQUARE expr RSQUARE

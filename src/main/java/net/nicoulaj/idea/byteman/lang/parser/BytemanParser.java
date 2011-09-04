@@ -27,7 +27,6 @@ import net.nicoulaj.idea.byteman.lang.BytemanElementTypes;
 import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.lang.PsiBuilderUtil.expect;
-import static net.nicoulaj.idea.byteman.lang.parser.BytemanPsiBuilderUtil.rollbackTo;
 
 /**
  * {@link PsiParser} implementation for Byteman.
@@ -302,283 +301,296 @@ public class BytemanParser implements PsiParser, BytemanElementTypes {
         return true;
     }
 
-
     public static boolean parseExpression(PsiBuilder builder) {
         System.out.println("parseExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
         final PsiBuilder.Marker marker = builder.mark();
-        if (!(
-            //            (expect(builder, DOLLAR_PREFIXED_IDENTIFIER_SET) || parseFieldExpression(builder) || parseArrayExpression(builder) || parseSimpleName(builder)) &&
-            //            expect(builder, ASSIGN) &&
-            //            parseExpression(builder) ||
-            rollbackTo(marker) && parseNullExpression(builder) ||
-            parseSimpleName(builder) ||
-            parseSimpleExpression(builder) ||
-            parseArrayExpression(builder) ||
-            parseFieldExpression(builder) ||
-            parseMethodExpression(builder) ||
-            parseNewExpression(builder) ||
-            parseUnaryExpression(builder) ||
-            parseBinaryExpression(builder) ||
-            parseTernaryExpression(builder)
-        )) {
-            marker.rollbackTo();
-            System.out.println("false");
-            return false;
-        }
+
+        boolean unary = false;
+        if (expect(builder, UNARY_EXPRESSION_OPERATOR_SET)) unary = true;
+
         marker.done(EXPRESSION_STATEMENT);
         System.out.println("true");
         return true;
     }
 
-    public static boolean parseTernaryExpression(PsiBuilder builder) {
-        System.out.println("parseTernaryExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
-        final PsiBuilder.Marker marker = builder.mark();
-        if (!(parseExpression(builder) && expect(builder, TERN_IF))) {
-            marker.rollbackTo();
-            System.out.println("false");
-            return false;
-        }
-        if (!parseExpression(builder)) builder.error(BytemanBundle.message("byteman.lang.parser.error.expected-expr"));
-        if (!expect(builder, COLON)) builder.error(BytemanBundle.message("byteman.lang.parser.error.expected-colon"));
-        if (!parseExpression(builder)) builder.error(BytemanBundle.message("byteman.lang.parser.error.expected-expr"));
-        marker.done(TERNARY_EXPRESSION);
-        System.out.println("true");
-        return true;
-    }
 
-    public static boolean parseBinaryExpression(PsiBuilder builder) {
-        System.out.println("parseBinaryExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
-        final PsiBuilder.Marker marker = builder.mark();
-        if (!(parseExpression(builder) && expect(builder, BINARY_EXPRESSION_OPERATOR_SET))) {
-            marker.rollbackTo();
-            System.out.println("false");
-            return false;
-        }
-        if (!parseExpression(builder)) builder.error(BytemanBundle.message("byteman.lang.parser.error.expected-expr"));
-        marker.done(BINARY_EXPRESSION);
-        System.out.println("true");
-        return true;
-    }
-
-    public static boolean parseUnaryExpression(PsiBuilder builder) {
-        System.out.println("parseUnaryExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
-        final PsiBuilder.Marker marker = builder.mark();
-        if (!(expect(builder, UNARY_EXPRESSION_OPERATOR_SET) && parseExpression(builder))) {
-            marker.rollbackTo();
-            System.out.println("false");
-            return false;
-        }
-        marker.done(UNARY_EXPRESSION);
-        System.out.println("true");
-        return true;
-    }
-
-    public static boolean parseArrayExpression(PsiBuilder builder) {
-        System.out.println("parseArrayExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
-        final PsiBuilder.Marker marker = builder.mark();
-        if (!(
-            (parseSimpleExpression(builder) || parseSimpleName(builder) || parseFieldExpression(builder) || parseMethodExpression(builder)) &&
-            parseArrayIdxList(builder)
-        )) {
-            marker.rollbackTo();
-            System.out.println("false");
-            return false;
-        }
-        marker.done(ARRAY_EXPRESSION);
-        System.out.println("true");
-        return true;
-    }
-
-    public static boolean parseArrayIdxList(PsiBuilder builder) {
-        System.out.println("parseArrayIdxList: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
-        final PsiBuilder.Marker marker = builder.mark();
-        if (!(parseArrayIdx(builder) && (parseArrayIdxList(builder) || true))) {
-            marker.rollbackTo();
-            System.out.println("false");
-            return false;
-        }
-        marker.done(ARRAY_IDX_LIST);
-        System.out.println("true");
-        return true;
-    }
-
-    public static boolean parseArrayIdx(PsiBuilder builder) {
-        System.out.println("parseArrayIdx: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
-        final PsiBuilder.Marker marker = builder.mark();
-        if (!(expect(builder, LSQUARE) && parseExpression(builder) && expect(builder, RSQUARE))) {
-            marker.rollbackTo();
-            System.out.println("false");
-            return false;
-        }
-        marker.done(ARRAY_IDX);
-        System.out.println("true");
-        return true;
-    }
-
-    public static boolean parseFieldExpression(PsiBuilder builder) {
-        System.out.println("parseFieldExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
-        final PsiBuilder.Marker marker = builder.mark();
-        if (!(
-            parseExpressionFieldExpression(builder) ||
-            parseName(builder) && expect(builder, DOT) && parseSimpleName(builder)
-        )) {
-            marker.rollbackTo();
-            System.out.println("false");
-            return false;
-        }
-        marker.done(FIELD);
-        System.out.println("true");
-        return true;
-    }
-
-
-    public static boolean parseExpressionFieldExpression(PsiBuilder builder) {
-        System.out.println("parseExpressionFieldExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
-        final PsiBuilder.Marker marker = builder.mark();
-        if (!(
-            (
-                parseSimpleExpression(builder) ||
-                parseMethodExpression(builder) ||
-                parseExpressionFieldExpression(builder)
-            ) &&
-            expect(builder, DOT) &&
-            parseSimpleName(builder)
-        )) {
-            marker.rollbackTo();
-            System.out.println("false");
-            return false;
-        }
-        marker.done(EXPRESSION_FIELD_EXPRESSION);
-        System.out.println("true");
-        return true;
-    }
-
-    public static boolean parseMethodExpression(PsiBuilder builder) {
-        System.out.println("parseMethodExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
-        final PsiBuilder.Marker marker = builder.mark();
-        if (!(
-            parseName(builder) && expect(builder, LPAREN) && (parseExpressionList(builder) || true) && expect(builder, RPAREN) ||
-            rollbackTo(marker) && parseExpressionMethodExpression(builder)
-        )) {
-            marker.rollbackTo();
-            System.out.println("false");
-            return false;
-        }
-        marker.done(METHOD_EXPRESSION);
-        System.out.println("true");
-        return true;
-    }
-
-    public static boolean parseExpressionMethodExpression(PsiBuilder builder) {
-        System.out.println("parseExpressionMethodExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
-        final PsiBuilder.Marker marker = builder.mark();
-        if (!(
-            (
-                parseSimpleExpression(builder) ||
-                parseExpressionFieldExpression(builder) ||
-                parseMethodExpression(builder)
-            ) &&
-            expect(builder, DOT) &&
-            parseSimpleName(builder) &&
-            expect(builder, LPAREN) &&
-            (parseExpressionList(builder) || true) &&
-            expect(builder, RPAREN)
-        )) {
-            marker.rollbackTo();
-            System.out.println("false");
-            return false;
-        }
-        marker.done(EXPRESSION_METHOD_EXPRESSION);
-        System.out.println("true");
-        return true;
-    }
-
-    public static boolean parseNewExpression(PsiBuilder builder) {
-        System.out.println("parseNewExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
-        final PsiBuilder.Marker marker = builder.mark();
-        if (!(
-            expect(builder, NEW_KEYWORD) &&
-            parseName(builder) &&
-            (parseNewArrayIdxList(builder) || expect(builder, LPAREN) && (parseExpressionList(builder) || true) && expect(builder, RPAREN))
-        )) {
-            marker.rollbackTo();
-            System.out.println("false");
-            return false;
-        }
-        marker.done(NEW_EXPRESSION);
-        System.out.println("true");
-        return true;
-    }
-
-    public static boolean parseNewArrayIdxList(PsiBuilder builder) {
-        System.out.println("parseNewArrayIdxList: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
-        final PsiBuilder.Marker marker = builder.mark();
-        if (!(
-            expect(builder, LSQUARE) &&
-            (parseExpression(builder) || true) &&
-            expect(builder, RSQUARE) &&
-            (parseNewArrayIdxList(builder) || true)
-        )) {
-            marker.rollbackTo();
-            System.out.println("false");
-            return false;
-        }
-        marker.done(NEW_ARRAY_IDX_LIST);
-        System.out.println("true");
-        return true;
-    }
-
-    public static boolean parseSimpleExpression(PsiBuilder builder) {
-        System.out.println("parseSimpleExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
-        final PsiBuilder.Marker marker = builder.mark();
-        if (!(
-            expect(builder, INTEGER_LITERAL) ||
-            expect(builder, FLOAT_LITERAL) ||
-            expect(builder, TRUE_KEYWORD) ||
-            expect(builder, FALSE_KEYWORD) ||
-            expect(builder, STRING_LITERAL) ||
-            expect(builder, DOLLAR_PREFIXED_IDENTIFIER_SET) ||
-            expect(builder, LPAREN) && parseExpression(builder) && expect(builder, RPAREN)
-        )) {
-            marker.rollbackTo();
-            System.out.println("false");
-            return false;
-        }
-        marker.done(SIMPLE_EXPRESSION);
-        System.out.println("true");
-        return true;
-    }
-
-    public static boolean parseNullExpression(PsiBuilder builder) {
-        System.out.println("parseNullExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
-        return expect(builder, NULL_LITERAL);
-    }
-
+    //    public static boolean parseExpression(PsiBuilder builder) {
+    //        System.out.println("parseExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        final PsiBuilder.Marker marker = builder.mark();
+    //        if (!(
+    //                        (expect(builder, DOLLAR_PREFIXED_IDENTIFIER_SET) || parseFieldExpression(builder) || parseArrayExpression(builder) || parseSimpleName(builder)) &&
+    //                        expect(builder, ASSIGN) &&
+    //                        parseExpression(builder) ||
+    //            rollbackTo(marker) && parseNullExpression(builder) ||
+    //            parseSimpleName(builder) ||
+    //            parseSimpleExpression(builder) ||
+    //            parseArrayExpression(builder) ||
+    //            parseFieldExpression(builder) ||
+    //            parseMethodExpression(builder) ||
+    //            parseNewExpression(builder) ||
+    //            parseUnaryExpression(builder) ||
+    //            parseBinaryExpression(builder) ||
+    //            parseTernaryExpression(builder)
+    //        )) {
+    //            marker.rollbackTo();
+    //            System.out.println("false");
+    //            return false;
+    //        }
+    //        marker.done(EXPRESSION_STATEMENT);
+    //        System.out.println("true");
+    //        return true;
+    //    }
+    //
+    //    public static boolean parseTernaryExpression(PsiBuilder builder) {
+    //        System.out.println("parseTernaryExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        final PsiBuilder.Marker marker = builder.mark();
+    //        if (!(parseExpression(builder) && expect(builder, TERN_IF))) {
+    //            marker.rollbackTo();
+    //            System.out.println("false");
+    //            return false;
+    //        }
+    //        if (!parseExpression(builder)) builder.error(BytemanBundle.message("byteman.lang.parser.error.expected-expr"));
+    //        if (!expect(builder, COLON)) builder.error(BytemanBundle.message("byteman.lang.parser.error.expected-colon"));
+    //        if (!parseExpression(builder)) builder.error(BytemanBundle.message("byteman.lang.parser.error.expected-expr"));
+    //        marker.done(TERNARY_EXPRESSION);
+    //        System.out.println("true");
+    //        return true;
+    //    }
+    //
+    //    public static boolean parseBinaryExpression(PsiBuilder builder) {
+    //        System.out.println("parseBinaryExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        final PsiBuilder.Marker marker = builder.mark();
+    //        if (!(parseExpression(builder) && expect(builder, BINARY_EXPRESSION_OPERATOR_SET))) {
+    //            marker.rollbackTo();
+    //            System.out.println("false");
+    //            return false;
+    //        }
+    //        if (!parseExpression(builder)) builder.error(BytemanBundle.message("byteman.lang.parser.error.expected-expr"));
+    //        marker.done(BINARY_EXPRESSION);
+    //        System.out.println("true");
+    //        return true;
+    //    }
+    //
+    //    public static boolean parseUnaryExpression(PsiBuilder builder) {
+    //        System.out.println("parseUnaryExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        final PsiBuilder.Marker marker = builder.mark();
+    //        if (!(expect(builder, UNARY_EXPRESSION_OPERATOR_SET) && parseExpression(builder))) {
+    //            marker.rollbackTo();
+    //            System.out.println("false");
+    //            return false;
+    //        }
+    //        marker.done(UNARY_EXPRESSION);
+    //        System.out.println("true");
+    //        return true;
+    //    }
+    //
+    //    public static boolean parseArrayExpression(PsiBuilder builder) {
+    //        System.out.println("parseArrayExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        final PsiBuilder.Marker marker = builder.mark();
+    //        if (!(
+    //            (parseSimpleExpression(builder) || parseSimpleName(builder) || parseFieldExpression(builder) || parseMethodExpression(builder)) &&
+    //            parseArrayIdxList(builder)
+    //        )) {
+    //            marker.rollbackTo();
+    //            System.out.println("false");
+    //            return false;
+    //        }
+    //        marker.done(ARRAY_EXPRESSION);
+    //        System.out.println("true");
+    //        return true;
+    //    }
+    //
+    //    public static boolean parseArrayIdxList(PsiBuilder builder) {
+    //        System.out.println("parseArrayIdxList: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        final PsiBuilder.Marker marker = builder.mark();
+    //        if (!(parseArrayIdx(builder) && (parseArrayIdxList(builder) || true))) {
+    //            marker.rollbackTo();
+    //            System.out.println("false");
+    //            return false;
+    //        }
+    //        marker.done(ARRAY_IDX_LIST);
+    //        System.out.println("true");
+    //        return true;
+    //    }
+    //
+    //    public static boolean parseArrayIdx(PsiBuilder builder) {
+    //        System.out.println("parseArrayIdx: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        final PsiBuilder.Marker marker = builder.mark();
+    //        if (!(expect(builder, LSQUARE) && parseExpression(builder) && expect(builder, RSQUARE))) {
+    //            marker.rollbackTo();
+    //            System.out.println("false");
+    //            return false;
+    //        }
+    //        marker.done(ARRAY_IDX);
+    //        System.out.println("true");
+    //        return true;
+    //    }
+    //
+    //    public static boolean parseFieldExpression(PsiBuilder builder) {
+    //        System.out.println("parseFieldExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        final PsiBuilder.Marker marker = builder.mark();
+    //        if (!(
+    //            parseExpressionFieldExpression(builder) ||
+    //            parseName(builder) && expect(builder, DOT) && parseSimpleName(builder)
+    //        )) {
+    //            marker.rollbackTo();
+    //            System.out.println("false");
+    //            return false;
+    //        }
+    //        marker.done(FIELD);
+    //        System.out.println("true");
+    //        return true;
+    //    }
+    //
+    //
+    //    public static boolean parseExpressionFieldExpression(PsiBuilder builder) {
+    //        System.out.println("parseExpressionFieldExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        final PsiBuilder.Marker marker = builder.mark();
+    //        if (!(
+    //            (
+    //                parseSimpleExpression(builder) ||
+    //                parseMethodExpression(builder) ||
+    //                parseExpressionFieldExpression(builder)
+    //            ) &&
+    //            expect(builder, DOT) &&
+    //            parseSimpleName(builder)
+    //        )) {
+    //            marker.rollbackTo();
+    //            System.out.println("false");
+    //            return false;
+    //        }
+    //        marker.done(EXPRESSION_FIELD_EXPRESSION);
+    //        System.out.println("true");
+    //        return true;
+    //    }
+    //
+    //    public static boolean parseMethodExpression(PsiBuilder builder) {
+    //        System.out.println("parseMethodExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        final PsiBuilder.Marker marker = builder.mark();
+    //        if (!(
+    //            parseName(builder) && expect(builder, LPAREN) && (parseExpressionList(builder) || true) && expect(builder, RPAREN) ||
+    //            rollbackTo(marker) && parseExpressionMethodExpression(builder)
+    //        )) {
+    //            marker.rollbackTo();
+    //            System.out.println("false");
+    //            return false;
+    //        }
+    //        marker.done(METHOD_EXPRESSION);
+    //        System.out.println("true");
+    //        return true;
+    //    }
+    //
+    //    public static boolean parseExpressionMethodExpression(PsiBuilder builder) {
+    //        System.out.println("parseExpressionMethodExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        final PsiBuilder.Marker marker = builder.mark();
+    //        if (!(
+    //            (
+    //                parseSimpleExpression(builder) ||
+    //                parseExpressionFieldExpression(builder) ||
+    //                parseMethodExpression(builder)
+    //            ) &&
+    //            expect(builder, DOT) &&
+    //            parseSimpleName(builder) &&
+    //            expect(builder, LPAREN) &&
+    //            (parseExpressionList(builder) || true) &&
+    //            expect(builder, RPAREN)
+    //        )) {
+    //            marker.rollbackTo();
+    //            System.out.println("false");
+    //            return false;
+    //        }
+    //        marker.done(EXPRESSION_METHOD_EXPRESSION);
+    //        System.out.println("true");
+    //        return true;
+    //    }
+    //
+    //    public static boolean parseNewExpression(PsiBuilder builder) {
+    //        System.out.println("parseNewExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        final PsiBuilder.Marker marker = builder.mark();
+    //        if (!(
+    //            expect(builder, NEW_KEYWORD) &&
+    //            parseName(builder) &&
+    //            (parseNewArrayIdxList(builder) || expect(builder, LPAREN) && (parseExpressionList(builder) || true) && expect(builder, RPAREN))
+    //        )) {
+    //            marker.rollbackTo();
+    //            System.out.println("false");
+    //            return false;
+    //        }
+    //        marker.done(NEW_EXPRESSION);
+    //        System.out.println("true");
+    //        return true;
+    //    }
+    //
+    //    public static boolean parseNewArrayIdxList(PsiBuilder builder) {
+    //        System.out.println("parseNewArrayIdxList: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        final PsiBuilder.Marker marker = builder.mark();
+    //        if (!(
+    //            expect(builder, LSQUARE) &&
+    //            (parseExpression(builder) || true) &&
+    //            expect(builder, RSQUARE) &&
+    //            (parseNewArrayIdxList(builder) || true)
+    //        )) {
+    //            marker.rollbackTo();
+    //            System.out.println("false");
+    //            return false;
+    //        }
+    //        marker.done(NEW_ARRAY_IDX_LIST);
+    //        System.out.println("true");
+    //        return true;
+    //    }
+    //
+    //    public static boolean parseSimpleExpression(PsiBuilder builder) {
+    //        System.out.println("parseSimpleExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        final PsiBuilder.Marker marker = builder.mark();
+    //        if (!(
+    //            expect(builder, INTEGER_LITERAL) ||
+    //            expect(builder, FLOAT_LITERAL) ||
+    //            expect(builder, TRUE_KEYWORD) ||
+    //            expect(builder, FALSE_KEYWORD) ||
+    //            expect(builder, STRING_LITERAL) ||
+    //            expect(builder, DOLLAR_PREFIXED_IDENTIFIER_SET) ||
+    //            expect(builder, LPAREN) && parseExpression(builder) && expect(builder, RPAREN)
+    //        )) {
+    //            marker.rollbackTo();
+    //            System.out.println("false");
+    //            return false;
+    //        }
+    //        marker.done(SIMPLE_EXPRESSION);
+    //        System.out.println("true");
+    //        return true;
+    //    }
+    //
+    //    public static boolean parseNullExpression(PsiBuilder builder) {
+    //        System.out.println("parseNullExpression: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        return expect(builder, NULL_LITERAL);
+    //    }
+    //
     public static boolean parseName(PsiBuilder builder) {
         System.out.println("parseName: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
-        final PsiBuilder.Marker marker = builder.mark();
-        if (!(
-            parseSimpleName(builder) && (expect(builder, DOT) && parseName(builder) || true)
-        )) {
-            marker.rollbackTo();
-            System.out.println("false");
-            return false;
-        }
-        marker.done(NAME);
-        System.out.println("true");
-        return true;
-    }
-
-    public static boolean parseSimpleName(PsiBuilder builder) {
-        System.out.println("parseSimpleName: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
         final PsiBuilder.Marker marker = builder.mark();
         if (!expect(builder, IDENTIFIER)) {
             marker.rollbackTo();
             System.out.println("false");
             return false;
         }
-        marker.done(SIMPLE_NAME);
+        while (expect(builder, DOT) && expect(builder, IDENTIFIER)) {
+            // FIXME rollback to DOT
+        }
+        marker.done(NAME);
         System.out.println("true");
         return true;
     }
+    //
+    //    public static boolean parseSimpleName(PsiBuilder builder) {
+    //        System.out.println("parseSimpleName: " + builder.getTokenType() + " (" + builder.getTokenText() + ")");
+    //        final PsiBuilder.Marker marker = builder.mark();
+    //        if (!expect(builder, IDENTIFIER)) {
+    //            marker.rollbackTo();
+    //            System.out.println("false");
+    //            return false;
+    //        }
+    //        marker.done(SIMPLE_NAME);
+    //        System.out.println("true");
+    //        return true;
+    //    }
 }
