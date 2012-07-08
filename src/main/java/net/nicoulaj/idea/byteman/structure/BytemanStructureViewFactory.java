@@ -37,7 +37,7 @@ public class BytemanStructureViewFactory implements PsiStructureViewFactory {
 
             @Override
             public boolean isRootNodeShown() {
-                return true;
+                return false;
             }
         };
     }
