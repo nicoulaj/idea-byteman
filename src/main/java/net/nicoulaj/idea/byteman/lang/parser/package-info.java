@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -18,8 +18,9 @@
  */
 
 /**
- * Parser implementation for Byteman.
+ * {@link com.intellij.lang.PsiParser} implementation for Byteman.
  *
+ * @see <code>Byteman.bnf</code>
  * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -41,9 +41,7 @@ import java.io.IOException;
 @RunWith(value = Parameterized.class)
 public class BytemanLexerTest extends AbstractBytemanLexerTestCase {
 
-    /**
-     * The files containing the expected lexer results are named after the test file file name + this suffix.
-     */
+    /** The files containing the expected lexer results are named after the test file file name + this suffix. */
     @NonNls
     public static final String TEST_FILES_TOKENS_FILE_EXT = ".lexer.csv";
 

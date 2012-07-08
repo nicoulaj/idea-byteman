@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -21,9 +21,17 @@ package net.nicoulaj.idea.byteman.lang.psi.impl;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
+import com.intellij.psi.util.CachedValue;
+import com.intellij.psi.util.CachedValueProvider;
+import com.intellij.psi.util.CachedValuesManager;
+import com.intellij.psi.util.PsiTreeUtil;
+import net.nicoulaj.idea.byteman.BytemanLanguage;
 import net.nicoulaj.idea.byteman.file.BytemanFileType;
-import net.nicoulaj.idea.byteman.lang.psi.api.BytemanFile;
+import net.nicoulaj.idea.byteman.lang.psi.BytemanFile;
+import net.nicoulaj.idea.byteman.lang.psi.BytemanRule;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * Implementation of {@link BytemanFile}.
@@ -33,13 +41,15 @@ import org.jetbrains.annotations.NotNull;
  */
 public class BytemanFileImpl extends PsiFileBase implements BytemanFile {
 
+    private CachedValue<List<BytemanRule>> rulesCache;
+
     /**
      * Build a new instance of {@link BytemanFileImpl}.
      *
      * @param viewProvider the {@link FileViewProvider} associated with this file.
      */
     public BytemanFileImpl(FileViewProvider viewProvider) {
-        super(viewProvider, BytemanFileType.LANGUAGE);
+        super(viewProvider, BytemanLanguage.INSTANCE);
     }
 
     /**
@@ -50,5 +60,18 @@ public class BytemanFileImpl extends PsiFileBase implements BytemanFile {
     @NotNull
     public FileType getFileType() {
         return BytemanFileType.INSTANCE;
+    }
+
+    @Override
+    public List<BytemanRule> getRules() {
+        if (rulesCache == null) {
+            rulesCache = CachedValuesManager.getManager(getProject()).createCachedValue(new CachedValueProvider<List<BytemanRule>>() {
+                @Override
+                public Result<List<BytemanRule>> compute() {
+                    return Result.create(PsiTreeUtil.getChildrenOfTypeAsList(BytemanFileImpl.this, BytemanRule.class), BytemanFileImpl.this);
+                }
+            }, false);
+        }
+        return rulesCache.getValue();
     }
 }

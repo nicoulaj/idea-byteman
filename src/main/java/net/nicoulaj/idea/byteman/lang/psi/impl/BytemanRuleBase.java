@@ -18,24 +18,30 @@
  */
 package net.nicoulaj.idea.byteman.lang.psi.impl;
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
-import net.nicoulaj.idea.byteman.lang.psi.BytemanPsiElement;
+import com.intellij.psi.PsiElement;
+import com.intellij.util.IncorrectOperationException;
+import net.nicoulaj.idea.byteman.lang.BytemanTypes;
+import net.nicoulaj.idea.byteman.lang.psi.BytemanPsiNamedElement;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 
-/**
- * Base implementation of {@link BytemanPsiElement}.
- *
- * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
- * @since 0.1
- */
-public class BytemanPsiElementImpl extends ASTWrapperPsiElement implements BytemanPsiElement {
 
-    public BytemanPsiElementImpl(ASTNode node) {
+public class BytemanRuleBase extends BytemanPsiElementImpl implements BytemanPsiNamedElement {
+
+    public BytemanRuleBase(ASTNode node) {
         super(node);
     }
 
-    @Override
-    public String toString() {
-        return getNode().getElementType().toString();
+    @Override public String getName() {
+        return getNameIdentifier().getText();
+    }
+
+    @Override public PsiElement setName(@NonNls @NotNull String name) throws IncorrectOperationException {
+        return null; // TODO Not implemented
+    }
+
+    @Override public PsiElement getNameIdentifier() {
+        return findChildByType(BytemanTypes.RULE_NAME);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -30,9 +30,7 @@ import com.intellij.lexer.FlexAdapter;
  */
 public class BytemanLexer extends FlexAdapter {
 
-    /**
-     * Build a new instance of {@link BytemanLexer}.
-     */
+    /** Build a new instance of {@link BytemanLexer}. */
     public BytemanLexer() {
         super(new BytemanFlexLexer());
     }

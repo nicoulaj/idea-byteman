@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -32,9 +32,7 @@ import java.util.ResourceBundle;
  */
 public class BytemanBundle {
 
-    /**
-     * The {@link ResourceBundle} path.
-     */
+    /** The {@link ResourceBundle} path. */
     @NonNls
     protected static final String BUNDLE_NAME = "net.nicoulaj.idea.byteman.localization.strings";
 
@@ -45,9 +43,7 @@ public class BytemanBundle {
      */
     protected static final ResourceBundle BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
-    /**
-     * {@link BytemanBundle} is a non-instantiable static class.
-     */
+    /** {@link BytemanBundle} is a non-instantiable static class. */
     private BytemanBundle() {
     }
 
@@ -59,6 +55,6 @@ public class BytemanBundle {
      * @return the {@link String} value or {@code null} if no resource found for the key.
      */
     public static String message(@PropertyKey(resourceBundle = BUNDLE_NAME) String key, Object... params) {
-        return CommonBundle.message( BUNDLE, key, params );
+        return CommonBundle.message(BUNDLE, key, params);
     }
 }

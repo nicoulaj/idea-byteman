@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -30,20 +30,14 @@ import java.util.regex.Pattern;
  */
 public class TestUtils {
 
-    /**
-     * The path to the data used for running tests.
-     */
+    /** The path to the data used for running tests. */
     @NonNls
     public static final String TEST_RESOURCES_DIR = "src/test/resources";
 
-    /**
-     * The path to the Byteman scripts used for running tests.
-     */
+    /** The path to the Byteman scripts used for running tests. */
     @NonNls
     public static final String TEST_SCRIPTS_DIR = TEST_RESOURCES_DIR + "/scripts";
 
-    /**
-     * The pattern used for catching input test script files.
-     */
+    /** The pattern used for catching input test script files. */
     public static final Pattern TEST_SCRIPTS_NAME_PATTERN = Pattern.compile(".+\\.btm");
 }

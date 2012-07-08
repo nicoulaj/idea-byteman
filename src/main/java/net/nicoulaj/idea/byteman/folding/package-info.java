@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -16,15 +16,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with idea-byteman.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.nicoulaj.idea.byteman.lang.psi.api;
-
-import com.intellij.psi.PsiFile;
 
 /**
- * Byteman file PSI representation.
+ * Code folding implementation for Byteman.
  *
  * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
-public interface BytemanFile extends PsiFile, BytemanPsiElement {
-}
+package net.nicoulaj.idea.byteman.folding;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -29,16 +29,15 @@ import org.jetbrains.annotations.NonNls;
  */
 public class BytemanLanguage extends Language {
 
-    /**
-     * The Byteman language name.
-     */
+    /** The Byteman language name. */
     @NonNls
     public static final String LANGUAGE_NAME = "Byteman";
 
-    /**
-     * Build a new instance of {@link BytemanLanguage}.
-     */
-    public BytemanLanguage() {
+    /** The {@link BytemanLanguage} instance. */
+    public static final BytemanLanguage INSTANCE = new BytemanLanguage();
+
+    /** Build a new instance of {@link BytemanLanguage}. */
+    private BytemanLanguage() {
         super(LANGUAGE_NAME);
     }
 }

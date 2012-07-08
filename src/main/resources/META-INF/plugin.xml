@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+  ~ Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
   ~
   ~ This file is part of idea-byteman.
   ~
@@ -24,7 +24,7 @@
   <category>Custom Languages</category>
   <vendor url="http://twitter.com/nicoulaj" email="julien.nicoulaud@gmail.com">Julien Nicoulaud</vendor>
   <version>0.1</version>
-  <idea-version since-build="99.18"/>
+  <idea-version since-build="117.418"/>
   <depends>com.intellij.modules.lang</depends>
   <description>
     <![CDATA[
@@ -43,16 +43,12 @@
       </p>
     ]]>
   </change-notes>
-  <application-components>
-    <component>
-      <implementation-class>net.nicoulaj.idea.byteman.BytemanLoader</implementation-class>
-    </component>
-  </application-components>
   <extensions defaultExtensionNs="com.intellij">
     <fileTypeFactory implementation="net.nicoulaj.idea.byteman.file.BytemanFileTypeFactory"/>
     <syntaxHighlighter key="Byteman" implementationClass="net.nicoulaj.idea.byteman.highlighter.BytemanSyntaxHighlighter"/>
     <colorSettingsPage implementation="net.nicoulaj.idea.byteman.highlighter.BytemanColorSettingsPage"/>
     <lang.parserDefinition language="Byteman" implementationClass="net.nicoulaj.idea.byteman.lang.parser.BytemanParserDefinition"/>
     <lang.commenter language="Byteman" implementationClass="net.nicoulaj.idea.byteman.commenter.BytemanCommenter"/>
+    <lang.foldingBuilder language="Byteman" implementationClass="net.nicoulaj.idea.byteman.folding.BytemanFoldingBuilder"/>
   </extensions>
 </idea-plugin>

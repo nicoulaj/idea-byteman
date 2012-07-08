@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -37,6 +37,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static net.nicoulaj.idea.byteman.BytemanBundle.message;
+import static net.nicoulaj.idea.byteman.highlighter.BytemanHighlighterColors.*;
+
 /**
  * Color settings page for the Byteman editor.
  *
@@ -45,10 +48,8 @@ import java.util.Map;
  */
 public class BytemanColorSettingsPage implements ColorSettingsPage {
 
-    /**
-     * The {@link Logger}.
-     */
-    private final static Logger LOGGER = Logger.getInstance(BytemanColorSettingsPage.class.getName());
+    /** The {@link Logger}. */
+    private final static Logger LOGGER = Logger.getInstance(BytemanColorSettingsPage.class);
 
     /**
      * An empty {@link ColorDescriptor} array.
@@ -57,9 +58,7 @@ public class BytemanColorSettingsPage implements ColorSettingsPage {
      */
     protected static final ColorDescriptor[] EMPTY_COLOR_DESCRIPTOR_ARRAY = new ColorDescriptor[]{};
 
-    /**
-     * The path to the sample Byteman document shown in the colors settings dialog.
-     */
+    /** The path to the sample Byteman document shown in the colors settings dialog. */
     @NonNls
     protected static final String SAMPLE_BYTEMAN_FILE_PATH = "/net/nicoulaj/idea/byteman/sample.btm";
 
@@ -77,84 +76,28 @@ public class BytemanColorSettingsPage implements ColorSettingsPage {
      */
     protected final List<AttributesDescriptor> attributeDescriptors = new LinkedList<AttributesDescriptor>();
 
-    /**
-     * Build a new instance of {@link BytemanColorSettingsPage}.
-     */
+    /** Build a new instance of {@link BytemanColorSettingsPage}. */
     public BytemanColorSettingsPage() {
 
         // Populate attribute descriptors.
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.keyword"),
-        BytemanHighlighterColors.KEYWORD_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.bracket"),
-        BytemanHighlighterColors.BRACKETS_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.expression-separator"),
-        BytemanHighlighterColors.EXPRESSION_SEPARATOR_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.binding-separator"),
-        BytemanHighlighterColors.BINDING_SEPARATOR_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.identifier-punctuator"),
-        BytemanHighlighterColors.IDENTIFIER_PUNCTUATOR_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.assign-operator"),
-        BytemanHighlighterColors.ASSIGN_OPERATOR_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.logical-operator"),
-        BytemanHighlighterColors.LOGICAL_OPERATOR_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.comparison-operator"),
-        BytemanHighlighterColors.COMPARISON_OPERATOR_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.bytewise-operator"),
-        BytemanHighlighterColors.BYTEWISE_OPERATOR_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.arithmetic-operator"),
-        BytemanHighlighterColors.ARITHMETIC_OPERATOR_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.ternary-condition"),
-        BytemanHighlighterColors.TERNARY_CONDITION_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.dollar-prefixed-identifier"),
-        BytemanHighlighterColors.DOLLAR_PREFIXED_IDENTIFIER_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.identifier"),
-        BytemanHighlighterColors.IDENTIFIER_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.number"),
-        BytemanHighlighterColors.NUMBER_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.string"),
-        BytemanHighlighterColors.STRING_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.white-space"),
-        BytemanHighlighterColors.WHITE_SPACE_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.comment"),
-        BytemanHighlighterColors.COMMENT_ATTR_KEY)
-        );
-        attributeDescriptors.add(new AttributesDescriptor(
-        BytemanBundle.message("byteman.editor.colorsettingspage.error"),
-        BytemanHighlighterColors.BAD_CHARACTER)
-        );
+        addDescriptor("byteman.editor.colorsettingspage.keyword", KEYWORD_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.bracket", BRACKETS_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.expression-separator", EXPRESSION_SEPARATOR_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.binding-separator", BINDING_SEPARATOR_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.identifier-punctuator", IDENTIFIER_PUNCTUATOR_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.assign-operator", ASSIGN_OPERATOR_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.logical-operator", LOGICAL_OPERATOR_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.comparison-operator", COMPARISON_OPERATOR_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.bytewise-operator", BYTEWISE_OPERATOR_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.arithmetic-operator", ARITHMETIC_OPERATOR_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.ternary-condition", TERNARY_CONDITION_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.dollar-prefixed-identifier", DOLLAR_PREFIXED_IDENTIFIER_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.identifier", IDENTIFIER_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.number", NUMBER_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.string", STRING_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.white-space", WHITE_SPACE_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.comment", COMMENT_ATTR_KEY);
+        addDescriptor("byteman.editor.colorsettingspage.error", BAD_CHARACTER);
     }
 
     /**
@@ -207,7 +150,7 @@ public class BytemanColorSettingsPage implements ColorSettingsPage {
      */
     @NotNull
     public String getDisplayName() {
-        return BytemanBundle.message("byteman.filetype.name");
+        return message("byteman.filetype.name");
     }
 
     /**
@@ -241,10 +184,20 @@ public class BytemanColorSettingsPage implements ColorSettingsPage {
     protected static String loadSampleBytemanFile() {
         try {
             return FileUtil.loadTextAndClose(new InputStreamReader(BytemanColorSettingsPage.class.getResourceAsStream(SAMPLE_BYTEMAN_FILE_PATH)));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Failed loading sample Byteman file", e);
         }
-        return BytemanBundle.message("byteman.editor.colorsettingspage.sample-loading-error");
+        return message("byteman.editor.colorsettingspage.sample-loading-error");
+    }
+
+    /**
+     * Utility method for populating {@link #attributeDescriptors}.
+     *
+     * @see #BytemanColorSettingsPage()
+     * @param displayNameKey the {@link BytemanBundle} key for the displayed name
+     * @param key the text attributes key
+     */
+    private void addDescriptor(@NotNull @NonNls String displayNameKey, @NotNull TextAttributesKey key) {
+        attributeDescriptors.add(new AttributesDescriptor(message(displayNameKey), key));
     }
 }

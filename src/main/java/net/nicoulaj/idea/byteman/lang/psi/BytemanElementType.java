@@ -16,23 +16,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with idea-byteman.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.nicoulaj.idea.byteman;
+package net.nicoulaj.idea.byteman.lang.psi;
 
-import com.intellij.openapi.util.IconLoader;
-
-import javax.swing.*;
+import com.intellij.psi.tree.IElementType;
+import net.nicoulaj.idea.byteman.BytemanLanguage;
 
 /**
- * Icons for the Byteman language support plugin.
  *
- * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
- * @since 0.1
  */
-public class BytemanIcons {
+public class BytemanElementType extends IElementType {
 
-    /** The path to the Byteman icon. */
-    public static final String BYTEMAN_ICON_PATH = "/net/nicoulaj/idea/byteman/byteman.png";
-
-    /** The Byteman {@link Icon}. */
-    public static final Icon BYTEMAN_ICON = IconLoader.getIcon(BYTEMAN_ICON_PATH);
+    /**
+     *
+     * @param debug
+     */
+    public BytemanElementType(String debug) {
+        super(debug, BytemanLanguage.INSTANCE);
+    }
 }

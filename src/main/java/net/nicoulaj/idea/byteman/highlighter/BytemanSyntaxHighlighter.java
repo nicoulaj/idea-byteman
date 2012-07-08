@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -23,12 +23,14 @@ import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
-import net.nicoulaj.idea.byteman.lang.BytemanTokenTypeSets;
 import net.nicoulaj.idea.byteman.lang.lexer.BytemanLexer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static net.nicoulaj.idea.byteman.highlighter.BytemanHighlighterColors.*;
+import static net.nicoulaj.idea.byteman.lang.BytemanTokenTypeSets.*;
 
 /**
  * {@link com.intellij.openapi.fileTypes.SyntaxHighlighter} implementation for the Byteman language.
@@ -38,35 +40,31 @@ import java.util.Map;
  */
 public class BytemanSyntaxHighlighter extends SyntaxHighlighterBase {
 
-    /**
-     * The {@link Lexer} instance.
-     */
+    /** The {@link Lexer} instance. */
     protected final Lexer lexer = new BytemanLexer();
 
-    /**
-     * The map of text attribute keys for each token type.
-     */
+    /** The map of text attribute keys for each token type. */
     protected static final Map<IElementType, TextAttributesKey> ATTRIBUTES = new HashMap<IElementType, TextAttributesKey>();
 
     static {
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.KEYWORD_SET, BytemanHighlighterColors.KEYWORD_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.BRACKETS_SET, BytemanHighlighterColors.BRACKETS_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.EXPRESSION_SEPARATOR_SET, BytemanHighlighterColors.EXPRESSION_SEPARATOR_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.BINDING_SEPARATOR_SET, BytemanHighlighterColors.BINDING_SEPARATOR_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.IDENTIFIER_PUNCTUATOR_SET, BytemanHighlighterColors.IDENTIFIER_PUNCTUATOR_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.ASSIGN_OPERATOR_SET, BytemanHighlighterColors.ASSIGN_OPERATOR_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.LOGICAL_OPERATOR_SET, BytemanHighlighterColors.LOGICAL_OPERATOR_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.COMPARISON_OPERATOR_SET, BytemanHighlighterColors.COMPARISON_OPERATOR_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.BITWISE_OPERATOR_SET, BytemanHighlighterColors.BYTEWISE_OPERATOR_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.ARITHMETIC_OPERATOR_SET, BytemanHighlighterColors.ARITHMETIC_OPERATOR_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.TERNARY_CONDITION_SET, BytemanHighlighterColors.TERNARY_CONDITION_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.DOLLAR_PREFIXED_IDENTIFIER_SET, BytemanHighlighterColors.DOLLAR_PREFIXED_IDENTIFIER_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.IDENTIFIER_SET, BytemanHighlighterColors.IDENTIFIER_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.NUMBER_SET, BytemanHighlighterColors.NUMBER_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.STRING_SET, BytemanHighlighterColors.STRING_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.WHITE_SPACE_SET, BytemanHighlighterColors.WHITE_SPACE_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.COMMENT_SET, BytemanHighlighterColors.COMMENT_ATTR_KEY);
-        fillMap(ATTRIBUTES, BytemanTokenTypeSets.ERROR_SET, BytemanHighlighterColors.BAD_CHARACTER);
+        fillMap(ATTRIBUTES, KEYWORD_SET, KEYWORD_ATTR_KEY);
+        fillMap(ATTRIBUTES, BRACKETS_SET, BRACKETS_ATTR_KEY);
+        fillMap(ATTRIBUTES, EXPRESSION_SEPARATOR_SET, EXPRESSION_SEPARATOR_ATTR_KEY);
+        fillMap(ATTRIBUTES, BINDING_SEPARATOR_SET, BINDING_SEPARATOR_ATTR_KEY);
+        fillMap(ATTRIBUTES, IDENTIFIER_PUNCTUATOR_SET, IDENTIFIER_PUNCTUATOR_ATTR_KEY);
+        fillMap(ATTRIBUTES, ASSIGN_OPERATOR_SET, ASSIGN_OPERATOR_ATTR_KEY);
+        fillMap(ATTRIBUTES, LOGICAL_OPERATOR_SET, LOGICAL_OPERATOR_ATTR_KEY);
+        fillMap(ATTRIBUTES, COMPARISON_OPERATOR_SET, COMPARISON_OPERATOR_ATTR_KEY);
+        fillMap(ATTRIBUTES, BITWISE_OPERATOR_SET, BYTEWISE_OPERATOR_ATTR_KEY);
+        fillMap(ATTRIBUTES, ARITHMETIC_OPERATOR_SET, ARITHMETIC_OPERATOR_ATTR_KEY);
+        fillMap(ATTRIBUTES, TERNARY_CONDITION_SET, TERNARY_CONDITION_ATTR_KEY);
+        fillMap(ATTRIBUTES, DOLLAR_PREFIXED_IDENTIFIER_SET, DOLLAR_PREFIXED_IDENTIFIER_ATTR_KEY);
+        fillMap(ATTRIBUTES, IDENTIFIER_SET, IDENTIFIER_ATTR_KEY);
+        fillMap(ATTRIBUTES, NUMBER_SET, NUMBER_ATTR_KEY);
+        fillMap(ATTRIBUTES, STRING_SET, STRING_ATTR_KEY);
+        fillMap(ATTRIBUTES, WHITE_SPACE_SET, WHITE_SPACE_ATTR_KEY);
+        fillMap(ATTRIBUTES, COMMENT_SET, COMMENT_ATTR_KEY);
+        fillMap(ATTRIBUTES, ERROR_SET, BAD_CHARACTER);
     }
 
     /**

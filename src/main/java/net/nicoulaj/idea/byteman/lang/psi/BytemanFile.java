@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -18,23 +18,21 @@
  */
 package net.nicoulaj.idea.byteman.lang.psi;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
-import net.nicoulaj.idea.byteman.lang.BytemanElementTypes;
-import net.nicoulaj.idea.byteman.lang.psi.impl.BytemanPsiElementImpl;
+import com.intellij.psi.PsiFile;
+
+import java.util.List;
 
 /**
- * TODO Add Javadoc comment.
+ * Byteman file PSI representation.
  *
  * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
-public class BytemanPsiCreator implements BytemanElementTypes {
+public interface BytemanFile extends PsiFile, BytemanPsiElement {
 
-    public static PsiElement createElement(ASTNode node) {
-        final IElementType element = node.getElementType();
-//        if (element.equals(CUSTOM_TYPE_REF)) return new PbRefImpl(node);
-        return new BytemanPsiElementImpl(node);
-    }
+    /**
+     *
+     * @return
+     */
+    List<BytemanRule> getRules();
 }

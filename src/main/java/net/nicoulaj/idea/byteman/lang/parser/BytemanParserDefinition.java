@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -30,8 +30,8 @@ import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import net.nicoulaj.idea.byteman.file.BytemanFileElementType;
 import net.nicoulaj.idea.byteman.lang.BytemanTokenTypeSets;
+import net.nicoulaj.idea.byteman.lang.BytemanTypes;
 import net.nicoulaj.idea.byteman.lang.lexer.BytemanLexer;
-import net.nicoulaj.idea.byteman.lang.psi.BytemanPsiCreator;
 import net.nicoulaj.idea.byteman.lang.psi.impl.BytemanFileImpl;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,7 +48,7 @@ public class BytemanParserDefinition implements ParserDefinition {
      *
      * @see #getFileNodeType()
      */
-    protected static final BytemanFileElementType FILE_ELEMENT_TYPE = new BytemanFileElementType();
+    public static final BytemanFileElementType FILE_ELEMENT_TYPE = new BytemanFileElementType();
 
     /**
      * Get the lexer for lexing files in the specified project.
@@ -118,7 +118,7 @@ public class BytemanParserDefinition implements ParserDefinition {
      */
     @NotNull
     public PsiElement createElement(ASTNode node) {
-        return BytemanPsiCreator.createElement(node);
+        return BytemanTypes.Factory.createElement(node);
     }
 
     /**

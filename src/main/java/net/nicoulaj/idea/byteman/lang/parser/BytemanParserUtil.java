@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -18,21 +18,8 @@
  */
 package net.nicoulaj.idea.byteman.lang.parser;
 
-import com.intellij.lang.PsiBuilder;
-
 /**
- * TODO Add Javadoc comment.
  *
- * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
- * @since ?
  */
-class BytemanPsiBuilderUtil {
-
-    private BytemanPsiBuilderUtil() {
-    }
-
-    public static boolean rollbackTo(PsiBuilder.Marker marker) {
-        marker.rollbackTo();
-        return true;
-    }
+public class BytemanParserUtil extends GeneratedParserUtilBase {
 }
