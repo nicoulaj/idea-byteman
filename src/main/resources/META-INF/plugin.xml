@@ -50,5 +50,6 @@
     <lang.parserDefinition language="Byteman" implementationClass="net.nicoulaj.idea.byteman.lang.parser.BytemanParserDefinition"/>
     <lang.commenter language="Byteman" implementationClass="net.nicoulaj.idea.byteman.commenter.BytemanCommenter"/>
     <lang.foldingBuilder language="Byteman" implementationClass="net.nicoulaj.idea.byteman.folding.BytemanFoldingBuilder"/>
+    <lang.psiStructureViewFactory language="Byteman" implementationClass="net.nicoulaj.idea.byteman.structure.BytemanStructureViewFactory"/>
   </extensions>
 </idea-plugin>
