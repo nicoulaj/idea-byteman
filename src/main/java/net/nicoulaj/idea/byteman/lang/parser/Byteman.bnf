@@ -38,9 +38,6 @@
   elementTypePrefix=""
   elementTypeClass="net.nicoulaj.idea.byteman.lang.psi.BytemanElementType"
   tokenTypeClass="net.nicoulaj.idea.byteman.lang.lexer.BytemanTokenType"
-
-  implements("rule")="net.nicoulaj.idea.byteman.lang.psi.BytemanPsiNamedElement"
-  mixin("rule")="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanRuleBase"
 }
 
 script ::=
@@ -48,26 +45,29 @@ script ::=
 
 rule ::=
   KEYWORD_RULE RULE_NAME
-  IF condition
-  DO actions
-  ENDRULE
+  KEYWORD_IF condition
+  KEYWORD_DO actions
+  KEYWORD_ENDRULE {
+    implements("rule")="net.nicoulaj.idea.byteman.lang.psi.BytemanPsiNamedElement"
+    mixin("rule")="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanRuleBase"
+  }
 
 // SANDBOX
 
 rule2 ::=
   (KEYWORD_RULE RULE_NAME)?
-  (HELPER CLASS_REF)?
-  (CLASS OVERRIDE? CLASS_REF)?
-  (METHOD METHOD_REF)?
-  (LINE INTEGER_LITERAL)?
-  (BIND event)?
-  IF condition
-  DO actions
-  ENDRULE?
+  (KEYWORD_HELPER CLASS_REF)?
+  (KEYWORD_CLASS OVERRIDE? CLASS_REF)?
+  (KEYWORD_METHOD METHOD_REF)?
+  (KEYWORD_LINE INTEGER_LITERAL)?
+  (KEYWORD_BIND event)?
+  KEYWORD_IF condition
+  KEYWORD_DO actions
+  KEYWORD_ENDRULE?
   COMMENT
 
 event ::=
-  NOTHING | bindings
+  KEYWORD_NOTHING | bindings
 
 bindings ::=
     binding ( (COMMA|SEMI) bindings | SEMI? )
@@ -88,7 +88,7 @@ condition ::=
   expr
 
 actions ::=
-  NOTHING | action_expr_list
+  KEYWORD_NOTHING | action_expr_list
 
 action_expr_list ::=
   expr (SEMI|COMMA) action_expr_list | action_expr
@@ -97,9 +97,9 @@ action_expr ::=
   expr | throw_return_expr SEMI?
 
 throw_return_expr ::=
-  RETURN expr? | THROW NEW? identifier_name LPAREN expr_list? RPAREN
+  KEYWORD_RETURN expr? | KEYWORD_THROW KEYWORD_NEW? identifier_name LPAREN expr_list? RPAREN
 
-expr_list ::=
+private expr_list ::=
 	expr ((COMMA|SEMI) expr)*
 
 expr ::=
@@ -138,10 +138,10 @@ meth_expr
 	  ::=	( ((path|simple_expr) DOT)* simple_name LPAREN expr_list? RPAREN )+
 
 new_expr
-  ::= NEW identifier_name ( new_array_idx_list | LPAREN expr_list? RPAREN )
+  ::= KEYWORD_NEW identifier_name ( new_array_idx_list | LPAREN expr_list? RPAREN )
 
 new_array_idx_list
-  ::= LSQUARE expr? RSQUARE new_array_idx_list?
+  ::= (LSQUARE expr? RSQUARE)+
 
 simple_expr ::=
     INTEGER_LITERAL

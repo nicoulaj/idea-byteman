@@ -73,20 +73,20 @@ Comment= "#" [^\r\n]*
 %%
 
 <YYINITIAL> {
-  "BIND" | "bind"	                                                  { return BIND; }
-  "IF" | "if"	                                                      { return IF; }
-  "DO" | "do"	                                                      { return DO; }
+  "BIND" | "bind"	                                                  { return KEYWORD_BIND; }
+  "IF" | "if"	                                                      { return KEYWORD_IF; }
+  "DO" | "do"	                                                      { return KEYWORD_DO; }
   "RULE" {WhiteSpace}                                               { yybegin(IN_RULE_NAME); return KEYWORD_RULE; }
-  "CLASS" {WhiteSpace}	| "INTERFACE"	{WhiteSpace}                  { yybegin(IN_CLASS_REF); return CLASS; }
-  "METHOD" {WhiteSpace}	                                            { yybegin(IN_METHOD_REF); return METHOD; }
-  "HELPER" {WhiteSpace}	                                            { yybegin(IN_CLASS_REF); return HELPER; }
-  "LINE"		                                                        { return LINE; }
-  "ENDRULE"	                                                        { return ENDRULE; }
-  "NOTHING" | "nothing"		                                          { return NOTHING; }
+  "CLASS" {WhiteSpace}	| "INTERFACE"	{WhiteSpace}                  { yybegin(IN_CLASS_REF); return KEYWORD_CLASS; }
+  "METHOD" {WhiteSpace}	                                            { yybegin(IN_METHOD_REF); return KEYWORD_METHOD; }
+  "HELPER" {WhiteSpace}	                                            { yybegin(IN_CLASS_REF); return KEYWORD_HELPER; }
+  "LINE"		                                                        { return KEYWORD_LINE; }
+  "ENDRULE"	                                                        { return KEYWORD_ENDRULE; }
+  "NOTHING" | "nothing"		                                          { return KEYWORD_NOTHING; }
   "TRUE" | "true" | "FALSE" | "false"	                              { return BOOLEAN_LITERAL; }
-  "RETURN" | "return"		                                            { return RETURN; }
-  "THROW" | "throw"	                                                { return THROW; }
-  "NEW" | "new"	                                                    { return NEW; }
+  "RETURN" | "return"		                                            { return KEYWORD_RETURN; }
+  "THROW" | "throw"	                                                { return KEYWORD_THROW; }
+  "NEW" | "new"	                                                    { return KEYWORD_NEW; }
   "("		                                                            { return LPAREN; }
   ")"		                                                            { return RPAREN; }
   "["		                                                            { return LSQUARE; }

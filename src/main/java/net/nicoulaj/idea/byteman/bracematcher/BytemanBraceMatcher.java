@@ -39,7 +39,7 @@ public class BytemanBraceMatcher implements PairedBraceMatcher {
     private static final BracePair[] PAIRS = new BracePair[]{
             new BracePair(LPAREN, RPAREN, false),
             new BracePair(LSQUARE, RSQUARE, false),
-            new BracePair(KEYWORD_RULE, ENDRULE, true)
+            new BracePair(KEYWORD_RULE, KEYWORD_ENDRULE, true)
     };
 
     /**

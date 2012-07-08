@@ -33,19 +33,19 @@ import static net.nicoulaj.idea.byteman.lang.BytemanTypes.*;
 public interface BytemanTokenTypeSets {
 
     /** TODO token type set. */
-    TokenSet KEYWORD_SET = TokenSet.create(BIND,
-                                           IF,
-                                           DO,
+    TokenSet KEYWORD_SET = TokenSet.create(KEYWORD_BIND,
+                                           KEYWORD_IF,
+                                           KEYWORD_DO,
                                            KEYWORD_RULE,
-                                           CLASS,
-                                           METHOD,
-                                           LINE,
-                                           ENDRULE,
-                                           NOTHING,
+                                           KEYWORD_CLASS,
+                                           KEYWORD_METHOD,
+                                           KEYWORD_LINE,
+                                           KEYWORD_ENDRULE,
+                                           KEYWORD_NOTHING,
                                            BOOLEAN_LITERAL,
-                                           RETURN,
-                                           THROW,
-                                           NEW);
+                                           KEYWORD_RETURN,
+                                           KEYWORD_THROW,
+                                           KEYWORD_NEW);
 
     /** TODO token type set. */
     TokenSet BRACKETS_SET = TokenSet.create(LPAREN,
