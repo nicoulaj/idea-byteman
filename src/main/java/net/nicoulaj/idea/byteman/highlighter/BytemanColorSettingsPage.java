@@ -25,8 +25,6 @@ import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
 import com.intellij.openapi.util.io.FileUtil;
-import net.nicoulaj.idea.byteman.BytemanBundle;
-import net.nicoulaj.idea.byteman.BytemanGraphics;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -37,7 +35,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static net.nicoulaj.idea.byteman.BytemanBundle.message;
+import static net.nicoulaj.idea.byteman.BytemanResources.*;
+import static net.nicoulaj.idea.byteman.BytemanResources.Bundle.message;
 import static net.nicoulaj.idea.byteman.highlighter.BytemanHighlighterColors.*;
 
 /**
@@ -58,16 +57,12 @@ public class BytemanColorSettingsPage implements ColorSettingsPage {
      */
     protected static final ColorDescriptor[] EMPTY_COLOR_DESCRIPTOR_ARRAY = new ColorDescriptor[]{};
 
-    /** The path to the sample Byteman document shown in the colors settings dialog. */
-    @NonNls
-    protected static final String SAMPLE_BYTEMAN_FILE_PATH = "/net/nicoulaj/idea/byteman/sample.btm";
-
     /**
      * The sample Byteman document shown in the colors settings dialog.
      *
-     * @see #loadSampleBytemanFile()
+     * @see #loadSampleAsString(String)
      */
-    protected static final String SAMPLE_BYTEMAN_FILE = loadSampleBytemanFile();
+    protected static final String SAMPLE_BYTEMAN_FILE = loadSampleAsString(Samples.BYTEMAN_SAMPLE_TRACE_THREADS);
 
     /**
      * The set of {@link AttributesDescriptor} defining the configurable options in the dialog.
@@ -134,8 +129,8 @@ public class BytemanColorSettingsPage implements ColorSettingsPage {
      * Get the text shown in the preview pane.
      *
      * @return {@link #SAMPLE_BYTEMAN_FILE}
-     * @see #SAMPLE_BYTEMAN_FILE_PATH
-     * @see #loadSampleBytemanFile()
+     * @see #SAMPLE_BYTEMAN_FILE
+     * @see #loadSampleAsString(String)
      */
     @NonNls
     @NotNull
@@ -146,7 +141,7 @@ public class BytemanColorSettingsPage implements ColorSettingsPage {
     /**
      * Get the title of the page, shown as text in the dialog tab.
      *
-     * @return the name as defined by {@link BytemanBundle}
+     * @return the name as defined by {@link Bundle}
      */
     @NotNull
     public String getDisplayName() {
@@ -166,24 +161,24 @@ public class BytemanColorSettingsPage implements ColorSettingsPage {
     /**
      * Get the icon for the page, shown in the dialog tab.
      *
-     * @return {@link net.nicoulaj.idea.byteman.BytemanGraphics#BYTEMAN_FILE_ICON_16}
+     * @return {@link Graphics#BYTEMAN_FILE_ICON_16}
      */
     @Nullable
     public Icon getIcon() {
-        return BytemanGraphics.BYTEMAN_FILE_ICON_16;
+        return Graphics.BYTEMAN_FILE_ICON_16;
     }
 
     /**
      * Load the sample text to be displayed in the preview pane.
      *
-     * @return the text loaded from {@link #SAMPLE_BYTEMAN_FILE_PATH}
+     * @param path the path to the sample resource
+     * @return the text loaded from the sample
      * @see #getDemoText()
-     * @see #SAMPLE_BYTEMAN_FILE_PATH
      * @see #SAMPLE_BYTEMAN_FILE
      */
-    protected static String loadSampleBytemanFile() {
+    protected static String loadSampleAsString(@NotNull final String path) {
         try {
-            return FileUtil.loadTextAndClose(new InputStreamReader(BytemanColorSettingsPage.class.getResourceAsStream(SAMPLE_BYTEMAN_FILE_PATH)));
+            return FileUtil.loadTextAndClose(new InputStreamReader(BytemanColorSettingsPage.class.getResourceAsStream(path)));
         } catch (Exception e) {
             LOGGER.error("Failed loading sample Byteman file", e);
         }
@@ -193,9 +188,9 @@ public class BytemanColorSettingsPage implements ColorSettingsPage {
     /**
      * Utility method for populating {@link #attributeDescriptors}.
      *
+     * @param displayNameKey the {@link Bundle} key for the displayed name
+     * @param key            the text attributes key
      * @see #BytemanColorSettingsPage()
-     * @param displayNameKey the {@link BytemanBundle} key for the displayed name
-     * @param key the text attributes key
      */
     private void addDescriptor(@NotNull @NonNls String displayNameKey, @NotNull TextAttributesKey key) {
         attributeDescriptors.add(new AttributesDescriptor(message(displayNameKey), key));

@@ -19,9 +19,8 @@
 package net.nicoulaj.idea.byteman.file;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
-import net.nicoulaj.idea.byteman.BytemanBundle;
-import net.nicoulaj.idea.byteman.BytemanGraphics;
 import net.nicoulaj.idea.byteman.BytemanLanguage;
+import net.nicoulaj.idea.byteman.BytemanResources;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,21 +49,21 @@ public class BytemanFileType extends LanguageFileType {
     /**
      * Get the name associated with this {@link com.intellij.openapi.fileTypes.FileType}.
      *
-     * @return the name as defined by {@link BytemanBundle}.
+     * @return the name as defined by {@link net.nicoulaj.idea.byteman.BytemanResources.Bundle}.
      */
     @NotNull
     public String getName() {
-        return BytemanBundle.message("byteman.filetype.name");
+        return BytemanResources.Bundle.message("byteman.filetype.name");
     }
 
     /**
      * Get the description associated with this {@link com.intellij.openapi.fileTypes.FileType}.
      *
-     * @return the description as defined by {@link BytemanBundle}.
+     * @return the description as defined by {@link net.nicoulaj.idea.byteman.BytemanResources.Bundle}.
      */
     @NotNull
     public String getDescription() {
-        return BytemanBundle.message("byteman.filetype.description");
+        return BytemanResources.Bundle.message("byteman.filetype.description");
     }
 
     /**
@@ -80,9 +79,9 @@ public class BytemanFileType extends LanguageFileType {
     /**
      * Get the icon associated with this {@link com.intellij.openapi.fileTypes.FileType}.
      *
-     * @return {@link net.nicoulaj.idea.byteman.BytemanGraphics#BYTEMAN_FILE_ICON_16}.
+     * @return {@link net.nicoulaj.idea.byteman.BytemanResources.Graphics#BYTEMAN_FILE_ICON_16}.
      */
     public Icon getIcon() {
-        return BytemanGraphics.BYTEMAN_FILE_ICON_16;
+        return BytemanResources.Graphics.BYTEMAN_FILE_ICON_16;
     }
 }

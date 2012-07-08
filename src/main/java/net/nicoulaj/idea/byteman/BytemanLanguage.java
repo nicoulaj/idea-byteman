@@ -31,13 +31,13 @@ public class BytemanLanguage extends Language {
 
     /** The Byteman language name. */
     @NonNls
-    public static final String LANGUAGE_NAME = "Byteman";
+    private static final String NAME = "Byteman";
 
     /** The {@link BytemanLanguage} instance. */
     public static final BytemanLanguage INSTANCE = new BytemanLanguage();
 
     /** Build a new instance of {@link BytemanLanguage}. */
     private BytemanLanguage() {
-        super(LANGUAGE_NAME);
+        super(NAME);
     }
 }

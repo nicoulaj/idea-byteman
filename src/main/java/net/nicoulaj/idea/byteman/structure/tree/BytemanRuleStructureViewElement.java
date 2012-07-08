@@ -20,7 +20,7 @@ package net.nicoulaj.idea.byteman.structure.tree;
 
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.structureView.impl.common.PsiTreeElementBase;
-import net.nicoulaj.idea.byteman.BytemanGraphics;
+import net.nicoulaj.idea.byteman.BytemanResources;
 import net.nicoulaj.idea.byteman.lang.psi.BytemanRule;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +39,7 @@ public class BytemanRuleStructureViewElement extends PsiTreeElementBase<BytemanR
     }
 
     @Override public Icon getIcon(boolean open) {
-        return BytemanGraphics.BYTEMAN_ICON_16;
+        return BytemanResources.Graphics.BYTEMAN_ICON_16;
     }
 
     @NotNull @Override public Collection<StructureViewTreeElement> getChildrenBase() {
