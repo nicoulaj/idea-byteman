@@ -15,6 +15,10 @@ Prerequisites
 
 ![JFlex plugin setup](http://i.imgur.com/Ai4qe.png)
 
+### Grammar kit plugin setup
+
+* Install the [Grammar kit plugin](http://plugins.intellij.net/plugin?pluginId=6606) for IntelliJ IDEA.
+
 
 ### IntelliJ IDEA Plugin SDK setup
 
