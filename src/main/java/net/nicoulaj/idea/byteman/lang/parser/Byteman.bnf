@@ -48,8 +48,8 @@ rule ::=
   KEYWORD_IF condition
   KEYWORD_DO actions
   KEYWORD_ENDRULE {
-    implements("rule")="net.nicoulaj.idea.byteman.lang.psi.BytemanPsiNamedElement"
-    mixin("rule")="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanRuleBase"
+    implements="net.nicoulaj.idea.byteman.lang.psi.BytemanPsiNamedElement"
+    mixin="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanRuleBase"
   }
 
 // SANDBOX
