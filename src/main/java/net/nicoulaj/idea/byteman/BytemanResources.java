@@ -27,7 +27,7 @@ import javax.swing.*;
 import java.util.ResourceBundle;
 
 /**
- * Graphic resources for the Byteman language support plugin.
+ * Static resources for the Byteman language support plugin.
  *
  * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
