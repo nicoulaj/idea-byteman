@@ -3,8 +3,12 @@ out/
 *.zip
 
 # Generated sources
-BytemanFlexLexer.java
+gen/
+src/main/java/net/nicoulaj/idea/byteman/lang/lexer/BytemanFlexLexer.java
 
 # Host specific config files
 *.iws
 *.ipr
+
+# Local stuff
+local/
