@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -18,10 +18,9 @@
  */
 
 /**
- * API for Byteman PSI.
+ * Brace matcher implementation for Byteman.
  *
  * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
- * @see net.nicoulaj.idea.byteman.lang.psi.impl
  */
-package net.nicoulaj.idea.byteman.lang.psi.api;
+package net.nicoulaj.idea.byteman.bracematcher;
