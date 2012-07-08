@@ -51,5 +51,6 @@
     <lang.commenter language="Byteman" implementationClass="net.nicoulaj.idea.byteman.commenter.BytemanCommenter"/>
     <lang.foldingBuilder language="Byteman" implementationClass="net.nicoulaj.idea.byteman.folding.BytemanFoldingBuilder"/>
     <lang.psiStructureViewFactory language="Byteman" implementationClass="net.nicoulaj.idea.byteman.structure.BytemanStructureViewFactory"/>
+    <lang.braceMatcher language="Byteman" implementationClass="net.nicoulaj.idea.byteman.bracematcher.BytemanBraceMatcher"/>
   </extensions>
 </idea-plugin>

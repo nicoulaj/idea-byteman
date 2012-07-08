@@ -20,6 +20,7 @@
 /**
  * Brace matcher implementation for Byteman.
  *
+ * @see BytemanBraceMatcher
  * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */

@@ -64,14 +64,13 @@ public class BytemanFileImpl extends PsiFileBase implements BytemanFile {
 
     @Override
     public List<BytemanRule> getRules() {
-        if (rulesCache == null) {
+        if (rulesCache == null)
             rulesCache = CachedValuesManager.getManager(getProject()).createCachedValue(new CachedValueProvider<List<BytemanRule>>() {
                 @Override
                 public Result<List<BytemanRule>> compute() {
                     return Result.create(PsiTreeUtil.getChildrenOfTypeAsList(BytemanFileImpl.this, BytemanRule.class), BytemanFileImpl.this);
                 }
             }, false);
-        }
         return rulesCache.getValue();
     }
 }
