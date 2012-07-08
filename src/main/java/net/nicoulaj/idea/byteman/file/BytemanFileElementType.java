@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -19,6 +19,7 @@
 package net.nicoulaj.idea.byteman.file;
 
 import com.intellij.psi.tree.IFileElementType;
+import net.nicoulaj.idea.byteman.BytemanLanguage;
 
 /**
  * {@link IFileElementType} for Byteman files.
@@ -28,10 +29,8 @@ import com.intellij.psi.tree.IFileElementType;
  */
 public class BytemanFileElementType extends IFileElementType {
 
-    /**
-     * Build a new instance of {@link BytemanFileElementType}.
-     */
+    /** Build a new instance of {@link BytemanFileElementType}. */
     public BytemanFileElementType() {
-        super(BytemanFileType.LANGUAGE);
+        super(BytemanLanguage.INSTANCE);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ * Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
  *
  * This file is part of idea-byteman.
  *
@@ -18,7 +18,6 @@
  */
 package net.nicoulaj.idea.byteman.file;
 
-import com.intellij.lang.Language;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import net.nicoulaj.idea.byteman.BytemanBundle;
 import net.nicoulaj.idea.byteman.BytemanIcons;
@@ -36,27 +35,16 @@ import javax.swing.*;
  */
 public class BytemanFileType extends LanguageFileType {
 
-    /**
-     * The {@link BytemanFileType} instance.
-     */
+    /** The {@link BytemanFileType} instance. */
     public static final BytemanFileType INSTANCE = new BytemanFileType();
 
-    /**
-     * The {@link Language} instance for this {@link com.intellij.openapi.fileTypes.FileType}.
-     */
-    public static final Language LANGUAGE = INSTANCE.getLanguage();
-
-    /**
-     * The extensions associated by default with this {@link com.intellij.openapi.fileTypes.FileType}.
-     */
+    /** The extensions associated by default with this {@link com.intellij.openapi.fileTypes.FileType}. */
     @NonNls
     public static final String[] DEFAULT_ASSOCIATED_EXTENSIONS = {"btm"};
 
-    /**
-     * Build a new instance of {@link BytemanFileType}.
-     */
+    /** Build a new instance of {@link BytemanFileType}. */
     public BytemanFileType() {
-        super(new BytemanLanguage());
+        super(BytemanLanguage.INSTANCE);
     }
 
     /**
