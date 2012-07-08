@@ -26,7 +26,7 @@ import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
 import com.intellij.openapi.util.io.FileUtil;
 import net.nicoulaj.idea.byteman.BytemanBundle;
-import net.nicoulaj.idea.byteman.BytemanIcons;
+import net.nicoulaj.idea.byteman.BytemanGraphics;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -166,11 +166,11 @@ public class BytemanColorSettingsPage implements ColorSettingsPage {
     /**
      * Get the icon for the page, shown in the dialog tab.
      *
-     * @return {@link BytemanIcons#BYTEMAN_ICON}
+     * @return {@link net.nicoulaj.idea.byteman.BytemanGraphics#BYTEMAN_FILE_ICON_16}
      */
     @Nullable
     public Icon getIcon() {
-        return BytemanIcons.BYTEMAN_ICON;
+        return BytemanGraphics.BYTEMAN_FILE_ICON_16;
     }
 
     /**

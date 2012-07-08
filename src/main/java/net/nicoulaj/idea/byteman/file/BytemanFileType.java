@@ -20,7 +20,7 @@ package net.nicoulaj.idea.byteman.file;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import net.nicoulaj.idea.byteman.BytemanBundle;
-import net.nicoulaj.idea.byteman.BytemanIcons;
+import net.nicoulaj.idea.byteman.BytemanGraphics;
 import net.nicoulaj.idea.byteman.BytemanLanguage;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -80,9 +80,9 @@ public class BytemanFileType extends LanguageFileType {
     /**
      * Get the icon associated with this {@link com.intellij.openapi.fileTypes.FileType}.
      *
-     * @return {@link BytemanIcons#BYTEMAN_ICON}.
+     * @return {@link net.nicoulaj.idea.byteman.BytemanGraphics#BYTEMAN_FILE_ICON_16}.
      */
     public Icon getIcon() {
-        return BytemanIcons.BYTEMAN_ICON;
+        return BytemanGraphics.BYTEMAN_FILE_ICON_16;
     }
 }
