@@ -45,17 +45,6 @@ script ::=
 
 rule ::=
   KEYWORD_RULE RULE_NAME
-  KEYWORD_IF condition
-  KEYWORD_DO actions
-  KEYWORD_ENDRULE {
-    implements="net.nicoulaj.idea.byteman.lang.psi.BytemanPsiNamedElement"
-    mixin="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanRuleBase"
-  }
-
-// SANDBOX
-
-rule2 ::=
-  (KEYWORD_RULE RULE_NAME)?
   (KEYWORD_HELPER CLASS_REF)?
   (KEYWORD_CLASS OVERRIDE? CLASS_REF)?
   (KEYWORD_METHOD METHOD_REF)?
@@ -63,102 +52,130 @@ rule2 ::=
   (KEYWORD_BIND event)?
   KEYWORD_IF condition
   KEYWORD_DO actions
-  KEYWORD_ENDRULE?
-  COMMENT
+  KEYWORD_ENDRULE
+  { implements="net.nicoulaj.idea.byteman.lang.psi.BytemanPsiNamedElement"
+    mixin="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanRuleBase" }
 
 event ::=
-  KEYWORD_NOTHING | bindings
+  nothing_event | binding_event
 
-bindings ::=
-    binding ( (COMMA|SEMI) bindings | SEMI? )
+nothing_event ::=
+  KEYWORD_NOTHING
+  { extends="event" }
+
+binding_event ::=
+  (binding (COMMA|SEMI))* binding SEMI?
+  { extends="event" }
 
 binding	::=
-  bind_sym ASSIGN expr
+  binding_symbol ASSIGN expr
 
-bind_sym ::=
-  simple_name (COLON typename)?
+binding_symbol ::=
+  identifier_expr (COLON type_name)?
 
-typename ::=
-  identifier_name arraydims?
+type_name ::=
+  path array_dimensions?
 
-arraydims ::=
-  LSQUARE RSQUARE arraydims?
+array_dimensions ::=
+  (LSQUARE RSQUARE)+
 
 condition ::=
   expr
 
 actions ::=
-  KEYWORD_NOTHING | action_expr_list
+  nothing_actions | expr_actions
 
-action_expr_list ::=
-  expr (SEMI|COMMA) action_expr_list | action_expr
+nothing_actions ::=
+  KEYWORD_NOTHING
+  { extends="actions" }
 
-action_expr ::=
-  expr | throw_return_expr SEMI?
+expr_actions ::=
+  (expr (SEMI|COMMA))* (expr | throw_return_expr) SEMI?
+  { extends="actions" }
 
 throw_return_expr ::=
-  KEYWORD_RETURN expr? | KEYWORD_THROW KEYWORD_NEW? identifier_name LPAREN expr_list? RPAREN
+  throw_expr | return_expr
 
-private expr_list ::=
-	expr ((COMMA|SEMI) expr)*
+throw_expr ::=
+  KEYWORD_THROW KEYWORD_NEW? path LPAREN expr_list? RPAREN
+  { extends="throw_return_expr" }
+
+expr_list ::=
+  (expr (SEMI|COMMA))* expr
+
+return_expr ::=
+  KEYWORD_RETURN expr?
+  { extends="throw_return_expr" }
 
 expr ::=
-	(
-  	unary_oper_expr
-  	|	array_expr
-  	|	field_expr
-  	|	meth_expr
-  	| new_expr
-  	|	simple_expr
-  	| null_expr
-  	|	simple_name
-  	| (simple_name|DOLLAR|field_expr|array_expr) ASSIGN expr
-  )
-	(
-	  (TERN_IF expr COLON expr)
-	  | ((OR|AND|LT|LE|EQ|NE|GE|GT|BOR|BAND|BXOR|PLUS|MINUS|MUL|DIV|MOD) expr)
-	)*
+	base_expr | binary_expr | ternary_expr
+
+binary_expr ::=
+  (base_expr (OR|AND|LT|LE|EQ|NE|GE|GT|BOR|BAND|BXOR|PLUS|MINUS|MUL|DIV|MOD) expr)+
+  { extends="expr" }
+
+ternary_expr ::=
+  (base_expr TERN_IF expr COLON expr)+
+  { extends="expr" }
+
+base_expr ::=
+    unary_oper_expr
+  |	array_expr
+  |	field_expr
+  |	meth_expr
+  | new_expr
+  |	simple_expr
+  | null_expr
+  |	identifier_expr
+  | assign_expr
 
 unary_oper_expr ::=
   (NOT|TWIDDLE|MINUS) expr
+  { extends="base_expr" }
 
 array_expr ::=
-  (simple_expr|simple_name|field_expr|meth_expr) array_idx_list
+  (simple_expr|identifier_expr|field_expr|meth_expr) (LSQUARE expr RSQUARE)+
+  { extends="base_expr" }
 
-array_idx_list ::=
-  array_idx array_idx_list?
+field_expr ::=
+    path DOT identifier_expr
+	|	(simple_expr|meth_expr) (DOT identifier_expr)+
+  { extends="base_expr" }
 
-array_idx ::=	LSQUARE expr RSQUARE
+meth_expr ::=
+  ( ((path|simple_expr) DOT)* identifier_expr LPAREN expr_list? RPAREN )+
+  { extends="base_expr" }
 
-field_expr
-	::=	path DOT simple_name
-	|	(simple_expr|meth_expr) (DOT simple_name)+
+new_expr ::=
+  KEYWORD_NEW path ( new_array_idx_list | LPAREN expr_list? RPAREN )
+  { extends="base_expr" }
 
-meth_expr
-	  ::=	( ((path|simple_expr) DOT)* simple_name LPAREN expr_list? RPAREN )+
+new_array_idx_list ::=
+  (LSQUARE expr? RSQUARE)+
 
-new_expr
-  ::= KEYWORD_NEW identifier_name ( new_array_idx_list | LPAREN expr_list? RPAREN )
-
-new_array_idx_list
-  ::= (LSQUARE expr? RSQUARE)+
+assign_expr ::=
+  (identifier_expr|DOLLAR|field_expr|array_expr) ASSIGN expr
+  { extends="base_expr" }
 
 simple_expr ::=
     INTEGER_LITERAL
-	|	FLOAT_LITERAL
+  |	FLOAT_LITERAL
 	|	BOOLEAN_LITERAL
 	|	STRING_LITERAL
 	|	DOLLAR
 	|	LPAREN expr RPAREN
+  { extends="base_expr" }
 
-null_expr
-    ::=	NULL_LITERAL
+null_expr ::=
+  NULL_LITERAL
+  { extends="base_expr" }
 
-identifier_name
-  ::=	simple_name
-	|	path DOT IDENTIFIER
+identifier_expr ::=
+  IDENTIFIER
+  { extends="base_expr" }
 
-simple_name
-	::=	IDENTIFIER
+path ::=
+  (identifier_expr DOT)* identifier_expr
 
-path ::= (IDENTIFIER DOT)* IDENTIFIER
+// FIXME Only needed to force generation of comment type
+private comment ::= COMMENT
