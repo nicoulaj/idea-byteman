@@ -111,7 +111,7 @@ expr ::=
 	base_expr | binary_expr | ternary_expr
 
 binary_expr ::=
-  (base_expr (OR|AND|LT|LE|EQ|NE|GE|GT|BOR|BAND|BXOR|PLUS|MINUS|MUL|DIV|MOD) expr)+
+  (base_expr (OR|AND|LT|LE|EQ|NE|GE|GT|URSH|RSH|LSH|BOR|BAND|BXOR|PLUS|MINUS|MUL|DIV|MOD) expr)+
   { extends="expr" }
 
 ternary_expr ::=

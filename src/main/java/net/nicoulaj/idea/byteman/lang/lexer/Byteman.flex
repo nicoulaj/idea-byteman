@@ -104,6 +104,9 @@ Comment= "#" [^\r\n]*
   "!=" | "NE" | "ne"	                                              { return NE; }
   ">=" | "GE" | "ge"	                                              { return GE; }
   ">" | "GT" | "gt"                                                 { return GT; }
+  ">>>"                                                             { return URSH; }
+  ">>"                                                              { return RSH; }
+  "<<"                                                              { return LSH; }
   "|"			                                                          { return BOR; }
   "&"			                                                          { return BAND; }
   "^"			                                                          { return BXOR; }

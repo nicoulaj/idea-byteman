@@ -79,7 +79,10 @@ public interface BytemanTokenTypeSets {
                                                        GT);
 
     /** TODO token type set. */
-    TokenSet BITWISE_OPERATOR_SET = TokenSet.create(BOR,
+    TokenSet BITWISE_OPERATOR_SET = TokenSet.create(URSH,
+                                                    RSH,
+                                                    LSH,
+                                                    BOR,
                                                     BAND,
                                                     BXOR,
                                                     TWIDDLE);
