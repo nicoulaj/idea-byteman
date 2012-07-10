@@ -41,20 +41,65 @@
 }
 
 script ::=
-  rule*
+  (COMMENT|helper|rule)*
+
+helper ::=
+  KEYWORD_HELPER CLASS_REF
 
 rule ::=
   KEYWORD_RULE RULE_NAME
-  (KEYWORD_HELPER CLASS_REF)?
-  (KEYWORD_CLASS OVERRIDE? CLASS_REF)?
-  (KEYWORD_METHOD METHOD_REF)?
-  (KEYWORD_LINE INTEGER_LITERAL)?
+  helper?
+  KEYWORD_CLASS OVERRIDE? CLASS_REF
+  KEYWORD_METHOD METHOD_REF
+  location?
   (KEYWORD_BIND event)?
   KEYWORD_IF condition
   KEYWORD_DO actions
   KEYWORD_ENDRULE
   { implements="net.nicoulaj.idea.byteman.lang.psi.BytemanPsiNamedElement"
     mixin="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanRuleBase" }
+
+location ::=
+   entry_location
+ | line_location
+ | read_location
+ | write_location
+ | invoke_location
+ | synchronize_location
+ | throw_location
+ | exit_location
+
+entry_location ::=
+  KEYWORD_AT KEYWORD_ENTRY
+  { extends="location" }
+
+line_location ::=
+  KEYWORD_AT? KEYWORD_LINE INTEGER_LITERAL
+  { extends="location" }
+
+read_location ::=
+  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_READ path (INTEGER_LITERAL|KEYWORD_ALL)?
+  { extends="location" }
+
+write_location ::=
+  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_WRITE path (INTEGER_LITERAL|KEYWORD_ALL)?
+  { extends="location" }
+
+invoke_location ::=
+  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_INVOKE path LPAREN identifier_expr* RPAREN (INTEGER_LITERAL|KEYWORD_ALL)?
+  { extends="location" }
+
+synchronize_location ::=
+  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_SYNCHRONIZE (INTEGER_LITERAL|KEYWORD_ALL)?
+  { extends="location" }
+
+throw_location ::=
+  KEYWORD_AT KEYWORD_THROW identifier_expr? (INTEGER_LITERAL|KEYWORD_ALL)?
+  { extends="location" }
+
+exit_location ::=
+  KEYWORD_AT KEYWORD_RETURN
+  { extends="location" }
 
 event ::=
   nothing_event | binding_event
@@ -176,6 +221,3 @@ identifier_expr ::=
 
 path ::=
   (identifier_expr DOT)* identifier_expr
-
-// FIXME Only needed to force generation of comment type
-private comment ::= COMMENT
