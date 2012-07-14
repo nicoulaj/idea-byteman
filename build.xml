@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+  ~
+  ~ This file is part of idea-byteman.
+  ~
+  ~ idea-byteman is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ idea-byteman is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with idea-byteman.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<project name="idea-byteman" default="all">
+  <property environment="env"/>
+
+  <!-- Versions -->
+  <property name="idea.version" value="11.1.2"/>
+  <property name="idea.tag" value="storm/117.419"/>
+
+  <!-- Paths definition -->
+  <dirname property="project.basedir" file="${ant.file}"/>
+  <property name="project.build.directory" value="${project.basedir}/out"/>
+  <property name="project.build.sourceDirectory" value="${project.basedir}/src/main/java"/>
+  <property name="project.build.resourcesDirectory" value="${project.basedir}/src/main/resources"/>
+  <property name="project.build.outputDirectory" value="${project.build.directory}/production/idea-byteman"/>
+  <property name="project.build.testSourceDirectory" value="${project.basedir}/src/test/java"/>
+  <property name="project.build.testResourcesDirectory" value="${project.basedir}/src/test/resources"/>
+  <property name="project.build.testOutputDirectory" value="${project.build.directory}/test/idea-byteman"/>
+  <property name="project.build.finalName" value="${project.basedir}/idea-byteman.zip"/>
+
+  <!-- Targets -->
+
+  <target name="clean" description="Delete all build output files">
+    <delete dir="${project.build.directory}"/>
+    <delete file="${project.build.finalName}"/>
+  </target>
+
+  <target name="check-idea">
+    <property name="idea.home" value="${project.build.directory}/dependencies/IDEA"/>
+    <available file="${idea.home}" property="idea.present"/>
+  </target>
+  <target name="download-idea" description="Download and unpack IntelliJ IDEA Community Edition" depends="check-idea" unless="idea.present">
+    <mkdir dir="${idea.home}"/>
+    <get src="http://download.jetbrains.com/idea/ideaIC-${idea.version}.tar.gz"
+         dest="${project.build.directory}/dependencies/IDEA-IC-${idea.version}.tar.gz"
+         skipexisting="true"/>
+    <untar src="${project.build.directory}/dependencies/IDEA-IC-${idea.version}.tar.gz"
+           dest="${idea.home}"
+           compression="gzip">
+      <regexpmapper from="[^/]*/(.*)" to="\1"/>
+    </untar>
+  </target>
+
+  <target name="check-jflex">
+    <property name="jflex.home" value="${project.build.directory}/dependencies/jflex"/>
+    <available file="${jflex.home}" property="jflex.present"/>
+  </target>
+  <target name="download-jflex" description="Download and unpack IntelliJ IDEA Community Edition sources" depends="check-jflex" unless="jflex.present">
+    <mkdir dir="${jflex.home}"/>
+    <get src="https://github.com/JetBrains/intellij-community/tarball/${idea.tag}"
+         dest="${project.build.directory}/dependencies/IDEA-IC-${idea.version}-src.tar.gz"
+         skipexisting="true"/>
+    <untar src="${project.build.directory}/dependencies/IDEA-IC-${idea.version}-src.tar.gz"
+           dest="${jflex.home}"
+           compression="gzip">
+      <patternset>
+        <include name="*/tools/lexer/**/*"/>
+      </patternset>
+      <regexpmapper from="[^/]*/tools/lexer/(.*)" to="\1"/>
+    </untar>
+  </target>
+
+  <target name="dependencies" depends="download-idea,download-jflex" description="Get project dependencies"/>
+
+  <target name="generate-sources" depends="dependencies" description="Generate sources"/>
+
+  <target name="compile" depends="dependencies,generate-sources" description="Compile project source classes">
+    <mkdir dir="${project.build.outputDirectory}"/>
+    <javac destdir="${project.build.outputDirectory}" includeantruntime="false" fork="true">
+      <classpath>
+        <fileset dir="${idea.home}/lib" includes="*.jar"/>
+      </classpath>
+      <src location="${project.build.sourceDirectory}"/>
+    </javac>
+    <copy todir="${project.build.outputDirectory}">
+      <fileset dir="${project.basedir}/src/main/resources" includes="**"/>
+    </copy>
+  </target>
+
+  <target name="testCompile" depends="compile" description="Compile project test classes" unless="skipTests">
+    <mkdir dir="${project.build.testOutputDirectory}"/>
+    <javac destdir="${project.build.testOutputDirectory}" includeantruntime="false" fork="true">
+      <classpath>
+        <fileset dir="${idea.home}/lib" includes="*.jar"/>
+        <pathelement location="${project.build.outputDirectory}"/>
+      </classpath>
+      <src location="${project.build.testSourceDirectory}"/>
+    </javac>
+  </target>
+
+  <target name="test" depends="testCompile" description="Run project tests" unless="skipTests">
+    <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask">
+      <classpath>
+        <pathelement location="${idea.home}/lib/junit-*.jar"/>
+        <pathelement location="${idea.home}/lib/ant/lib/ant-junit.jar"/>
+      </classpath>
+    </taskdef>
+    <junit printsummary="withOutAndErr" haltonfailure="yes" logfailedtests="true" showoutput="yes">
+      <classpath>
+        <fileset dir="${idea.home}/lib" includes="*.jar"/>
+        <pathelement location="${project.build.outputDirectory}"/>
+        <pathelement location="${project.build.testOutputDirectory}"/>
+      </classpath>
+      <batchtest todir="${project.build.testOutputDirectory}">
+        <formatter type="plain"/>
+        <formatter type="xml"/>
+        <fileset dir="${project.basedir}/src/test/java" includes="**/*Test.java"/>
+      </batchtest>
+    </junit>
+  </target>
+
+  <target name="package" depends="compile" description="Build plugin archive for idea-byteman">
+    <jar destfile="${project.build.directory}/idea-byteman.jar" duplicate="preserve">
+      <zipfileset dir="${project.build.outputDirectory}"/>
+      <manifest>
+        <attribute name="Created-By" value="IntelliJ IDEA"/>
+        <attribute name="Manifest-Version" value="1.0"/>
+      </manifest>
+    </jar>
+    <zip destfile="${project.build.finalName}">
+      <zipfileset file="${project.build.directory}/idea-byteman.jar" prefix="lib"/>
+    </zip>
+  </target>
+
+  <target name="all" depends="clean,test,package" description="Build project, run tests and generate release archive"/>
+
+</project>
