@@ -52,5 +52,7 @@
     <lang.foldingBuilder language="Byteman" implementationClass="net.nicoulaj.idea.byteman.folding.BytemanFoldingBuilder"/>
     <lang.psiStructureViewFactory language="Byteman" implementationClass="net.nicoulaj.idea.byteman.structure.BytemanStructureViewFactory"/>
     <lang.braceMatcher language="Byteman" implementationClass="net.nicoulaj.idea.byteman.bracematcher.BytemanBraceMatcher"/>
+    <localInspection language="Byteman" shortName="BytemanDuplicateRuleInspection" displayName="Duplicate rule" groupName="Byteman" enabledByDefault="true" level="ERROR" implementationClass="net.nicoulaj.idea.byteman.inspections.BytemanDuplicateRuleInspection"/>
+    <lang.elementManipulator forClass="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanClassNameImpl" implementationClass="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanClassNameManipulator"/>
   </extensions>
 </idea-plugin>
