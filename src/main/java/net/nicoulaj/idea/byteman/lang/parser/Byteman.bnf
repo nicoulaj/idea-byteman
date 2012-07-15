@@ -38,18 +38,95 @@
   elementTypePrefix=""
   elementTypeClass="net.nicoulaj.idea.byteman.lang.psi.BytemanElementType"
   tokenTypeClass="net.nicoulaj.idea.byteman.lang.lexer.BytemanTokenType"
+  tokens = [
+    KEYWORD_BIND="BIND"
+    KEYWORD_IF="IF"
+    KEYWORD_DO="DO"
+    KEYWORD_RULE="RULE"
+    KEYWORD_CLASS="CLASS"
+    KEYWORD_METHOD="METHOD"
+    KEYWORD_HELPER="HELPER"
+    KEYWORD_LINE="LINE"
+    KEYWORD_ENDRULE="ENDRULE"
+    KEYWORD_NOTHING="NOTHING"
+    BOOLEAN_LITERAL="boolean"
+    KEYWORD_RETURN="return"
+    KEYWORD_THROW="throw"
+    KEYWORD_NEW="new"
+    KEYWORD_AFTER="AFTER"
+    KEYWORD_ALL="ALL"
+    KEYWORD_AT="AT"
+    KEYWORD_ENTRY="ENTRY"
+    KEYWORD_INVOKE="INVOKE"
+    KEYWORD_READ="READ"
+    KEYWORD_SYNCHRONIZE="SYNCHRONIZE"
+    KEYWORD_WRITE="WRITE"
+    LPAREN="("
+    RPAREN=")"
+    LSQUARE="["
+    RSQUARE="]"
+    SEMI=";"
+    COMMA=","
+    DOT="."
+    ASSIGN="="
+    OR="||"
+    AND="&&"
+    NOT="!"
+    LT="<"
+    LE="<="
+    EQ="=="
+    NE="!="
+    GE=">="
+    GT=">"
+    URSH=">>>"
+    RSH=">>"
+    LSH="<<"
+    BOR="|"
+    BAND="&"
+    BXOR="^"
+    TWIDDLE="~"
+    MUL="*"
+    DIV="/"
+    PLUS="+"
+    MINUS="-"
+    MOD="%"
+    TERN_IF="?"
+    COLON=":"
+    DOLLAR="$identifier"
+    NULL_LITERAL="null"
+    IDENTIFIER="identifier"
+    INTEGER_LITERAL="integer"
+    FLOAT_LITERAL="float"
+    STRING_LITERAL="string"
+    QUOTEDIDENT="quoted identifier"
+    COMMENT="comment"
+    RULE_NAME="rule name"
+    OVERRIDE="^"
+    CLASS_REF="class reference"
+    METHOD_REF="method reference"
+  ]
 }
 
-script ::=
-  (COMMENT|helper|rule)*
+external script ::=
+  parseScript script_element
+
+private script_element ::=
+  COMMENT | helper | rule
+  { recoverUntil=script_element_recover }
+  private script_element_recover::=!(KEYWORD_HELPER|KEYWORD_RULE)
 
 helper ::=
-  KEYWORD_HELPER CLASS_REF
+  KEYWORD_HELPER class_name
+  { pin=1 }
+
+class_name ::=
+  CLASS_REF
+  { mixin="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanClassNameBase" }
 
 rule ::=
   KEYWORD_RULE RULE_NAME
   helper?
-  KEYWORD_CLASS OVERRIDE? CLASS_REF
+  KEYWORD_CLASS OVERRIDE? class_name
   KEYWORD_METHOD METHOD_REF
   location?
   (KEYWORD_BIND event)?
@@ -57,7 +134,8 @@ rule ::=
   KEYWORD_DO actions
   KEYWORD_ENDRULE
   { implements="net.nicoulaj.idea.byteman.lang.psi.BytemanPsiNamedElement"
-    mixin="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanRuleBase" }
+    mixin="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanRuleBase"
+    pin=1 }
 
 location ::=
    entry_location

@@ -18,8 +18,26 @@
  */
 package net.nicoulaj.idea.byteman.lang.parser;
 
+import com.intellij.lang.PsiBuilder;
+
 /**
+ * Static helper methods for generated {@link BytemanParser}.
  *
+ * @see <code>Byteman.bnf</code>
+ * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
+ * @since 0.1
  */
 public class BytemanParserUtil extends GeneratedParserUtilBase {
+
+    /**
+     * Parse {@link net.nicoulaj.idea.byteman.lang.psi.BytemanFile} root node.
+     *
+     * @param builder the {@link PsiBuilder} in use
+     * @param level the nest level
+     * @param parser the {@link Parser} instance
+     * @return true if parsing succeded
+     */
+    public static boolean parseScript(PsiBuilder builder, int level, Parser parser) {
+        return parseAsTree(ErrorState.get(builder), builder, level, DUMMY_BLOCK, true, parser, TRUE_CONDITION);
+    }
 }

@@ -46,7 +46,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 
-/** @author gregsh */
+/**
+ * Static helper methods for generated parser.
+ * <p/>
+ * FIXME Copy/pasted from <a href="https://github.com/JetBrains/Grammar-Kit">Grammar-Kit project</a>.
+ * See <a href="https://github.com/JetBrains/Grammar-Kit/issues/2">#2</a>.
+ */
 @SuppressWarnings("StringEquality")
 public class GeneratedParserUtilBase {
 
