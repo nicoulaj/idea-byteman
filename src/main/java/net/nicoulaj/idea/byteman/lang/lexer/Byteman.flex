@@ -42,9 +42,12 @@ import static com.intellij.psi.TokenType.*;
 %eof{  return;
 %eof}
 %state STRING
-//%state IN_QUOTEDIDENT
+%state IN_QUOTEDIDENT
+%state IN_RULE_NAME_WHITESPACE
 %state IN_RULE_NAME
+%state IN_CLASS_REF_WHITESPACE
 %state IN_CLASS_REF
+%state IN_METHOD_REF_WHITESPACE
 %state IN_METHOD_REF
 
 %{
@@ -74,101 +77,116 @@ Comment= "#" [^\r\n]*
 %%
 
 <YYINITIAL> {
-  "BIND" | "bind"	                                                  { return KEYWORD_BIND; }
-  "IF" | "if"	                                                      { return KEYWORD_IF; }
-  "DO" | "do"	                                                      { return KEYWORD_DO; }
-  "RULE" {WhiteSpace}                                               { yybegin(IN_RULE_NAME); return KEYWORD_RULE; }
-  "CLASS" {WhiteSpace}	| "INTERFACE"	{WhiteSpace}                  { yybegin(IN_CLASS_REF); return KEYWORD_CLASS; }
-  "METHOD" {WhiteSpace}	                                            { yybegin(IN_METHOD_REF); return KEYWORD_METHOD; }
-  "HELPER" {WhiteSpace}	                                            { yybegin(IN_CLASS_REF); return KEYWORD_HELPER; }
-  "LINE"		                                                        { return KEYWORD_LINE; }
-  "ENDRULE"	                                                        { return KEYWORD_ENDRULE; }
-  "NOTHING" | "nothing"		                                          { return KEYWORD_NOTHING; }
-  "TRUE" | "true" | "FALSE" | "false"	                              { return BOOLEAN_LITERAL; }
-  "RETURN" | "return" | "EXIT"                                      { return KEYWORD_RETURN; }
-  "THROW" | "throw"	                                                { return KEYWORD_THROW; }
-  "NEW" | "new"	                                                    { return KEYWORD_NEW; }
-  "AFTER"	                                                          { return KEYWORD_AFTER; }
-  "ALL"	                                                            { return KEYWORD_ALL; }
-  "AT"	                                                            { return KEYWORD_AT; }
-  "ENTRY"	                                                          { return KEYWORD_ENTRY; }
-  "INVOKE" | "CALL"                                                 { return KEYWORD_INVOKE; }
-  "READ"	                                                          { return KEYWORD_READ; }
-  "WRITE"	                                                          { return KEYWORD_SYNCHRONIZE; }
-  "SYNCHRONIZE"	                                                    { return KEYWORD_WRITE; }
-  "("		                                                            { return LPAREN; }
-  ")"		                                                            { return RPAREN; }
-  "["		                                                            { return LSQUARE; }
-  "]"		                                                            { return RSQUARE; }
-  ";"		                                                            { return SEMI; }
-  ","		                                                            { return COMMA; }
-  "."		                                                            { return DOT; }
-  "=" | "<--"	                                                      { return ASSIGN; }
-  "||" | "OR" | "or"	                                              { return OR; }
-  "&&" | "AND" | "and"	                                            { return AND; }
-  "!" | "NOT" | "not"	                                              { return NOT; }
-  "<" | "LT" | "lt"	                                                { return LT; }
-  "<=" | "LE" | "le"	                                              { return LE; }
-  "==" | "EQ" | "eq"	                                              { return EQ; }
-  "!=" | "NE" | "ne"	                                              { return NE; }
-  ">=" | "GE" | "ge"	                                              { return GE; }
-  ">" | "GT" | "gt"                                                 { return GT; }
-  ">>>"                                                             { return URSH; }
-  ">>"                                                              { return RSH; }
-  "<<"                                                              { return LSH; }
-  "|"			                                                          { return BOR; }
-  "&"			                                                          { return BAND; }
-  "^"			                                                          { return BXOR; }
-  "~"			                                                          { return TWIDDLE; }
-  "*" | "TIMES" | "times"	                                          { return MUL; }
-  "/" | "DIVIDE" | "divide"	                                        { return DIV; }
-  "+" | "PLUS" | "plus"	                                            { return PLUS; }
-  "-" | "MINUS" | "minus"	                                          { return MINUS; }
-  "%" | "MOD" | "mod"	                                              { return MOD; }
-  "?"			                                                          { return TERN_IF; }
-  ":"			                                                          { return COLON; }
-  "$!" | "$^" | "$#" | "$*" | "$@" | "$"{Integer} | "$"{Identifier} { return DOLLAR; }
-  "NULL" | "null"                                                   { return NULL_LITERAL; }
-  {Identifier}		                                                  { return IDENTIFIER; }
-  {Integer}	                                                        { return INTEGER_LITERAL; }
-  {Float}		                                                        { return FLOAT_LITERAL; }
-  \"			                                                          { yybegin(STRING); return STRING_LITERAL; }
-//  \'			                                                          { yybegin(IN_QUOTEDIDENT); return QUOTEDIDENT; }
-  {Comment}                                                         { return COMMENT; }
-  {WhiteSpace} | {LineTerminator}                                   { return WHITE_SPACE; }
-  [^]			                                                          { return ERROR_ELEMENT; }
+  "BIND" | "bind"                                                    { return KEYWORD_BIND; }
+  "IF" | "if"                                                        { return KEYWORD_IF; }
+  "DO" | "do"                                                        { return KEYWORD_DO; }
+  "RULE"                                                             { yybegin(IN_RULE_NAME_WHITESPACE); return KEYWORD_RULE; }
+  "CLASS"   | "INTERFACE"                                            { yybegin(IN_CLASS_REF_WHITESPACE); return KEYWORD_CLASS; }
+  "METHOD"                                                           { yybegin(IN_METHOD_REF_WHITESPACE); return KEYWORD_METHOD; }
+  "HELPER"                                                           { yybegin(IN_CLASS_REF_WHITESPACE); return KEYWORD_HELPER; }
+  "LINE"                                                             { return KEYWORD_LINE; }
+  "ENDRULE"                                                          { return KEYWORD_ENDRULE; }
+  "NOTHING" | "nothing"                                              { return KEYWORD_NOTHING; }
+  "TRUE" | "true" | "FALSE" | "false"                                { return BOOLEAN_LITERAL; }
+  "RETURN" | "return" | "EXIT"                                       { return KEYWORD_RETURN; }
+  "THROW" | "throw"                                                  { return KEYWORD_THROW; }
+  "NEW" | "new"                                                      { return KEYWORD_NEW; }
+  "AFTER"                                                            { return KEYWORD_AFTER; }
+  "ALL"                                                              { return KEYWORD_ALL; }
+  "AT"                                                               { return KEYWORD_AT; }
+  "ENTRY"                                                            { return KEYWORD_ENTRY; }
+  "INVOKE" | "CALL"                                                  { return KEYWORD_INVOKE; }
+  "READ"                                                             { return KEYWORD_READ; }
+  "WRITE"                                                            { return KEYWORD_SYNCHRONIZE; }
+  "SYNCHRONIZE"                                                      { return KEYWORD_WRITE; }
+  "("                                                                { return LPAREN; }
+  ")"                                                                { return RPAREN; }
+  "["                                                                { return LSQUARE; }
+  "]"                                                                { return RSQUARE; }
+  ";"                                                                { return SEMI; }
+  ","                                                                { return COMMA; }
+  "."                                                                { return DOT; }
+  "=" | "<--"                                                        { return ASSIGN; }
+  "||" | "OR" | "or"                                                 { return OR; }
+  "&&" | "AND" | "and"                                               { return AND; }
+  "!" | "NOT" | "not"                                                { return NOT; }
+  "<" | "LT" | "lt"                                                  { return LT; }
+  "<=" | "LE" | "le"                                                 { return LE; }
+  "==" | "EQ" | "eq"                                                 { return EQ; }
+  "!=" | "NE" | "ne"                                                 { return NE; }
+  ">=" | "GE" | "ge"                                                 { return GE; }
+  ">" | "GT" | "gt"                                                  { return GT; }
+  ">>>"                                                              { return URSH; }
+  ">>"                                                               { return RSH; }
+  "<<"                                                               { return LSH; }
+  "|"                                                                { return BOR; }
+  "&"                                                                { return BAND; }
+  "^"                                                                { return BXOR; }
+  "~"                                                                { return TWIDDLE; }
+  "*" | "TIMES" | "times"                                            { return MUL; }
+  "/" | "DIVIDE" | "divide"                                          { return DIV; }
+  "+" | "PLUS" | "plus"                                              { return PLUS; }
+  "-" | "MINUS" | "minus"                                            { return MINUS; }
+  "%" | "MOD" | "mod"                                                { return MOD; }
+  "?"                                                                { return TERN_IF; }
+  ":"                                                                { return COLON; }
+  "$!" | "$^" | "$#" | "$*" | "$@" | "$"{Integer} | "$"{Identifier}  { return DOLLAR; }
+  "NULL" | "null"                                                    { return NULL_LITERAL; }
+  {Identifier}                                                       { return IDENTIFIER; }
+  {Integer}                                                          { return INTEGER_LITERAL; }
+  {Float}                                                            { return FLOAT_LITERAL; }
+  \"                                                                 { yybegin(STRING); return STRING_LITERAL; }
+  \'                                                                 { yybegin(IN_QUOTEDIDENT); return IDENTIFIER; }
+  {Comment}                                                          { return COMMENT; }
+  {WhiteSpace} | {LineTerminator}                                    { return WHITE_SPACE; }
+  [^]                                                                { return ERROR_ELEMENT; }
 }
 
 <STRING> {
-  \"			                                                          { yybegin(YYINITIAL); return STRING_LITERAL; }
-  [^\n\r\"\\]+                                                      { return STRING_LITERAL; }
-  \\t	| \\n | \\r | \\\" | \\		                                    { return STRING_LITERAL; }
-  \n			                                                          { return ERROR_ELEMENT; }
-  [^]			                                                          { return ERROR_ELEMENT; }
+  \"                                                                 { yybegin(YYINITIAL); return STRING_LITERAL; }
+  [^\n\r\"\\]+                                                       { return STRING_LITERAL; }
+  \\t  | \\n | \\r | \\\" | \\                                       { return STRING_LITERAL; }
+  \n                                                                 { return ERROR_ELEMENT; }
+  [^]                                                                { return ERROR_ELEMENT; }
 }
 
-//<IN_QUOTEDIDENT> {
-//  [^\n\r']+		                                                      { return QUOTEDIDENT; }
-//  '			                                                            { yybegin(YYINITIAL); return IDENTIFIER; }
-//  {LineTerminator}                                                  { return ERROR_ELEMENT; }
-//  [^]			                                                          { return ERROR_ELEMENT; }
-//}
+<IN_QUOTEDIDENT> {
+  [^\n\r']+                                                          { return IDENTIFIER; }
+  '                                                                  { yybegin(YYINITIAL); return IDENTIFIER; }
+  {LineTerminator}                                                   { return ERROR_ELEMENT; }
+  [^]                                                                { return ERROR_ELEMENT; }
+}
+
+<IN_RULE_NAME_WHITESPACE> {
+  {WhiteSpace}+                                                      { yybegin(IN_RULE_NAME); return WHITE_SPACE; }
+  [^]                                                                { return ERROR_ELEMENT; }
+}
 
 <IN_RULE_NAME> {
-  [^\n\r]+		                                                      { return RULE_NAME; }
-  {LineTerminator}                                                  { yybegin(YYINITIAL); return WHITE_SPACE; }
-  [^]			                                                          { return ERROR_ELEMENT; }
+  [^\n\r]+                                                           { return RULE_NAME; }
+  {LineTerminator}                                                   { yybegin(YYINITIAL); return WHITE_SPACE; }
+  [^]                                                                { return ERROR_ELEMENT; }
+}
+
+<IN_CLASS_REF_WHITESPACE> {
+  {WhiteSpace}+                                                      { yybegin(IN_CLASS_REF); return WHITE_SPACE; }
+  [^]                                                                { return ERROR_ELEMENT; }
 }
 
 <IN_CLASS_REF> {
-  "^"		                                                            { return OVERRIDE; }
-  [^\n\r]+		                                                      { return CLASS_REF; }
-  {LineTerminator}                                                  { yybegin(YYINITIAL); return WHITE_SPACE; }
-  [^]			                                                          { return ERROR_ELEMENT; }
+  "^"                                                                { return OVERRIDE; }
+  [^\n\r]+                                                           { return CLASS_REF; }
+  {LineTerminator}                                                   { yybegin(YYINITIAL); return WHITE_SPACE; }
+  [^]                                                                { return ERROR_ELEMENT; }
+}
+
+<IN_METHOD_REF_WHITESPACE> {
+  {WhiteSpace}+                                                      { yybegin(IN_METHOD_REF); return WHITE_SPACE; }
+  [^]                                                                { return ERROR_ELEMENT; }
 }
 
 <IN_METHOD_REF> {
-  [^\n\r]+		                                                      { return METHOD_REF; }
-  {LineTerminator}                                                  { yybegin(YYINITIAL); return WHITE_SPACE; }
-  [^]			                                                          { return ERROR_ELEMENT; }
+  [^\n\r]+                                                           { return METHOD_REF; }
+  {LineTerminator}                                                   { yybegin(YYINITIAL); return WHITE_SPACE; }
+  [^]                                                                { return ERROR_ELEMENT; }
 }

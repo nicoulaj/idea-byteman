@@ -98,7 +98,6 @@
     INTEGER_LITERAL="integer"
     FLOAT_LITERAL="float"
     STRING_LITERAL="string"
-    QUOTEDIDENT="quoted identifier"
     COMMENT="comment"
     RULE_NAME="rule name"
     OVERRIDE="^"
