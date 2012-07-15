@@ -35,4 +35,10 @@ public interface BytemanFile extends PsiFile, BytemanPsiElement {
      * @return
      */
     List<BytemanRule> getRules();
+
+    /**
+     *
+     * @return
+     */
+    BytemanHelper getHelper();
 }
