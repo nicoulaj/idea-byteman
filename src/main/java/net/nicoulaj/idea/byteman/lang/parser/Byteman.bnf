@@ -111,33 +111,39 @@ external script ::=
   parseScript script_element
 
 private script_element ::=
-  COMMENT | helper | rule
+  COMMENT | helper_statement | rule
   { recoverUntil=script_element_recover }
   private script_element_recover::=!(KEYWORD_HELPER|KEYWORD_RULE)
 
-helper ::=
-  KEYWORD_HELPER class_name
-  { pin=1 }
-
-class_name ::=
-  CLASS_REF
-  { mixin="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanClassNameBase" }
-
 rule ::=
   KEYWORD_RULE RULE_NAME
-  helper?
-  KEYWORD_CLASS OVERRIDE? class_name
-  KEYWORD_METHOD METHOD_REF
-  location?
-  (KEYWORD_BIND event)?
-  KEYWORD_IF condition
-  KEYWORD_DO actions
+  rule_body
   KEYWORD_ENDRULE
   { implements="net.nicoulaj.idea.byteman.lang.psi.BytemanPsiNamedElement"
     mixin="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanRuleBase"
     pin=1 }
 
-location ::=
+private rule_body ::= // FIXME Statements order is not enforced, this represents only a few combinations, use external parsing
+   helper_statement? class_statement method_statement location_statement?                   bind_statement? if_statement do_statement
+ |                   class_statement method_statement location_statement? helper_statement? bind_statement? if_statement do_statement
+ |                   class_statement method_statement location_statement?                   bind_statement? if_statement do_statement helper_statement?
+
+class_statement ::=
+  KEYWORD_CLASS OVERRIDE? class_name
+
+method_statement ::=
+  KEYWORD_METHOD METHOD_REF
+
+bind_statement ::=
+  KEYWORD_BIND event
+
+if_statement ::=
+  KEYWORD_IF condition
+
+do_statement ::=
+  KEYWORD_DO actions
+
+location_statement ::=
    entry_location
  | line_location
  | read_location
@@ -149,35 +155,43 @@ location ::=
 
 entry_location ::=
   KEYWORD_AT KEYWORD_ENTRY
-  { extends="location" }
+  { extends="location_statement" }
 
 line_location ::=
   KEYWORD_AT? KEYWORD_LINE INTEGER_LITERAL
-  { extends="location" }
+  { extends="location_statement" }
 
 read_location ::=
   (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_READ path (INTEGER_LITERAL|KEYWORD_ALL)?
-  { extends="location" }
+  { extends="location_statement" }
 
 write_location ::=
   (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_WRITE path (INTEGER_LITERAL|KEYWORD_ALL)?
-  { extends="location" }
+  { extends="location_statement" }
 
 invoke_location ::=
   (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_INVOKE path LPAREN identifier_expr* RPAREN (INTEGER_LITERAL|KEYWORD_ALL)?
-  { extends="location" }
+  { extends="location_statement" }
 
 synchronize_location ::=
   (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_SYNCHRONIZE (INTEGER_LITERAL|KEYWORD_ALL)?
-  { extends="location" }
+  { extends="location_statement" }
 
 throw_location ::=
   KEYWORD_AT KEYWORD_THROW identifier_expr? (INTEGER_LITERAL|KEYWORD_ALL)?
-  { extends="location" }
+  { extends="location_statement" }
 
 exit_location ::=
   KEYWORD_AT KEYWORD_RETURN
-  { extends="location" }
+  { extends="location_statement" }
+
+helper_statement ::=
+  KEYWORD_HELPER class_name
+  { pin=1 }
+
+class_name ::=
+  CLASS_REF
+  { mixin="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanClassNameBase" }
 
 event ::=
   nothing_event | binding_event

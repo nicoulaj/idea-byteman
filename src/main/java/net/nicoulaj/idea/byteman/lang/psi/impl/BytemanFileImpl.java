@@ -27,7 +27,7 @@ import com.intellij.psi.util.CachedValuesManager;
 import net.nicoulaj.idea.byteman.BytemanLanguage;
 import net.nicoulaj.idea.byteman.file.BytemanFileType;
 import net.nicoulaj.idea.byteman.lang.psi.BytemanFile;
-import net.nicoulaj.idea.byteman.lang.psi.BytemanHelper;
+import net.nicoulaj.idea.byteman.lang.psi.BytemanHelperStatement;
 import net.nicoulaj.idea.byteman.lang.psi.BytemanRule;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,7 +45,7 @@ import static com.intellij.psi.util.PsiTreeUtil.getChildrenOfTypeAsList;
 public class BytemanFileImpl extends PsiFileBase implements BytemanFile {
 
     private CachedValue<List<BytemanRule>> rulesCache;
-    private CachedValue<BytemanHelper> helperCache;
+    private CachedValue<BytemanHelperStatement> helperCache;
 
     /**
      * Build a new instance of {@link BytemanFileImpl}.
@@ -70,20 +70,18 @@ public class BytemanFileImpl extends PsiFileBase implements BytemanFile {
     public List<BytemanRule> getRules() {
         if (rulesCache == null)
             rulesCache = CachedValuesManager.getManager(getProject()).createCachedValue(new CachedValueProvider<List<BytemanRule>>() {
-                @Override
-                public Result<List<BytemanRule>> compute() {
+                @Override public Result<List<BytemanRule>> compute() {
                     return Result.create(getChildrenOfTypeAsList(BytemanFileImpl.this, BytemanRule.class), BytemanFileImpl.this);
                 }
             }, false);
         return rulesCache.getValue();
     }
 
-    @Override public BytemanHelper getHelper() {
+    @Override public BytemanHelperStatement getHelper() {
         if (helperCache == null)
-            helperCache = CachedValuesManager.getManager(getProject()).createCachedValue(new CachedValueProvider<BytemanHelper>() {
-                @Override
-                public Result<BytemanHelper> compute() {
-                    return Result.create(getChildOfType(BytemanFileImpl.this, BytemanHelper.class), BytemanFileImpl.this);
+            helperCache = CachedValuesManager.getManager(getProject()).createCachedValue(new CachedValueProvider<BytemanHelperStatement>() {
+                @Override public Result<BytemanHelperStatement> compute() {
+                    return Result.create(getChildOfType(BytemanFileImpl.this, BytemanHelperStatement.class), BytemanFileImpl.this);
                 }
             }, false);
         return helperCache.getValue();

@@ -40,5 +40,5 @@ public interface BytemanFile extends PsiFile, BytemanPsiElement {
      *
      * @return
      */
-    BytemanHelper getHelper();
+    BytemanHelperStatement getHelper();
 }
