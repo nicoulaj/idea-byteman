@@ -21,6 +21,7 @@ package net.nicoulaj.idea.byteman.lang.lexer;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.lexer.FlexLexer;
 import static net.nicoulaj.idea.byteman.lang.BytemanTypes.*;
+import static com.intellij.psi.TokenType.*;
 
 /**
  * Lexer for Byteman.
@@ -84,9 +85,17 @@ Comment= "#" [^\r\n]*
   "ENDRULE"	                                                        { return KEYWORD_ENDRULE; }
   "NOTHING" | "nothing"		                                          { return KEYWORD_NOTHING; }
   "TRUE" | "true" | "FALSE" | "false"	                              { return BOOLEAN_LITERAL; }
-  "RETURN" | "return"		                                            { return KEYWORD_RETURN; }
+  "RETURN" | "return" | "EXIT"                                      { return KEYWORD_RETURN; }
   "THROW" | "throw"	                                                { return KEYWORD_THROW; }
   "NEW" | "new"	                                                    { return KEYWORD_NEW; }
+  "AFTER"	                                                          { return KEYWORD_AFTER; }
+  "ALL"	                                                            { return KEYWORD_ALL; }
+  "AT"	                                                            { return KEYWORD_AT; }
+  "ENTRY"	                                                          { return KEYWORD_ENTRY; }
+  "INVOKE"	                                                        { return KEYWORD_INVOKE; }
+  "READ"	                                                          { return KEYWORD_READ; }
+  "WRITE"	                                                          { return KEYWORD_SYNCHRONIZE; }
+  "SYNCHRONIZE"	                                                    { return KEYWORD_WRITE; }
   "("		                                                            { return LPAREN; }
   ")"		                                                            { return RPAREN; }
   "["		                                                            { return LSQUARE; }
@@ -126,40 +135,40 @@ Comment= "#" [^\r\n]*
   \"			                                                          { yybegin(STRING); return STRING_LITERAL; }
 //  \'			                                                          { yybegin(IN_QUOTEDIDENT); return QUOTEDIDENT; }
   {Comment}                                                         { return COMMENT; }
-  {WhiteSpace} | {LineTerminator}                                   { return com.intellij.psi.TokenType.WHITE_SPACE; }
-  [^]			                                                          { return com.intellij.psi.TokenType.ERROR_ELEMENT; }
+  {WhiteSpace} | {LineTerminator}                                   { return WHITE_SPACE; }
+  [^]			                                                          { return ERROR_ELEMENT; }
 }
 
 <STRING> {
   \"			                                                          { yybegin(YYINITIAL); return STRING_LITERAL; }
   [^\n\r\"\\]+                                                      { return STRING_LITERAL; }
   \\t	| \\n | \\r | \\\" | \\		                                    { return STRING_LITERAL; }
-  \n			                                                          { return com.intellij.psi.TokenType.ERROR_ELEMENT; }
-  [^]			                                                          { return com.intellij.psi.TokenType.ERROR_ELEMENT; }
+  \n			                                                          { return ERROR_ELEMENT; }
+  [^]			                                                          { return ERROR_ELEMENT; }
 }
 
 //<IN_QUOTEDIDENT> {
 //  [^\n\r']+		                                                      { return QUOTEDIDENT; }
 //  '			                                                            { yybegin(YYINITIAL); return IDENTIFIER; }
-//  {LineTerminator}                                                  { return com.intellij.psi.TokenType.ERROR_ELEMENT; }
-//  [^]			                                                          { return com.intellij.psi.TokenType.ERROR_ELEMENT; }
+//  {LineTerminator}                                                  { return ERROR_ELEMENT; }
+//  [^]			                                                          { return ERROR_ELEMENT; }
 //}
 
 <IN_RULE_NAME> {
   [^\n\r]+		                                                      { return RULE_NAME; }
-  {LineTerminator}                                                  { yybegin(YYINITIAL); return com.intellij.psi.TokenType.WHITE_SPACE; }
-  [^]			                                                          { return com.intellij.psi.TokenType.ERROR_ELEMENT; }
+  {LineTerminator}                                                  { yybegin(YYINITIAL); return WHITE_SPACE; }
+  [^]			                                                          { return ERROR_ELEMENT; }
 }
 
 <IN_CLASS_REF> {
   "^"		                                                            { return OVERRIDE; }
   [^\n\r]+		                                                      { return CLASS_REF; }
-  {LineTerminator}                                                  { yybegin(YYINITIAL); return com.intellij.psi.TokenType.WHITE_SPACE; }
-  [^]			                                                          { return com.intellij.psi.TokenType.ERROR_ELEMENT; }
+  {LineTerminator}                                                  { yybegin(YYINITIAL); return WHITE_SPACE; }
+  [^]			                                                          { return ERROR_ELEMENT; }
 }
 
 <IN_METHOD_REF> {
   [^\n\r]+		                                                      { return METHOD_REF; }
-  {LineTerminator}                                                  { yybegin(YYINITIAL); return com.intellij.psi.TokenType.WHITE_SPACE; }
-  [^]			                                                          { return com.intellij.psi.TokenType.ERROR_ELEMENT; }
+  {LineTerminator}                                                  { yybegin(YYINITIAL); return WHITE_SPACE; }
+  [^]			                                                          { return ERROR_ELEMENT; }
 }
