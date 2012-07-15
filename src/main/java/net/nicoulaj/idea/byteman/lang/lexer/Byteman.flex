@@ -92,7 +92,7 @@ Comment= "#" [^\r\n]*
   "ALL"	                                                            { return KEYWORD_ALL; }
   "AT"	                                                            { return KEYWORD_AT; }
   "ENTRY"	                                                          { return KEYWORD_ENTRY; }
-  "INVOKE"	                                                        { return KEYWORD_INVOKE; }
+  "INVOKE" | "CALL"                                                 { return KEYWORD_INVOKE; }
   "READ"	                                                          { return KEYWORD_READ; }
   "WRITE"	                                                          { return KEYWORD_SYNCHRONIZE; }
   "SYNCHRONIZE"	                                                    { return KEYWORD_WRITE; }
