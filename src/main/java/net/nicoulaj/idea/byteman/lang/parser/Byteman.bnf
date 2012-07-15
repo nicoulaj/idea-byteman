@@ -49,7 +49,6 @@
     KEYWORD_LINE="LINE"
     KEYWORD_ENDRULE="ENDRULE"
     KEYWORD_NOTHING="NOTHING"
-    BOOLEAN_LITERAL="boolean"
     KEYWORD_RETURN="return"
     KEYWORD_THROW="throw"
     KEYWORD_NEW="new"
@@ -95,6 +94,7 @@
     DOLLAR="$identifier"
     NULL_LITERAL="null"
     IDENTIFIER="identifier"
+    BOOLEAN_LITERAL="boolean"
     INTEGER_LITERAL="integer"
     FLOAT_LITERAL="float"
     STRING_LITERAL="string"
@@ -122,10 +122,11 @@ rule ::=
     mixin="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanRuleBase"
     pin=1 }
 
-private rule_body ::= // FIXME Statements order is not enforced, this represents only a few combinations, use external parsing
-   helper_statement? class_statement method_statement location_statement?                   bind_statement? if_statement do_statement
- |                   class_statement method_statement location_statement? helper_statement? bind_statement? if_statement do_statement
- |                   class_statement method_statement location_statement?                   bind_statement? if_statement do_statement helper_statement?
+private rule_body ::= // FIXME Statements order is not enforced, this represents only a few combinations => use external parsing
+   helper_statement? class_statement method_statement location_statement?                     bind_statement? if_statement do_statement
+ |                   class_statement method_statement location_statement? helper_statement?   bind_statement? if_statement do_statement
+ |                   class_statement method_statement helper_statement?   location_statement? bind_statement? if_statement do_statement
+ |                   class_statement method_statement location_statement?                     bind_statement? if_statement do_statement helper_statement?
 
 class_statement ::=
   KEYWORD_CLASS OVERRIDE? class_name
