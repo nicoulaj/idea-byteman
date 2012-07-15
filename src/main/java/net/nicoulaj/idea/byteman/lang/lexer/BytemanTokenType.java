@@ -23,8 +23,6 @@ import net.nicoulaj.idea.byteman.BytemanLanguage;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-import java.text.MessageFormat;
-
 /**
  * {@link IElementType} implementation for Byteman.
  *
@@ -40,16 +38,5 @@ public class BytemanTokenType extends IElementType {
      */
     public BytemanTokenType(@NotNull @NonNls String debugName) {
         super(debugName, BytemanLanguage.INSTANCE);
-    }
-
-    /**
-     * Build in {@link String} representation of this {@link BytemanTokenType}.
-     *
-     * @return the String representation based on {@link com.intellij.psi.tree.IElementType#toString()}.
-     */
-    @Override
-    @SuppressWarnings({"HardCodedStringLiteral"})
-    public String toString() {
-        return MessageFormat.format("Byteman:{0}", super.toString());
     }
 }
