@@ -24,14 +24,17 @@ import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.util.CachedValue;
 import com.intellij.psi.util.CachedValueProvider;
 import com.intellij.psi.util.CachedValuesManager;
-import com.intellij.psi.util.PsiTreeUtil;
 import net.nicoulaj.idea.byteman.BytemanLanguage;
 import net.nicoulaj.idea.byteman.file.BytemanFileType;
 import net.nicoulaj.idea.byteman.lang.psi.BytemanFile;
+import net.nicoulaj.idea.byteman.lang.psi.BytemanHelper;
 import net.nicoulaj.idea.byteman.lang.psi.BytemanRule;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import static com.intellij.psi.util.PsiTreeUtil.getChildOfType;
+import static com.intellij.psi.util.PsiTreeUtil.getChildrenOfTypeAsList;
 
 /**
  * Implementation of {@link BytemanFile}.
@@ -42,6 +45,7 @@ import java.util.List;
 public class BytemanFileImpl extends PsiFileBase implements BytemanFile {
 
     private CachedValue<List<BytemanRule>> rulesCache;
+    private CachedValue<BytemanHelper> helperCache;
 
     /**
      * Build a new instance of {@link BytemanFileImpl}.
@@ -68,9 +72,20 @@ public class BytemanFileImpl extends PsiFileBase implements BytemanFile {
             rulesCache = CachedValuesManager.getManager(getProject()).createCachedValue(new CachedValueProvider<List<BytemanRule>>() {
                 @Override
                 public Result<List<BytemanRule>> compute() {
-                    return Result.create(PsiTreeUtil.getChildrenOfTypeAsList(BytemanFileImpl.this, BytemanRule.class), BytemanFileImpl.this);
+                    return Result.create(getChildrenOfTypeAsList(BytemanFileImpl.this, BytemanRule.class), BytemanFileImpl.this);
                 }
             }, false);
         return rulesCache.getValue();
+    }
+
+    @Override public BytemanHelper getHelper() {
+        if (helperCache == null)
+            helperCache = CachedValuesManager.getManager(getProject()).createCachedValue(new CachedValueProvider<BytemanHelper>() {
+                @Override
+                public Result<BytemanHelper> compute() {
+                    return Result.create(getChildOfType(BytemanFileImpl.this, BytemanHelper.class), BytemanFileImpl.this);
+                }
+            }, false);
+        return helperCache.getValue();
     }
 }
