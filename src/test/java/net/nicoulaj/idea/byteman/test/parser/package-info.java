@@ -16,32 +16,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with idea-byteman.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.nicoulaj.idea.byteman.test;
-
-import net.nicoulaj.idea.byteman.file.BytemanFileType;
-import org.jetbrains.annotations.NonNls;
-
-import java.util.regex.Pattern;
 
 /**
- * Utils for tests.
+ * Tests for the Byteman language parser.
  *
  * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
+ * @see net.nicoulaj.idea.byteman.lang.lexer
  * @since 0.1
  */
-public class TestUtils {
-
-    /** The path to the data used for running tests. */
-    @NonNls
-    public static final String TEST_RESOURCES_DIR = "src/test/resources";
-
-    /** The path to the Byteman scripts used for running tests. */
-    @NonNls
-    public static final String TEST_SCRIPTS_DIR = TEST_RESOURCES_DIR + "/scripts";
-
-    /** The extension for test script files. */
-    public static final String TEST_SCRIPTS_EXTENSION = BytemanFileType.INSTANCE.getDefaultExtension();
-
-    /** The pattern used for catching input test script files. */
-    public static final Pattern TEST_SCRIPTS_NAME_PATTERN = Pattern.compile(".+\\." + TEST_SCRIPTS_EXTENSION);
-}
+package net.nicoulaj.idea.byteman.test.parser;
