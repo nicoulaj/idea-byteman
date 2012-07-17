@@ -42,10 +42,6 @@ Building with Ant
 
         cd idea-byteman
 
-* Define `$IDEA_HOME` if you don't want the build to automatically download IntelliJ IDEA Community Edition:
-
-        export IDEA_HOME=/path/to/IDEA
-
-* Compile, run tests and generate release package:
+* Generate sources, compile, run tests and generate release package:
 
         ant

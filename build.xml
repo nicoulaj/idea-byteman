@@ -21,11 +21,15 @@
   <property environment="env"/>
 
   <!-- Versions -->
-  <property name="idea.version" value="11.1.2"/>
-  <property name="idea.tag" value="storm/117.419"/>
+  <property name="idea.version.stable" value="IC-11.1.2"/>
+  <property name="idea.version.eap" value="IC-120.152"/>
+  <property name="idea.version" value="${idea.version.eap}"/>
+  <property name="idea.tag" value="storm/120.145"/>
+  <property name="grammar-kit.commit" value="e7878bdf7e2b7e6b82a946b850c0009fa39bc131"/>
 
   <!-- Paths definition -->
   <dirname property="project.basedir" file="${ant.file}"/>
+  <property name="project.lib.directory" value="${project.basedir}/lib"/>
   <property name="project.build.directory" value="${project.basedir}/out"/>
   <property name="project.build.sourceDirectory" value="${project.basedir}/src/main/java"/>
   <property name="project.build.resourcesDirectory" value="${project.basedir}/src/main/resources"/>
@@ -33,25 +37,31 @@
   <property name="project.build.testSourceDirectory" value="${project.basedir}/src/test/java"/>
   <property name="project.build.testResourcesDirectory" value="${project.basedir}/src/test/resources"/>
   <property name="project.build.testOutputDirectory" value="${project.build.directory}/test/idea-byteman"/>
+  <property name="project.build.generatedSourceDirectory" value="${project.basedir}/gen"/>
   <property name="project.build.finalName" value="${project.basedir}/idea-byteman.zip"/>
 
   <!-- Targets -->
 
   <target name="clean" description="Delete all build output files">
     <delete dir="${project.build.directory}"/>
+    <delete dir="${project.build.generatedSourceDirectory}"/>
     <delete file="${project.build.finalName}"/>
   </target>
 
+  <target name="clean-all" depends="clean" description="Delete all unversioned files">
+    <delete dir="${project.lib.directory}"/>
+  </target>
+
   <target name="check-idea">
-    <property name="idea.home" value="${project.build.directory}/dependencies/IDEA"/>
+    <property name="idea.home" value="${project.lib.directory}/IDEA"/>
     <available file="${idea.home}" property="idea.present"/>
   </target>
   <target name="download-idea" description="Download and unpack IntelliJ IDEA Community Edition" depends="check-idea" unless="idea.present">
     <mkdir dir="${idea.home}"/>
-    <get src="http://download.jetbrains.com/idea/ideaIC-${idea.version}.tar.gz"
-         dest="${project.build.directory}/dependencies/IDEA-IC-${idea.version}.tar.gz"
+    <get src="http://download.jetbrains.com/idea/idea${idea.version}.tar.gz"
+         dest="${project.lib.directory}/IDEA-${idea.version}.tar.gz"
          skipexisting="true"/>
-    <untar src="${project.build.directory}/dependencies/IDEA-IC-${idea.version}.tar.gz"
+    <untar src="${project.lib.directory}/IDEA-${idea.version}.tar.gz"
            dest="${idea.home}"
            compression="gzip">
       <regexpmapper from="[^/]*/(.*)" to="\1"/>
@@ -59,15 +69,15 @@
   </target>
 
   <target name="check-jflex">
-    <property name="jflex.home" value="${project.build.directory}/dependencies/jflex"/>
+    <property name="jflex.home" value="${project.lib.directory}/jflex"/>
     <available file="${jflex.home}" property="jflex.present"/>
   </target>
   <target name="download-jflex" description="Download and unpack IntelliJ IDEA Community Edition sources" depends="check-jflex" unless="jflex.present">
     <mkdir dir="${jflex.home}"/>
     <get src="https://github.com/JetBrains/intellij-community/tarball/${idea.tag}"
-         dest="${project.build.directory}/dependencies/IDEA-IC-${idea.version}-src.tar.gz"
+         dest="${project.lib.directory}/IDEA-IC-${idea.version}-src.tar.gz"
          skipexisting="true"/>
-    <untar src="${project.build.directory}/dependencies/IDEA-IC-${idea.version}-src.tar.gz"
+    <untar src="${project.lib.directory}/IDEA-IC-${idea.version}-src.tar.gz"
            dest="${jflex.home}"
            compression="gzip">
       <patternset>
@@ -77,9 +87,40 @@
     </untar>
   </target>
 
-  <target name="dependencies" depends="download-idea,download-jflex" description="Get project dependencies"/>
+  <target name="check-grammar-kit">
+    <property name="grammar-kit.jar" value="${project.lib.directory}/grammar-kit.jar"/>
+    <available file="${grammar-kit.jar}" property="grammar-kit.present"/>
+  </target>
+  <target name="download-grammar-kit" description="Download and unpack Grammar kit" depends="check-grammar-kit" unless="grammar-kit.present">
+    <get src="https://github.com/JetBrains/Grammar-Kit/raw/${grammar-kit.commit}/binaries/grammar-kit.jar"
+         dest="${grammar-kit.jar}"
+         skipexisting="true"/>
+  </target>
 
-  <target name="generate-sources" depends="dependencies" description="Generate sources"/>
+  <target name="dependencies" depends="download-idea,download-jflex,download-grammar-kit" description="Get project dependencies"/>
+
+  <target name="generate-lexer" depends="dependencies" description="Generate lexer">
+    <java jar="${jflex.home}/jflex-1.4/lib/JFlex.jar" fork="true">
+      <arg value="--skel"/>
+      <arg value="${jflex.home}/idea-flex.skeleton"/>
+      <arg value="--charat"/>
+      <arg value="--nobak"/>
+      <arg value="${project.build.sourceDirectory}/net/nicoulaj/idea/byteman/lang/lexer/Byteman.flex"/>
+    </java>
+  </target>
+
+  <target name="generate-parser" depends="dependencies" description="Generate parser">
+    <java classname="org.intellij.grammar.Main">
+      <classpath>
+        <fileset dir="${idea.home}/lib" includes="*.jar"/>
+        <pathelement location="${grammar-kit.jar}"/>
+      </classpath>
+      <arg value="${project.build.sourceDirectory}/net/nicoulaj/idea/byteman/lang/parser/Byteman.bnf"/>
+      <arg value="${project.build.generatedSourceDirectory}"/>
+    </java>
+  </target>
+
+  <target name="generate-sources" depends="generate-lexer,generate-parser" description="Generate sources"/>
 
   <target name="compile" depends="dependencies,generate-sources" description="Compile project source classes">
     <mkdir dir="${project.build.outputDirectory}"/>
@@ -88,6 +129,7 @@
         <fileset dir="${idea.home}/lib" includes="*.jar"/>
       </classpath>
       <src location="${project.build.sourceDirectory}"/>
+      <src location="${project.build.generatedSourceDirectory}"/>
     </javac>
     <copy todir="${project.build.outputDirectory}">
       <fileset dir="${project.basedir}/src/main/resources" includes="**"/>
@@ -118,7 +160,7 @@
         <pathelement location="${project.build.outputDirectory}"/>
         <pathelement location="${project.build.testOutputDirectory}"/>
       </classpath>
-      <batchtest todir="${project.build.testOutputDirectory}">
+      <batchtest todir="${project.build.testOutputDirectory}" haltonerror="false" haltonfailure="false">
         <formatter type="plain"/>
         <formatter type="xml"/>
         <fileset dir="${project.basedir}/src/test/java" includes="**/*Test.java"/>
