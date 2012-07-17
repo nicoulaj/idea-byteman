@@ -19,16 +19,12 @@
 package net.nicoulaj.idea.byteman.test.lexer;
 
 import com.intellij.lexer.Lexer;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.tree.IElementType;
+import com.intellij.testFramework.LexerTestCase;
 import net.nicoulaj.idea.byteman.lang.lexer.BytemanLexer;
-import org.jetbrains.annotations.NonNls;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
-import java.io.File;
-import java.io.IOException;
+import static net.nicoulaj.idea.byteman.test.TestUtils.TEST_SCRIPTS_DIR;
+import static net.nicoulaj.idea.byteman.test.TestUtils.TEST_SCRIPTS_EXTENSION;
 
 /**
  * Black box test for {@link net.nicoulaj.idea.byteman.lang.lexer.BytemanLexer}.
@@ -38,65 +34,125 @@ import java.io.IOException;
  * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
-@RunWith(value = Parameterized.class)
-public class BytemanLexerTest extends AbstractBytemanLexerTestCase {
+public class BytemanLexerTest extends LexerTestCase {
 
-    /** The files containing the expected lexer results are named after the test file file name + this suffix. */
-    @NonNls
-    public static final String TEST_FILES_TOKENS_FILE_EXT = ".lexer.csv";
-
-    /**
-     * Build a new instance of {@link BytemanLexerTest}.
-     *
-     * @param testFile the file to test
-     */
-    public BytemanLexerTest(File testFile) {
-        super(testFile);
+    @Override protected Lexer createLexer() {
+        return new BytemanLexer();
     }
 
-    /**
-     * Test the {@link #testFile} lexing.
-     *
-     * @throws java.io.IOException
-     */
-    @Test
-    public void doLexerTest() throws IOException {
-
-        // Load the test file data.
-        final String text = getTestFileData();
-
-        // Process the data with a lexer.
-        final Lexer lexer = new BytemanLexer();
-        String result = "";
-        String chunk = "";
-        IElementType tokenType;
-        String tokenText;
-        String tokenTypeName = "";
-        lexer.start(text);
-        while (true) {
-            tokenType = lexer.getTokenType();
-            tokenText = StringUtil.replace(lexer.getBufferSequence().subSequence(lexer.getTokenStart(), lexer.getTokenEnd()).toString(), "\n", "\\n");
-            if (tokenType != null && tokenTypeName.equals(tokenType.toString())) {
-                chunk += tokenText;
-            } else {
-                if (tokenTypeName.length() > 0) {
-                    result += tokenTypeName + ";\"" + chunk + "\"\n";
-                }
-                if (tokenType != null) {
-                    tokenTypeName = tokenType.toString();
-                    chunk = tokenText;
-                }
-            }
-            if (tokenType == null) {
-                break;
-            }
-            lexer.advance();
-        }
-
-//        Uncomment to generate all lexer result files
-//        FileUtil.writeToFile(new File(getTestFile().getPath() + TEST_FILES_TOKENS_FILE_EXT), result);
-
-        // Compare results with the expected ones.
-        assertSameLinesWithFile(getTestFile().getPath() + TEST_FILES_TOKENS_FILE_EXT, result);
+    @Override protected String getDirPath() {
+        return TEST_SCRIPTS_DIR;
     }
+
+    @Test public void testClassLoadMonitor() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testFileMonitor() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testFinalizeMonitor() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testJVMMBeanStats() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testNGUnitTest() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testNGUnitTestTestOne() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testNGUnitTestThree() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testNGUnitTestThreeExtra() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testNGUnitTestTwo() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testPeriodicStats() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testSocketMonitor() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestAll() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestArithmetic() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestArray() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestAssign() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestCall() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestCallerMatches() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestComparison() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestEmptySignature() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestEnclosedSynchronizationPropagation() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestEntry() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestExit() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestField() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestInterfaceHierarchy() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestInterfaceInjection() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestInvokeParamBinding() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestLine() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestLogical() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestMethodActualAgainstFormal() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestMethod() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestMethodClauseReturnType() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestMethodParamName() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestMultiMethodMatch() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestNew() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestOverridingInjection() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestOverridingInterfaceInjection() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestParamBinding() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestPromotePrimitiveToObject() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestReadWrite() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestReadWriteParams() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestRecursiveTriggers() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestReturnBindingAssignment() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestReturnBinding() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestStackTrace() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestSynch() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestThrowAction() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestThrowBinding() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestThrow() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTestWaitAfterSignalWakeMustMeet() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testThreadMonitor() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testTXMBeanStats() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testUnitTest() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testUnitTestTestOne() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testUnitTestThree() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testUnitTestThreeExtra() {doFileTest(TEST_SCRIPTS_EXTENSION);}
+
+    @Test public void testUnitTestTwo() {doFileTest(TEST_SCRIPTS_EXTENSION);}
 }

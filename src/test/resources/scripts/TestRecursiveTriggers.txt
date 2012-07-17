@@ -1,0 +1,370 @@
+FILE
+  PsiComment(comment)('##############################################################################')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# JBoss, Home of Professional Open Source')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# Copyright 2009, Red Hat and individual contributors')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# by the @authors tag. See the copyright.txt in the distribution for a')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# full listing of individual contributors.')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('#')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# This is free software; you can redistribute it and/or modify it')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# under the terms of the GNU Lesser General Public License as')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# published by the Free Software Foundation; either version 2.1 of')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# the License, or (at your option) any later version.')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('#')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# This software is distributed in the hope that it will be useful,')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# but WITHOUT ANY WARRANTY; without even the implied warranty of')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# Lesser General Public License for more details.')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('#')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# You should have received a copy of the GNU Lesser General Public')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# License along with this software; if not, write to the Free')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# 02110-1301 USA, or see the FSF site: http://www.fsf.org.')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('#')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# @authors Andrew Dinn')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('#')
+  PsiWhiteSpace('\n')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('##############################################################################')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('#')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# log a message to indicate that triggerMethod1 was called and fired the rule')
+  PsiWhiteSpace('\n')
+  PsiWhiteSpace('\n')
+  RULE
+    PsiElement(KEYWORD_RULE)('RULE')
+    PsiWhiteSpace(' ')
+    PsiElement(rule name)('log potentially recursively triggered method')
+    PsiWhiteSpace('\n')
+    CLASS_STATEMENT
+      PsiElement(KEYWORD_CLASS)('CLASS')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('org.jboss.byteman.tests.misc.TestRecursiveTriggers')
+    PsiWhiteSpace('\n')
+    METHOD_STATEMENT
+      PsiElement(KEYWORD_METHOD)('METHOD')
+      PsiWhiteSpace(' ')
+      PsiElement(method reference)('triggerMethod1(int)')
+    PsiWhiteSpace('\n')
+    HELPER_STATEMENT
+      PsiElement(KEYWORD_HELPER)('HELPER')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('org.jboss.byteman.tests.helpers.Default')
+    PsiWhiteSpace('\n')
+    ENTRY_LOCATION
+      PsiElement(KEYWORD_AT)('AT')
+      PsiWhiteSpace(' ')
+      PsiElement(KEYWORD_ENTRY)('ENTRY')
+    PsiWhiteSpace('\n')
+    BIND_STATEMENT
+      PsiElement(KEYWORD_BIND)('BIND')
+      PsiWhiteSpace(' ')
+      BINDING_EVENT
+        BINDING
+          BINDING_SYMBOL
+            IDENTIFIER_EXPR
+              PsiElement(IDENTIFIER)('test')
+          PsiWhiteSpace(' ')
+          PsiElement(ASSIGN)('=')
+          PsiWhiteSpace(' ')
+          EXPR
+            SIMPLE_EXPR
+              PsiElement(DOLLAR)('$0')
+        PsiElement(;)(';')
+        PsiWhiteSpace('\n')
+        PsiWhiteSpace(' ')
+        PsiWhiteSpace(' ')
+        PsiWhiteSpace(' ')
+        PsiWhiteSpace(' ')
+        PsiWhiteSpace(' ')
+        BINDING
+          BINDING_SYMBOL
+            IDENTIFIER_EXPR
+              PsiElement(IDENTIFIER)('count')
+          PsiWhiteSpace(' ')
+          PsiElement(ASSIGN)('=')
+          PsiWhiteSpace(' ')
+          EXPR
+            SIMPLE_EXPR
+              PsiElement(DOLLAR)('$1')
+    PsiWhiteSpace('\n')
+    IF_STATEMENT
+      PsiElement(IF)('IF')
+      PsiWhiteSpace(' ')
+      CONDITION
+        EXPR
+          SIMPLE_EXPR
+            PsiElement(boolean)('TRUE')
+    PsiWhiteSpace('\n')
+    DO_STATEMENT
+      PsiElement(KEYWORD_DO)('DO')
+      PsiWhiteSpace(' ')
+      EXPR_ACTIONS
+        EXPR
+          IDENTIFIER_EXPR
+            PsiElement(IDENTIFIER)('test')
+    PsiElement(.)('.')
+    PsiElement(IDENTIFIER)('log')
+    PsiErrorElement:'.' expected, got '('
+      PsiElement(LPAREN)('(')
+    PsiElement(string)('"')
+    PsiElement(string)('triggerMethod1 : triggered with ')
+    PsiElement(string)('"')
+    PsiWhiteSpace(' ')
+    PsiElement(PLUS)('+')
+    PsiWhiteSpace(' ')
+    PsiElement(IDENTIFIER)('count')
+    PsiElement(RPAREN)(')')
+    PsiWhiteSpace('\n')
+    PsiElement(KEYWORD_ENDRULE)('ENDRULE')
+  PsiWhiteSpace('\n')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('##############################################################################')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('#')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# log a message to indicate that triggerMethod2 was called and call')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# triggerMethod1 with recursive triggering enabled (the default)')
+  PsiWhiteSpace('\n')
+  PsiWhiteSpace('\n')
+  RULE
+    PsiElement(KEYWORD_RULE)('RULE')
+    PsiWhiteSpace(' ')
+    PsiElement(rule name)('test recursive trigger enabled')
+    PsiWhiteSpace('\n')
+    CLASS_STATEMENT
+      PsiElement(KEYWORD_CLASS)('CLASS')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('org.jboss.byteman.tests.misc.TestRecursiveTriggers')
+    PsiWhiteSpace('\n')
+    METHOD_STATEMENT
+      PsiElement(KEYWORD_METHOD)('METHOD')
+      PsiWhiteSpace(' ')
+      PsiElement(method reference)('triggerMethod2()')
+    PsiWhiteSpace('\n')
+    HELPER_STATEMENT
+      PsiElement(KEYWORD_HELPER)('HELPER')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('org.jboss.byteman.tests.helpers.Default')
+    PsiWhiteSpace('\n')
+    ENTRY_LOCATION
+      PsiElement(KEYWORD_AT)('AT')
+      PsiWhiteSpace(' ')
+      PsiElement(KEYWORD_ENTRY)('ENTRY')
+    PsiWhiteSpace('\n')
+    BIND_STATEMENT
+      PsiElement(KEYWORD_BIND)('BIND')
+      PsiWhiteSpace(' ')
+      BINDING_EVENT
+        BINDING
+          BINDING_SYMBOL
+            IDENTIFIER_EXPR
+              PsiElement(IDENTIFIER)('test')
+            PsiWhiteSpace(' ')
+            PsiElement(:)(':')
+            PsiWhiteSpace(' ')
+            TYPE_NAME
+              PATH
+                IDENTIFIER_EXPR
+                  PsiElement(IDENTIFIER)('TestRecursiveTriggers')
+          PsiWhiteSpace(' ')
+          PsiElement(ASSIGN)('=')
+          PsiWhiteSpace(' ')
+          EXPR
+            SIMPLE_EXPR
+              PsiElement(DOLLAR)('$0')
+    PsiWhiteSpace('\n')
+    IF_STATEMENT
+      PsiElement(IF)('IF')
+      PsiWhiteSpace(' ')
+      CONDITION
+        EXPR
+          SIMPLE_EXPR
+            PsiElement(boolean)('TRUE')
+    PsiWhiteSpace('\n')
+    DO_STATEMENT
+      PsiElement(KEYWORD_DO)('DO')
+      PsiWhiteSpace(' ')
+      EXPR_ACTIONS
+        EXPR
+          IDENTIFIER_EXPR
+            PsiElement(IDENTIFIER)('test')
+    PsiElement(.)('.')
+    PsiElement(IDENTIFIER)('log')
+    PsiErrorElement:'.' expected, got '('
+      PsiElement(LPAREN)('(')
+    PsiElement(DUMMY_BLOCK)
+      PsiElement(string)('"')
+      PsiElement(string)('triggerMethod2 : triggered')
+      PsiElement(string)('"')
+      PsiElement(RPAREN)(')')
+      PsiElement(;)(';')
+      PsiWhiteSpace('\n')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiElement(IDENTIFIER)('test')
+      PsiElement(.)('.')
+      PsiElement(IDENTIFIER)('triggerMethod1')
+      PsiElement(LPAREN)('(')
+      PsiElement(INTEGER_LITERAL)('2')
+    PsiElement(RPAREN)(')')
+    PsiWhiteSpace('\n')
+    PsiElement(KEYWORD_ENDRULE)('ENDRULE')
+  PsiWhiteSpace('\n')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('##############################################################################')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('#')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# log a message to indicate that triggerMethod2 was called and call')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# triggerMethod1 with recursive triggering disabled and then again with')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# triggering enabled')
+  PsiWhiteSpace('\n')
+  PsiWhiteSpace('\n')
+  PsiWhiteSpace('\n')
+  RULE
+    PsiElement(KEYWORD_RULE)('RULE')
+    PsiWhiteSpace(' ')
+    PsiElement(rule name)('test recursive trigger disabled then enabled')
+    PsiWhiteSpace('\n')
+    CLASS_STATEMENT
+      PsiElement(KEYWORD_CLASS)('CLASS')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('org.jboss.byteman.tests.misc.TestRecursiveTriggers')
+    PsiWhiteSpace('\n')
+    METHOD_STATEMENT
+      PsiElement(KEYWORD_METHOD)('METHOD')
+      PsiWhiteSpace(' ')
+      PsiElement(method reference)('triggerMethod3()')
+    PsiWhiteSpace('\n')
+    HELPER_STATEMENT
+      PsiElement(KEYWORD_HELPER)('HELPER')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('org.jboss.byteman.tests.helpers.Default')
+    PsiWhiteSpace('\n')
+    ENTRY_LOCATION
+      PsiElement(KEYWORD_AT)('AT')
+      PsiWhiteSpace(' ')
+      PsiElement(KEYWORD_ENTRY)('ENTRY')
+    PsiWhiteSpace('\n')
+    BIND_STATEMENT
+      PsiElement(KEYWORD_BIND)('BIND')
+      PsiWhiteSpace(' ')
+      BINDING_EVENT
+        BINDING
+          BINDING_SYMBOL
+            IDENTIFIER_EXPR
+              PsiElement(IDENTIFIER)('test')
+            PsiWhiteSpace(' ')
+            PsiElement(:)(':')
+            PsiWhiteSpace(' ')
+            TYPE_NAME
+              PATH
+                IDENTIFIER_EXPR
+                  PsiElement(IDENTIFIER)('TestRecursiveTriggers')
+          PsiWhiteSpace(' ')
+          PsiElement(ASSIGN)('=')
+          PsiWhiteSpace(' ')
+          EXPR
+            SIMPLE_EXPR
+              PsiElement(DOLLAR)('$0')
+    PsiWhiteSpace('\n')
+    IF_STATEMENT
+      PsiElement(IF)('IF')
+      PsiWhiteSpace(' ')
+      CONDITION
+        EXPR
+          SIMPLE_EXPR
+            PsiElement(boolean)('TRUE')
+    PsiWhiteSpace('\n')
+    DO_STATEMENT
+      PsiElement(KEYWORD_DO)('DO')
+      PsiWhiteSpace(' ')
+      EXPR_ACTIONS
+        EXPR
+          IDENTIFIER_EXPR
+            PsiElement(IDENTIFIER)('test')
+    PsiElement(.)('.')
+    PsiElement(IDENTIFIER)('log')
+    PsiErrorElement:'.' expected, got '('
+      PsiElement(LPAREN)('(')
+    PsiElement(DUMMY_BLOCK)
+      PsiElement(string)('"')
+      PsiElement(string)('triggerMethod3 : triggered')
+      PsiElement(string)('"')
+      PsiElement(RPAREN)(')')
+      PsiElement(;)(';')
+      PsiWhiteSpace('\n')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiElement(IDENTIFIER)('setTriggering')
+      PsiElement(LPAREN)('(')
+      PsiElement(boolean)('false')
+      PsiElement(RPAREN)(')')
+      PsiElement(;)(';')
+    PsiWhiteSpace('\n')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiElement(DUMMY_BLOCK)
+      PsiElement(IDENTIFIER)('test')
+      PsiElement(.)('.')
+      PsiElement(IDENTIFIER)('triggerMethod1')
+      PsiElement(LPAREN)('(')
+      PsiElement(INTEGER_LITERAL)('3')
+      PsiElement(RPAREN)(')')
+      PsiElement(;)(';')
+      PsiWhiteSpace('\n')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiElement(IDENTIFIER)('setTriggering')
+      PsiElement(LPAREN)('(')
+      PsiElement(boolean)('true')
+    PsiElement(RPAREN)(')')
+    PsiElement(;)(';')
+    PsiWhiteSpace('\n')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiElement(IDENTIFIER)('test')
+    PsiElement(.)('.')
+    PsiElement(IDENTIFIER)('triggerMethod1')
+    PsiElement(LPAREN)('(')
+    PsiElement(INTEGER_LITERAL)('4')
+    PsiElement(RPAREN)(')')
+    PsiWhiteSpace('\n')
+    PsiElement(KEYWORD_ENDRULE)('ENDRULE')

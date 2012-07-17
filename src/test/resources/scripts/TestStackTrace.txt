@@ -1,0 +1,861 @@
+FILE
+  PsiComment(comment)('##############################################################################')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# JBoss, Home of Professional Open Source')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# Copyright 2010, Red Hat and individual contributors')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# by the @authors tag. See the copyright.txt in the distribution for a')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# full listing of individual contributors.')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('#')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# This is free software; you can redistribute it and/or modify it')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# under the terms of the GNU Lesser General Public License as')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# published by the Free Software Foundation; either version 2.1 of')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# the License, or (at your option) any later version.')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('#')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# This software is distributed in the hope that it will be useful,')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# but WITHOUT ANY WARRANTY; without even the implied warranty of')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# Lesser General Public License for more details.')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('#')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# You should have received a copy of the GNU Lesser General Public')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# License along with this software; if not, write to the Free')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# 02110-1301 USA, or see the FSF site: http://www.fsf.org.')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('#')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('# @authors Andrew Dinn')
+  PsiWhiteSpace('\n')
+  PsiComment(comment)('#')
+  PsiWhiteSpace('\n')
+  PsiWhiteSpace('\n')
+  RULE
+    PsiElement(KEYWORD_RULE)('RULE')
+    PsiWhiteSpace(' ')
+    PsiElement(rule name)('test stacktrace two frames')
+    PsiWhiteSpace('\n')
+    CLASS_STATEMENT
+      PsiElement(KEYWORD_CLASS)('CLASS')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('TestStackTrace')
+    PsiWhiteSpace('\n')
+    METHOD_STATEMENT
+      PsiElement(KEYWORD_METHOD)('METHOD')
+      PsiWhiteSpace(' ')
+      PsiElement(method reference)('triggerMethod1()')
+    PsiWhiteSpace('\n')
+    HELPER_STATEMENT
+      PsiElement(KEYWORD_HELPER)('HELPER')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('org.jboss.byteman.tests.helpers.Default')
+    PsiWhiteSpace('\n')
+    ENTRY_LOCATION
+      PsiElement(KEYWORD_AT)('AT')
+      PsiWhiteSpace(' ')
+      PsiElement(KEYWORD_ENTRY)('ENTRY')
+    PsiWhiteSpace('\n')
+    BIND_STATEMENT
+      PsiElement(KEYWORD_BIND)('BIND')
+      PsiWhiteSpace(' ')
+      BINDING_EVENT
+        BINDING
+          BINDING_SYMBOL
+            IDENTIFIER_EXPR
+              PsiElement(IDENTIFIER)('test')
+            PsiWhiteSpace(' ')
+            PsiElement(:)(':')
+            PsiWhiteSpace(' ')
+            TYPE_NAME
+              PATH
+                IDENTIFIER_EXPR
+                  PsiElement(IDENTIFIER)('TestStackTrace')
+          PsiWhiteSpace(' ')
+          PsiElement(ASSIGN)('=')
+          PsiWhiteSpace(' ')
+          EXPR
+            SIMPLE_EXPR
+              PsiElement(DOLLAR)('$0')
+    PsiWhiteSpace('\n')
+    IF_STATEMENT
+      PsiElement(IF)('IF')
+      PsiWhiteSpace(' ')
+      CONDITION
+        EXPR
+          SIMPLE_EXPR
+            PsiElement(boolean)('TRUE')
+    PsiWhiteSpace('\n')
+    DO_STATEMENT
+      PsiElement(KEYWORD_DO)('DO')
+      PsiWhiteSpace(' ')
+      EXPR_ACTIONS
+        EXPR
+          IDENTIFIER_EXPR
+            PsiElement(IDENTIFIER)('test')
+    PsiElement(.)('.')
+    PsiElement(IDENTIFIER)('log')
+    PsiErrorElement:'.' expected, got '('
+      PsiElement(LPAREN)('(')
+    PsiElement(DUMMY_BLOCK)
+      PsiElement(IDENTIFIER)('formatStack')
+      PsiElement(LPAREN)('(')
+      PsiElement(string)('"')
+      PsiElement(string)('stacktrace two frames')
+      PsiElement(string)('\n')
+      PsiElement(string)('"')
+      PsiElement(COMMA)(',')
+      PsiWhiteSpace(' ')
+      PsiElement(INTEGER_LITERAL)('2')
+      PsiElement(RPAREN)(')')
+      PsiElement(RPAREN)(')')
+    PsiWhiteSpace('\n')
+    PsiElement(KEYWORD_ENDRULE)('ENDRULE')
+  PsiWhiteSpace('\n')
+  PsiWhiteSpace('\n')
+  RULE
+    PsiElement(KEYWORD_RULE)('RULE')
+    PsiWhiteSpace(' ')
+    PsiElement(rule name)('test stacktrace matching frames')
+    PsiWhiteSpace('\n')
+    CLASS_STATEMENT
+      PsiElement(KEYWORD_CLASS)('CLASS')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('TestStackTrace')
+    PsiWhiteSpace('\n')
+    METHOD_STATEMENT
+      PsiElement(KEYWORD_METHOD)('METHOD')
+      PsiWhiteSpace(' ')
+      PsiElement(method reference)('triggerMethod211()')
+    PsiWhiteSpace('\n')
+    HELPER_STATEMENT
+      PsiElement(KEYWORD_HELPER)('HELPER')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('org.jboss.byteman.tests.helpers.Default')
+    PsiWhiteSpace('\n')
+    ENTRY_LOCATION
+      PsiElement(KEYWORD_AT)('AT')
+      PsiWhiteSpace(' ')
+      PsiElement(KEYWORD_ENTRY)('ENTRY')
+    PsiWhiteSpace('\n')
+    BIND_STATEMENT
+      PsiElement(KEYWORD_BIND)('BIND')
+      PsiWhiteSpace(' ')
+      BINDING_EVENT
+        BINDING
+          BINDING_SYMBOL
+            IDENTIFIER_EXPR
+              PsiElement(IDENTIFIER)('test')
+            PsiWhiteSpace(' ')
+            PsiElement(:)(':')
+            PsiWhiteSpace(' ')
+            TYPE_NAME
+              PATH
+                IDENTIFIER_EXPR
+                  PsiElement(IDENTIFIER)('TestStackTrace')
+          PsiWhiteSpace(' ')
+          PsiElement(ASSIGN)('=')
+          PsiWhiteSpace(' ')
+          EXPR
+            SIMPLE_EXPR
+              PsiElement(DOLLAR)('$0')
+    PsiWhiteSpace('\n')
+    IF_STATEMENT
+      PsiElement(IF)('IF')
+      PsiWhiteSpace(' ')
+      CONDITION
+        EXPR
+          SIMPLE_EXPR
+            PsiElement(boolean)('TRUE')
+    PsiWhiteSpace('\n')
+    DO_STATEMENT
+      PsiElement(KEYWORD_DO)('DO')
+      PsiWhiteSpace(' ')
+      EXPR_ACTIONS
+        EXPR
+          IDENTIFIER_EXPR
+            PsiElement(IDENTIFIER)('test')
+    PsiElement(.)('.')
+    PsiElement(IDENTIFIER)('log')
+    PsiErrorElement:'.' expected, got '('
+      PsiElement(LPAREN)('(')
+    PsiElement(DUMMY_BLOCK)
+      PsiElement(IDENTIFIER)('formatStackMatching')
+      PsiElement(LPAREN)('(')
+      PsiElement(string)('"')
+      PsiElement(string)('triggerMethod2.*')
+      PsiElement(string)('"')
+      PsiElement(COMMA)(',')
+      PsiWhiteSpace(' ')
+      PsiElement(string)('"')
+      PsiElement(string)('stacktrace matching frames')
+      PsiElement(string)('\n')
+      PsiElement(string)('"')
+    PsiElement(RPAREN)(')')
+    PsiElement(RPAREN)(')')
+    PsiWhiteSpace('\n')
+    PsiElement(KEYWORD_ENDRULE)('ENDRULE')
+  PsiWhiteSpace('\n')
+  PsiWhiteSpace('\n')
+  RULE
+    PsiElement(KEYWORD_RULE)('RULE')
+    PsiWhiteSpace(' ')
+    PsiElement(rule name)('test stacktrace matching frames with class')
+    PsiWhiteSpace('\n')
+    CLASS_STATEMENT
+      PsiElement(KEYWORD_CLASS)('CLASS')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('TestStackTrace')
+    PsiWhiteSpace('\n')
+    METHOD_STATEMENT
+      PsiElement(KEYWORD_METHOD)('METHOD')
+      PsiWhiteSpace(' ')
+      PsiElement(method reference)('triggerMethod212()')
+    PsiWhiteSpace('\n')
+    HELPER_STATEMENT
+      PsiElement(KEYWORD_HELPER)('HELPER')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('org.jboss.byteman.tests.helpers.Default')
+    PsiWhiteSpace('\n')
+    ENTRY_LOCATION
+      PsiElement(KEYWORD_AT)('AT')
+      PsiWhiteSpace(' ')
+      PsiElement(KEYWORD_ENTRY)('ENTRY')
+    PsiWhiteSpace('\n')
+    BIND_STATEMENT
+      PsiElement(KEYWORD_BIND)('BIND')
+      PsiWhiteSpace(' ')
+      BINDING_EVENT
+        BINDING
+          BINDING_SYMBOL
+            IDENTIFIER_EXPR
+              PsiElement(IDENTIFIER)('test')
+            PsiWhiteSpace(' ')
+            PsiElement(:)(':')
+            PsiWhiteSpace(' ')
+            TYPE_NAME
+              PATH
+                IDENTIFIER_EXPR
+                  PsiElement(IDENTIFIER)('TestStackTrace')
+          PsiWhiteSpace(' ')
+          PsiElement(ASSIGN)('=')
+          PsiWhiteSpace(' ')
+          EXPR
+            SIMPLE_EXPR
+              PsiElement(DOLLAR)('$0')
+    PsiWhiteSpace('\n')
+    IF_STATEMENT
+      PsiElement(IF)('IF')
+      PsiWhiteSpace(' ')
+      CONDITION
+        EXPR
+          SIMPLE_EXPR
+            PsiElement(boolean)('TRUE')
+    PsiWhiteSpace('\n')
+    DO_STATEMENT
+      PsiElement(KEYWORD_DO)('DO')
+      PsiWhiteSpace(' ')
+      EXPR_ACTIONS
+        EXPR
+          IDENTIFIER_EXPR
+            PsiElement(IDENTIFIER)('test')
+    PsiElement(.)('.')
+    PsiElement(IDENTIFIER)('log')
+    PsiErrorElement:'.' expected, got '('
+      PsiElement(LPAREN)('(')
+    PsiElement(DUMMY_BLOCK)
+      PsiElement(IDENTIFIER)('formatStackMatching')
+      PsiElement(LPAREN)('(')
+      PsiElement(string)('"')
+      PsiElement(string)('TestStackTrace')
+      PsiElement(string)('\')
+      PsiElement(string)('.triggerMethod2.*')
+      PsiElement(string)('"')
+      PsiElement(COMMA)(',')
+      PsiWhiteSpace(' ')
+      PsiElement(boolean)('true')
+      PsiElement(COMMA)(',')
+    PsiWhiteSpace(' ')
+    PsiElement(boolean)('false')
+    PsiElement(COMMA)(',')
+    PsiWhiteSpace(' ')
+    PsiElement(string)('"')
+    PsiElement(string)('stacktrace matching frames with class')
+    PsiElement(string)('\n')
+    PsiElement(string)('"')
+    PsiElement(RPAREN)(')')
+    PsiElement(RPAREN)(')')
+    PsiWhiteSpace('\n')
+    PsiElement(KEYWORD_ENDRULE)('ENDRULE')
+  PsiWhiteSpace('\n')
+  PsiWhiteSpace('\n')
+  RULE
+    PsiElement(KEYWORD_RULE)('RULE')
+    PsiWhiteSpace(' ')
+    PsiElement(rule name)('test stacktrace three frames')
+    PsiWhiteSpace('\n')
+    CLASS_STATEMENT
+      PsiElement(KEYWORD_CLASS)('CLASS')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('TestStackTrace')
+    PsiWhiteSpace('\n')
+    METHOD_STATEMENT
+      PsiElement(KEYWORD_METHOD)('METHOD')
+      PsiWhiteSpace(' ')
+      PsiElement(method reference)('triggerMethod311()')
+    PsiWhiteSpace('\n')
+    HELPER_STATEMENT
+      PsiElement(KEYWORD_HELPER)('HELPER')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('org.jboss.byteman.tests.helpers.Default')
+    PsiWhiteSpace('\n')
+    ENTRY_LOCATION
+      PsiElement(KEYWORD_AT)('AT')
+      PsiWhiteSpace(' ')
+      PsiElement(KEYWORD_ENTRY)('ENTRY')
+    PsiWhiteSpace('\n')
+    BIND_STATEMENT
+      PsiElement(KEYWORD_BIND)('BIND')
+      PsiWhiteSpace(' ')
+      BINDING_EVENT
+        BINDING
+          BINDING_SYMBOL
+            IDENTIFIER_EXPR
+              PsiElement(IDENTIFIER)('test')
+            PsiWhiteSpace(' ')
+            PsiElement(:)(':')
+            PsiWhiteSpace(' ')
+            TYPE_NAME
+              PATH
+                IDENTIFIER_EXPR
+                  PsiElement(IDENTIFIER)('TestStackTrace')
+          PsiWhiteSpace(' ')
+          PsiElement(ASSIGN)('=')
+          PsiWhiteSpace(' ')
+          EXPR
+            SIMPLE_EXPR
+              PsiElement(DOLLAR)('$0')
+    PsiWhiteSpace('\n')
+    IF_STATEMENT
+      PsiElement(IF)('IF')
+      PsiWhiteSpace(' ')
+      CONDITION
+        EXPR
+          SIMPLE_EXPR
+            PsiElement(boolean)('TRUE')
+    PsiWhiteSpace('\n')
+    DO_STATEMENT
+      PsiElement(KEYWORD_DO)('DO')
+      PsiWhiteSpace(' ')
+      EXPR_ACTIONS
+        EXPR
+          IDENTIFIER_EXPR
+            PsiElement(IDENTIFIER)('test')
+    PsiElement(.)('.')
+    PsiElement(IDENTIFIER)('log')
+    PsiErrorElement:'.' expected, got '('
+      PsiElement(LPAREN)('(')
+    PsiElement(DUMMY_BLOCK)
+      PsiElement(IDENTIFIER)('formatStack')
+      PsiElement(LPAREN)('(')
+      PsiElement(string)('"')
+      PsiElement(string)('stacktrace three frames')
+      PsiElement(string)('\n')
+      PsiElement(string)('"')
+      PsiElement(COMMA)(',')
+      PsiWhiteSpace(' ')
+      PsiElement(INTEGER_LITERAL)('3')
+      PsiElement(RPAREN)(')')
+      PsiElement(RPAREN)(')')
+    PsiWhiteSpace('\n')
+    PsiElement(KEYWORD_ENDRULE)('ENDRULE')
+  PsiWhiteSpace('\n')
+  PsiWhiteSpace('\n')
+  RULE
+    PsiElement(KEYWORD_RULE)('RULE')
+    PsiWhiteSpace(' ')
+    PsiElement(rule name)('test stacktrace matching frames with class and package')
+    PsiWhiteSpace('\n')
+    CLASS_STATEMENT
+      PsiElement(KEYWORD_CLASS)('CLASS')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('TestStackTrace')
+    PsiWhiteSpace('\n')
+    METHOD_STATEMENT
+      PsiElement(KEYWORD_METHOD)('METHOD')
+      PsiWhiteSpace(' ')
+      PsiElement(method reference)('triggerMethod3111()')
+    PsiWhiteSpace('\n')
+    HELPER_STATEMENT
+      PsiElement(KEYWORD_HELPER)('HELPER')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('org.jboss.byteman.tests.helpers.Default')
+    PsiWhiteSpace('\n')
+    ENTRY_LOCATION
+      PsiElement(KEYWORD_AT)('AT')
+      PsiWhiteSpace(' ')
+      PsiElement(KEYWORD_ENTRY)('ENTRY')
+    PsiWhiteSpace('\n')
+    BIND_STATEMENT
+      PsiElement(KEYWORD_BIND)('BIND')
+      PsiWhiteSpace(' ')
+      BINDING_EVENT
+        BINDING
+          BINDING_SYMBOL
+            IDENTIFIER_EXPR
+              PsiElement(IDENTIFIER)('test')
+            PsiWhiteSpace(' ')
+            PsiElement(:)(':')
+            PsiWhiteSpace(' ')
+            TYPE_NAME
+              PATH
+                IDENTIFIER_EXPR
+                  PsiElement(IDENTIFIER)('TestStackTrace')
+          PsiWhiteSpace(' ')
+          PsiElement(ASSIGN)('=')
+          PsiWhiteSpace(' ')
+          EXPR
+            SIMPLE_EXPR
+              PsiElement(DOLLAR)('$0')
+    PsiWhiteSpace('\n')
+    IF_STATEMENT
+      PsiElement(IF)('IF')
+      PsiWhiteSpace(' ')
+      CONDITION
+        EXPR
+          SIMPLE_EXPR
+            PsiElement(boolean)('TRUE')
+    PsiWhiteSpace('\n')
+    DO_STATEMENT
+      PsiElement(KEYWORD_DO)('DO')
+      PsiWhiteSpace(' ')
+      EXPR_ACTIONS
+        EXPR
+          IDENTIFIER_EXPR
+            PsiElement(IDENTIFIER)('test')
+    PsiElement(.)('.')
+    PsiElement(IDENTIFIER)('log')
+    PsiErrorElement:'.' expected, got '('
+      PsiElement(LPAREN)('(')
+    PsiElement(DUMMY_BLOCK)
+      PsiElement(IDENTIFIER)('formatStackMatching')
+      PsiElement(LPAREN)('(')
+      PsiElement(string)('"')
+      PsiElement(string)('org')
+      PsiElement(string)('\')
+      PsiElement(string)('.jboss')
+      PsiElement(string)('\')
+      PsiElement(string)('.byteman')
+      PsiElement(string)('\')
+      PsiElement(string)('.tests')
+    PsiElement(DUMMY_BLOCK)
+      PsiElement(string)('\')
+      PsiElement(string)('.helpertests')
+      PsiElement(string)('\')
+      PsiElement(string)('.TestStackTrace')
+      PsiElement(string)('\')
+      PsiElement(string)('.triggerMethod3.*')
+      PsiElement(string)('"')
+      PsiElement(COMMA)(',')
+      PsiWhiteSpace('\n')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiElement(boolean)('true')
+      PsiElement(COMMA)(',')
+    PsiWhiteSpace(' ')
+    PsiElement(boolean)('true')
+    PsiElement(COMMA)(',')
+    PsiWhiteSpace(' ')
+    PsiElement(string)('"')
+    PsiElement(string)('stacktrace matching frames with class and package')
+    PsiElement(string)('\n')
+    PsiElement(string)('"')
+    PsiElement(RPAREN)(')')
+    PsiElement(RPAREN)(')')
+    PsiWhiteSpace('\n')
+    PsiElement(KEYWORD_ENDRULE)('ENDRULE')
+  PsiWhiteSpace('\n')
+  PsiWhiteSpace('\n')
+  RULE
+    PsiElement(KEYWORD_RULE)('RULE')
+    PsiWhiteSpace(' ')
+    PsiElement(rule name)('test stacktrace between frames matches')
+    PsiWhiteSpace('\n')
+    CLASS_STATEMENT
+      PsiElement(KEYWORD_CLASS)('CLASS')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('TestStackTrace')
+    PsiWhiteSpace('\n')
+    METHOD_STATEMENT
+      PsiElement(KEYWORD_METHOD)('METHOD')
+      PsiWhiteSpace(' ')
+      PsiElement(method reference)('triggerMethod3111()')
+    PsiWhiteSpace('\n')
+    HELPER_STATEMENT
+      PsiElement(KEYWORD_HELPER)('HELPER')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('org.jboss.byteman.tests.helpers.Default')
+    PsiWhiteSpace('\n')
+    EXIT_LOCATION
+      PsiElement(KEYWORD_AT)('AT')
+      PsiWhiteSpace(' ')
+      PsiElement(KEYWORD_RETURN)('EXIT')
+    PsiWhiteSpace('\n')
+    BIND_STATEMENT
+      PsiElement(KEYWORD_BIND)('BIND')
+      PsiWhiteSpace(' ')
+      BINDING_EVENT
+        BINDING
+          BINDING_SYMBOL
+            IDENTIFIER_EXPR
+              PsiElement(IDENTIFIER)('test')
+            PsiWhiteSpace(' ')
+            PsiElement(:)(':')
+            PsiWhiteSpace(' ')
+            TYPE_NAME
+              PATH
+                IDENTIFIER_EXPR
+                  PsiElement(IDENTIFIER)('TestStackTrace')
+          PsiWhiteSpace(' ')
+          PsiElement(ASSIGN)('=')
+          PsiWhiteSpace(' ')
+          EXPR
+            SIMPLE_EXPR
+              PsiElement(DOLLAR)('$0')
+    PsiWhiteSpace('\n')
+    IF_STATEMENT
+      PsiElement(IF)('IF')
+      PsiWhiteSpace(' ')
+      CONDITION
+        EXPR
+          SIMPLE_EXPR
+            PsiElement(boolean)('TRUE')
+    PsiWhiteSpace('\n')
+    DO_STATEMENT
+      PsiElement(KEYWORD_DO)('DO')
+      PsiWhiteSpace(' ')
+      EXPR_ACTIONS
+        EXPR
+          IDENTIFIER_EXPR
+            PsiElement(IDENTIFIER)('test')
+    PsiElement(.)('.')
+    PsiElement(IDENTIFIER)('log')
+    PsiErrorElement:'.' expected, got '('
+      PsiElement(LPAREN)('(')
+    PsiElement(DUMMY_BLOCK)
+      PsiElement(IDENTIFIER)('formatStackBetweenMatches')
+      PsiElement(LPAREN)('(')
+      PsiElement(string)('"')
+      PsiElement(string)('triggerMethod3111')
+      PsiElement(string)('"')
+      PsiElement(COMMA)(',')
+      PsiWhiteSpace('\n')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiElement(string)('"')
+      PsiElement(string)('triggerMethod31')
+      PsiElement(string)('"')
+      PsiElement(COMMA)(',')
+    PsiWhiteSpace('\n')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiElement(string)('"')
+    PsiElement(string)('stacktrace between frames matches')
+    PsiElement(string)('\n')
+    PsiElement(string)('"')
+    PsiElement(RPAREN)(')')
+    PsiElement(RPAREN)(')')
+    PsiWhiteSpace('\n')
+    PsiElement(KEYWORD_ENDRULE)('ENDRULE')
+  PsiWhiteSpace('\n')
+  PsiWhiteSpace('\n')
+  RULE
+    PsiElement(KEYWORD_RULE)('RULE')
+    PsiWhiteSpace(' ')
+    PsiElement(rule name)('test stacktrace between frames')
+    PsiWhiteSpace('\n')
+    CLASS_STATEMENT
+      PsiElement(KEYWORD_CLASS)('CLASS')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('TestStackTrace')
+    PsiWhiteSpace('\n')
+    METHOD_STATEMENT
+      PsiElement(KEYWORD_METHOD)('METHOD')
+      PsiWhiteSpace(' ')
+      PsiElement(method reference)('triggerMethod3111()')
+    PsiWhiteSpace('\n')
+    HELPER_STATEMENT
+      PsiElement(KEYWORD_HELPER)('HELPER')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('org.jboss.byteman.tests.helpers.Default')
+    PsiWhiteSpace('\n')
+    EXIT_LOCATION
+      PsiElement(KEYWORD_AT)('AT')
+      PsiWhiteSpace(' ')
+      PsiElement(KEYWORD_RETURN)('EXIT')
+    PsiWhiteSpace('\n')
+    BIND_STATEMENT
+      PsiElement(KEYWORD_BIND)('BIND')
+      PsiWhiteSpace(' ')
+      BINDING_EVENT
+        BINDING
+          BINDING_SYMBOL
+            IDENTIFIER_EXPR
+              PsiElement(IDENTIFIER)('test')
+            PsiWhiteSpace(' ')
+            PsiElement(:)(':')
+            PsiWhiteSpace(' ')
+            TYPE_NAME
+              PATH
+                IDENTIFIER_EXPR
+                  PsiElement(IDENTIFIER)('TestStackTrace')
+          PsiWhiteSpace(' ')
+          PsiElement(ASSIGN)('=')
+          PsiWhiteSpace(' ')
+          EXPR
+            SIMPLE_EXPR
+              PsiElement(DOLLAR)('$0')
+    PsiWhiteSpace('\n')
+    IF_STATEMENT
+      PsiElement(IF)('IF')
+      PsiWhiteSpace(' ')
+      CONDITION
+        EXPR
+          SIMPLE_EXPR
+            PsiElement(boolean)('TRUE')
+    PsiWhiteSpace('\n')
+    DO_STATEMENT
+      PsiElement(KEYWORD_DO)('DO')
+      PsiWhiteSpace(' ')
+      EXPR_ACTIONS
+        EXPR
+          IDENTIFIER_EXPR
+            PsiElement(IDENTIFIER)('test')
+    PsiElement(.)('.')
+    PsiElement(IDENTIFIER)('log')
+    PsiErrorElement:'.' expected, got '('
+      PsiElement(LPAREN)('(')
+    PsiElement(DUMMY_BLOCK)
+      PsiElement(IDENTIFIER)('formatStackBetween')
+      PsiElement(LPAREN)('(')
+      PsiElement(string)('"')
+      PsiElement(string)('org.jboss.byteman.tests.helpertests.TestStackTrace.triggerMethod3111')
+      PsiElement(string)('"')
+      PsiElement(COMMA)(',')
+      PsiWhiteSpace('\n')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiWhiteSpace(' ')
+      PsiElement(string)('"')
+      PsiElement(string)('org.jboss.byteman.tests.helpertests.TestStackTrace.triggerMethod3')
+      PsiElement(string)('"')
+      PsiElement(COMMA)(',')
+    PsiWhiteSpace('\n')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiWhiteSpace(' ')
+    PsiElement(DUMMY_BLOCK)
+      PsiElement(boolean)('true')
+      PsiElement(COMMA)(',')
+      PsiWhiteSpace(' ')
+      PsiElement(boolean)('true')
+      PsiElement(COMMA)(',')
+      PsiWhiteSpace(' ')
+      PsiElement(string)('"')
+      PsiElement(string)('stacktrace between frames')
+      PsiElement(string)('\n')
+      PsiElement(string)('"')
+      PsiElement(RPAREN)(')')
+      PsiElement(RPAREN)(')')
+    PsiWhiteSpace('\n')
+    PsiElement(KEYWORD_ENDRULE)('ENDRULE')

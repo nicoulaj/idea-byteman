@@ -1,0 +1,48 @@
+FILE
+  PsiComment(comment)('# Test script to check load and unload at class level')
+  PsiWhiteSpace('\n')
+  RULE
+    PsiElement(KEYWORD_RULE)('RULE')
+    PsiWhiteSpace(' ')
+    PsiElement(rule name)('NG test autoload class rule')
+    PsiWhiteSpace('\n')
+    CLASS_STATEMENT
+      PsiElement(KEYWORD_CLASS)('CLASS')
+      PsiWhiteSpace(' ')
+      CLASS_NAME
+        PsiElement(class reference)('NGUnitTest')
+    PsiWhiteSpace('\n')
+    METHOD_STATEMENT
+      PsiElement(KEYWORD_METHOD)('METHOD')
+      PsiWhiteSpace(' ')
+      PsiElement(method reference)('tryAlways()')
+    PsiWhiteSpace('\n')
+    ENTRY_LOCATION
+      PsiElement(KEYWORD_AT)('AT')
+      PsiWhiteSpace(' ')
+      PsiElement(KEYWORD_ENTRY)('ENTRY')
+    PsiWhiteSpace('\n')
+    IF_STATEMENT
+      PsiElement(IF)('IF')
+      PsiWhiteSpace(' ')
+      CONDITION
+        EXPR
+          SIMPLE_EXPR
+            PsiElement(boolean)('TRUE')
+    PsiWhiteSpace('\n')
+    DO_STATEMENT
+      PsiElement(KEYWORD_DO)('DO')
+      PsiWhiteSpace(' ')
+      EXPR_ACTIONS
+        EXPR
+          IDENTIFIER_EXPR
+            PsiElement(IDENTIFIER)('traceln')
+    PsiElement(LPAREN)('(')
+    PsiElement(string)('"')
+    PsiErrorElement:'.', ';', COMMA, LSQUARE or RPAREN expected, got 'Byteman: intercepted at entry in tryAlways from class @BMScript script'
+      PsiElement(string)('Byteman: intercepted at entry in tryAlways from class @BMScript script')
+    PsiElement(string)('"')
+    PsiElement(RPAREN)(')')
+    PsiElement(;)(';')
+    PsiWhiteSpace('\n')
+    PsiElement(KEYWORD_ENDRULE)('ENDRULE')
