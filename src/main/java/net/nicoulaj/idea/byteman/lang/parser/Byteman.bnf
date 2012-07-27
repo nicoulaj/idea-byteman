@@ -147,29 +147,23 @@ do_statement ::=
   KEYWORD_DO actions
 
 location_statement ::=
-   entry_location
+   scope_location
  | line_location
- | read_location
- | write_location
+ | field_location
  | invoke_location
  | synchronize_location
  | throw_location
- | exit_location
 
-entry_location ::=
-  KEYWORD_AT KEYWORD_ENTRY
+scope_location ::=
+  KEYWORD_AT (KEYWORD_ENTRY|KEYWORD_RETURN)
   { extends="location_statement" }
 
 line_location ::=
   KEYWORD_AT? KEYWORD_LINE INTEGER_LITERAL
   { extends="location_statement" }
 
-read_location ::=
-  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_READ qualified_name location_trigger?
-  { extends="location_statement" }
-
-write_location ::=
-  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_WRITE qualified_name location_trigger?
+field_location ::=
+  (KEYWORD_AT|KEYWORD_AFTER) (KEYWORD_READ|KEYWORD_WRITE) qualified_name location_trigger?
   { extends="location_statement" }
 
 invoke_location ::=
@@ -182,10 +176,6 @@ synchronize_location ::=
 
 throw_location ::=
   KEYWORD_AT KEYWORD_THROW simple_name? location_trigger?
-  { extends="location_statement" }
-
-exit_location ::=
-  KEYWORD_AT KEYWORD_RETURN
   { extends="location_statement" }
 
 location_trigger ::=
