@@ -19,25 +19,30 @@
 package net.nicoulaj.idea.byteman.lang.psi.impl;
 
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.impl.source.resolve.reference.impl.providers.JavaClassReferenceProvider;
+import com.intellij.psi.PsiElement;
+import com.intellij.util.IncorrectOperationException;
+import net.nicoulaj.idea.byteman.lang.BytemanTypes;
+import net.nicoulaj.idea.byteman.lang.psi.BytemanPsiNamedElement;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 
-public class BytemanClassNameBase extends BytemanPsiElementImpl {
+abstract class AbstractBytemanRuleImpl extends BytemanPsiElementImpl implements BytemanPsiNamedElement {
 
-    private static final JavaClassReferenceProvider CLASS_REFERENCE_PROVIDER = new JavaClassReferenceProvider();
-    static {
-        CLASS_REFERENCE_PROVIDER.setSoft(true);
-        CLASS_REFERENCE_PROVIDER.setOption(JavaClassReferenceProvider.NOT_ENUM, true);
-        CLASS_REFERENCE_PROVIDER.setOption(JavaClassReferenceProvider.NOT_INTERFACE, true);
-    }
-
-    public BytemanClassNameBase(ASTNode node) {
+    public AbstractBytemanRuleImpl(ASTNode node) {
         super(node);
     }
 
-    @NotNull @Override public PsiReference[] getReferences() {
-        return CLASS_REFERENCE_PROVIDER.getReferencesByElement(this);
+    @Override public String getName() {
+        final PsiElement nameIdentifierElement = getNameIdentifier();
+        return nameIdentifierElement != null ? nameIdentifierElement.getText() : "Unknown";
+    }
+
+    @Override public PsiElement setName(@NonNls @NotNull String name) throws IncorrectOperationException {
+        return null; // TODO Not implemented
+    }
+
+    @Override public PsiElement getNameIdentifier() {
+        return findChildByType(BytemanTypes.RULE_NAME);
     }
 }

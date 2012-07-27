@@ -19,30 +19,20 @@
 package net.nicoulaj.idea.byteman.lang.psi.impl;
 
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.IncorrectOperationException;
 import net.nicoulaj.idea.byteman.lang.BytemanTypes;
-import net.nicoulaj.idea.byteman.lang.psi.BytemanPsiNamedElement;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import net.nicoulaj.idea.byteman.lang.psi.BytemanClassStatementBase;
 
+abstract class AbstractBytemanClassStatementImpl extends BytemanPsiElementImpl implements BytemanClassStatementBase {
 
-public class BytemanRuleBase extends BytemanPsiElementImpl implements BytemanPsiNamedElement {
-
-    public BytemanRuleBase(ASTNode node) {
+    public AbstractBytemanClassStatementImpl(ASTNode node) {
         super(node);
     }
 
-    @Override public String getName() {
-        final PsiElement nameIdentifierElement = getNameIdentifier();
-        return nameIdentifierElement != null ? nameIdentifierElement.getText() : "Unknown";
+    @Override public boolean isInterface() {
+        return findChildByType(BytemanTypes.KEYWORD_INTERFACE) != null;
     }
 
-    @Override public PsiElement setName(@NonNls @NotNull String name) throws IncorrectOperationException {
-        return null; // TODO Not implemented
-    }
-
-    @Override public PsiElement getNameIdentifier() {
-        return findChildByType(BytemanTypes.RULE_NAME);
+    @Override public boolean isOverride() {
+        return findChildByType(BytemanTypes.OVERRIDE) != null;
     }
 }

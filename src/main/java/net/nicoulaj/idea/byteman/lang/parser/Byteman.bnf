@@ -44,6 +44,7 @@
     KEYWORD_DO="DO"
     KEYWORD_RULE="RULE"
     KEYWORD_CLASS="CLASS"
+    KEYWORD_INTERFACE="INTERFACE"
     KEYWORD_METHOD="METHOD"
     KEYWORD_HELPER="HELPER"
     KEYWORD_LINE="LINE"
@@ -112,14 +113,14 @@ external script ::=
 private script_element ::=
   COMMENT | helper_statement | rule
   { recoverUntil=script_element_recover }
-  private script_element_recover::=!(KEYWORD_HELPER|KEYWORD_RULE)
+  private script_element_recover::=!KEYWORD_RULE
 
 rule ::=
   KEYWORD_RULE RULE_NAME
   rule_body
   KEYWORD_ENDRULE
   { implements="net.nicoulaj.idea.byteman.lang.psi.BytemanPsiNamedElement"
-    mixin="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanRuleBase"
+    mixin="net.nicoulaj.idea.byteman.lang.psi.impl.AbstractBytemanRuleImpl"
     pin=1 }
 
 private rule_body ::= // FIXME Statements order is not enforced, this represents only a few combinations => use external parsing
@@ -129,7 +130,9 @@ private rule_body ::= // FIXME Statements order is not enforced, this represents
  |                   class_statement method_statement location_statement?                     bind_statement? if_statement do_statement helper_statement?
 
 class_statement ::=
-  KEYWORD_CLASS OVERRIDE? class_name
+  (KEYWORD_CLASS|KEYWORD_INTERFACE) OVERRIDE? class_name
+  { implements="net.nicoulaj.idea.byteman.lang.psi.BytemanClassStatementBase"
+    mixin="net.nicoulaj.idea.byteman.lang.psi.impl.AbstractBytemanClassStatementImpl" }
 
 method_statement ::=
   KEYWORD_METHOD METHOD_REF
@@ -191,7 +194,7 @@ helper_statement ::=
 
 class_name ::=
   CLASS_REF
-  { mixin="net.nicoulaj.idea.byteman.lang.psi.impl.BytemanClassNameBase" }
+  { mixin="net.nicoulaj.idea.byteman.lang.psi.impl.AbstractBytemanClassNameImpl" }
 
 event ::=
   nothing_event | binding_event

@@ -81,7 +81,8 @@ Comment= "#" [^\r\n]*
   "IF" | "if"                                                        { return KEYWORD_IF; }
   "DO" | "do"                                                        { return KEYWORD_DO; }
   "RULE"                                                             { yybegin(IN_RULE_NAME_WHITESPACE); return KEYWORD_RULE; }
-  "CLASS"   | "INTERFACE"                                            { yybegin(IN_CLASS_REF_WHITESPACE); return KEYWORD_CLASS; }
+  "CLASS"                                                            { yybegin(IN_CLASS_REF_WHITESPACE); return KEYWORD_CLASS; }
+  "INTERFACE"                                                        { yybegin(IN_CLASS_REF_WHITESPACE); return KEYWORD_INTERFACE; }
   "METHOD"                                                           { yybegin(IN_METHOD_REF_WHITESPACE); return KEYWORD_METHOD; }
   "HELPER"                                                           { yybegin(IN_CLASS_REF_WHITESPACE); return KEYWORD_HELPER; }
   "LINE"                                                             { return KEYWORD_LINE; }
