@@ -2,7 +2,7 @@
 out/
 *.zip
 
-# Automatically download libraries
+# Automatically downloaded dependencies
 lib/
 
 # Generated sources
