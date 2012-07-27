@@ -162,15 +162,15 @@ line_location ::=
   { extends="location_statement" }
 
 read_location ::=
-  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_READ path (INTEGER_LITERAL|KEYWORD_ALL)?
+  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_READ qualified_name (INTEGER_LITERAL|KEYWORD_ALL)?
   { extends="location_statement" }
 
 write_location ::=
-  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_WRITE path (INTEGER_LITERAL|KEYWORD_ALL)?
+  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_WRITE qualified_name (INTEGER_LITERAL|KEYWORD_ALL)?
   { extends="location_statement" }
 
 invoke_location ::=
-  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_INVOKE path LPAREN identifier_expr* RPAREN (INTEGER_LITERAL|KEYWORD_ALL)?
+  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_INVOKE qualified_name LPAREN simple_name* RPAREN (INTEGER_LITERAL|KEYWORD_ALL)?
   { extends="location_statement" }
 
 synchronize_location ::=
@@ -178,7 +178,7 @@ synchronize_location ::=
   { extends="location_statement" }
 
 throw_location ::=
-  KEYWORD_AT KEYWORD_THROW identifier_expr? (INTEGER_LITERAL|KEYWORD_ALL)?
+  KEYWORD_AT KEYWORD_THROW simple_name? (INTEGER_LITERAL|KEYWORD_ALL)?
   { extends="location_statement" }
 
 exit_location ::=
@@ -205,111 +205,111 @@ binding_event ::=
   { extends="event" }
 
 binding ::=
-  binding_symbol ASSIGN expr
+  binding_symbol ASSIGN expression
 
 binding_symbol ::=
-  identifier_expr (COLON type_name)?
+  simple_name (COLON type_name)?
 
 type_name ::=
-  path array_dimensions?
+  qualified_name array_dimensions?
 
 array_dimensions ::=
   (LSQUARE RSQUARE)+
 
 condition ::=
-  expr
+  expression
 
 actions ::=
-  nothing_actions | expr_actions
+  nothing_actions | expression_actions
 
 nothing_actions ::=
   KEYWORD_NOTHING
   { extends="actions" }
 
-expr_actions ::=
-  (expr (SEMI|COMMA))* (expr | throw_return_expr) SEMI?
+expression_actions ::=
+  (expression (SEMI|COMMA))* (expression | throw_return_expression) SEMI?
   { extends="actions" }
 
-throw_return_expr ::=
-  throw_expr | return_expr
+throw_return_expression ::=
+  throw_expression | return_expression
 
-throw_expr ::=
-  KEYWORD_THROW KEYWORD_NEW? path LPAREN expr_list? RPAREN
-  { extends="throw_return_expr" }
+throw_expression ::=
+  KEYWORD_THROW KEYWORD_NEW? qualified_name LPAREN expression_list? RPAREN
+  { extends="throw_return_expression" }
 
-expr_list ::=
-  (expr (SEMI|COMMA))* expr
+expression_list ::=
+  (expression (SEMI|COMMA))* expression
 
-return_expr ::=
-  KEYWORD_RETURN expr?
-  { extends="throw_return_expr" }
+return_expression ::=
+  KEYWORD_RETURN expression?
+  { extends="throw_return_expression" }
 
-expr ::=
-  base_expr | binary_expr | ternary_expr
+expression ::=
+  base_expression | binary_expression | ternary_expression
 
-binary_expr ::=
-  (base_expr (OR|AND|LT|LE|EQ|NE|GE|GT|URSH|RSH|LSH|BOR|BAND|BXOR|PLUS|MINUS|MUL|DIV|MOD) expr)+
-  { extends="expr" }
+binary_expression ::=
+  (base_expression (OR|AND|LT|LE|EQ|NE|GE|GT|URSH|RSH|LSH|BOR|BAND|BXOR|PLUS|MINUS|MUL|DIV|MOD) expression)+
+  { extends="expression" }
 
-ternary_expr ::=
-  (base_expr TERN_IF expr COLON expr)+
-  { extends="expr" }
+ternary_expression ::=
+  (base_expression TERN_IF expression COLON expression)+
+  { extends="expression" }
 
-base_expr ::=
-    unary_oper_expr
-  | array_expr
-  | field_expr
-  | meth_expr
-  | new_expr
-  | simple_expr
-  | null_expr
-  | identifier_expr
-  | assign_expr
+base_expression ::=
+    unary_oper_expression
+  | array_expression
+  | field_expression
+  | meth_expression
+  | new_expression
+  | simple_expression
+  | null_expression
+  | simple_name
+  | assign_expression
 
-unary_oper_expr ::=
-  (NOT|TWIDDLE|MINUS) expr
-  { extends="base_expr" }
+unary_oper_expression ::=
+  (NOT|TWIDDLE|MINUS) expression
+  { extends="base_expression" }
 
-array_expr ::=
-  (simple_expr|identifier_expr|field_expr|meth_expr) (LSQUARE expr RSQUARE)+
-  { extends="base_expr" }
+array_expression ::=
+  (simple_expression|simple_name|field_expression|meth_expression) (LSQUARE expression RSQUARE)+
+  { extends="base_expression" }
 
-field_expr ::=
-    path DOT identifier_expr
-  | (simple_expr|meth_expr) (DOT identifier_expr)+
-  { extends="base_expr" }
+field_expression ::=
+    qualified_name DOT simple_name
+  | (simple_expression|meth_expression) (DOT simple_name)+
+  { extends="base_expression" }
 
-meth_expr ::=
-  ( ((path|simple_expr) DOT)* identifier_expr LPAREN expr_list? RPAREN )+
-  { extends="base_expr" }
+meth_expression ::=
+  ( ((qualified_name|simple_expression) DOT)* simple_name LPAREN expression_list? RPAREN )+
+  { extends="base_expression" }
 
-new_expr ::=
-  KEYWORD_NEW path ( new_array_idx_list | LPAREN expr_list? RPAREN )
-  { extends="base_expr" }
+new_expression ::=
+  KEYWORD_NEW qualified_name ( new_array_idx_list | LPAREN expression_list? RPAREN )
+  { extends="base_expression" }
 
 new_array_idx_list ::=
-  (LSQUARE expr? RSQUARE)+
+  (LSQUARE expression? RSQUARE)+
 
-assign_expr ::=
-  (identifier_expr|DOLLAR|field_expr|array_expr) ASSIGN expr
-  { extends="base_expr" }
+assign_expression ::=
+  (simple_name|DOLLAR|field_expression|array_expression) ASSIGN expression
+  { extends="base_expression" }
 
-simple_expr ::=
+simple_expression ::=
     INTEGER_LITERAL
   | FLOAT_LITERAL
   | BOOLEAN_LITERAL
   | STRING_LITERAL
   | DOLLAR
-  | LPAREN expr RPAREN
-  { extends="base_expr" }
+  | LPAREN expression RPAREN
+  { extends="base_expression" }
 
-null_expr ::=
+null_expression ::=
   NULL_LITERAL
-  { extends="base_expr" }
+  { extends="base_expression" }
 
-identifier_expr ::=
+simple_name ::=
   IDENTIFIER
-  { extends="base_expr" }
+  { extends="base_expression" }
 
-path ::=
-  (identifier_expr DOT)* identifier_expr
+qualified_name ::=
+  (simple_name DOT)* simple_name
