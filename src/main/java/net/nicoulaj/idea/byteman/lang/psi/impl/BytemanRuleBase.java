@@ -34,7 +34,8 @@ public class BytemanRuleBase extends BytemanPsiElementImpl implements BytemanPsi
     }
 
     @Override public String getName() {
-        return getNameIdentifier().getText();
+        final PsiElement nameIdentifierElement = getNameIdentifier();
+        return nameIdentifierElement != null ? nameIdentifierElement.getText() : "Unknown";
     }
 
     @Override public PsiElement setName(@NonNls @NotNull String name) throws IncorrectOperationException {
