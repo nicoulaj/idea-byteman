@@ -165,28 +165,41 @@ line_location ::=
   { extends="location_statement" }
 
 read_location ::=
-  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_READ qualified_name (INTEGER_LITERAL|KEYWORD_ALL)?
+  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_READ qualified_name location_trigger?
   { extends="location_statement" }
 
 write_location ::=
-  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_WRITE qualified_name (INTEGER_LITERAL|KEYWORD_ALL)?
+  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_WRITE qualified_name location_trigger?
   { extends="location_statement" }
 
 invoke_location ::=
-  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_INVOKE qualified_name LPAREN simple_name* RPAREN (INTEGER_LITERAL|KEYWORD_ALL)?
+  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_INVOKE qualified_name LPAREN simple_name* RPAREN location_trigger?
   { extends="location_statement" }
 
 synchronize_location ::=
-  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_SYNCHRONIZE (INTEGER_LITERAL|KEYWORD_ALL)?
+  (KEYWORD_AT|KEYWORD_AFTER) KEYWORD_SYNCHRONIZE location_trigger?
   { extends="location_statement" }
 
 throw_location ::=
-  KEYWORD_AT KEYWORD_THROW simple_name? (INTEGER_LITERAL|KEYWORD_ALL)?
+  KEYWORD_AT KEYWORD_THROW simple_name? location_trigger?
   { extends="location_statement" }
 
 exit_location ::=
   KEYWORD_AT KEYWORD_RETURN
   { extends="location_statement" }
+
+location_trigger ::=
+  count_trigger | always_trigger
+
+count_trigger ::=
+  INTEGER_LITERAL
+  { extends="location_trigger"
+    implements="net.nicoulaj.idea.byteman.lang.psi.BytemanPsiIntegerLiteralElement"
+    mixin="net.nicoulaj.idea.byteman.lang.psi.impl.AbstractBytemanPsiIntegerLiteralImpl" }
+
+always_trigger ::=
+  KEYWORD_ALL
+  { extends="location_trigger" }
 
 helper_statement ::=
   KEYWORD_HELPER class_name
