@@ -24,6 +24,8 @@ Setting up the project in Intellij IDEA
 
 * Install the [Grammar kit plugin](http://plugins.intellij.net/plugin?pluginId=6606) for IntelliJ IDEA.
 
+### IntelliJ IDEA plugin SDK setup
+
 * Open the project (*File > Open project*).
 * Open the module settings (*Ctrl + Alt + Shift + S*).
 * Setup the project SDK with an *Intellij IDEA Plugin SDK*.
@@ -31,6 +33,7 @@ Setting up the project in Intellij IDEA
 
 ### Building
 
+* Right-click `src/main/java/net/nicoulaj/idea/byteman/lang/parser/Byteman.bnf` and execute `Generate parser code` to update generated sources.
 * Use the run configurations to run the plugin and JUnit tests.
 * Use *Build > Prepare plugin for deployment* to generate the release package.
 
