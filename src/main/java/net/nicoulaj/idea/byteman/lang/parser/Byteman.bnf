@@ -190,7 +190,6 @@ exit_location ::=
 
 helper_statement ::=
   KEYWORD_HELPER class_name
-  { pin=1 }
 
 class_name ::=
   CLASS_REF
