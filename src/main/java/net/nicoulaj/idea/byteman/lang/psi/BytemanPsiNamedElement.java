@@ -19,7 +19,6 @@
 package net.nicoulaj.idea.byteman.lang.psi;
 
 import com.intellij.psi.PsiNameIdentifierOwner;
-import com.intellij.psi.PsiNamedElement;
 
-public interface BytemanPsiNamedElement extends BytemanPsiElement, PsiNamedElement, PsiNameIdentifierOwner {
+public interface BytemanPsiNamedElement extends BytemanPsiElement, PsiNameIdentifierOwner {
 }
