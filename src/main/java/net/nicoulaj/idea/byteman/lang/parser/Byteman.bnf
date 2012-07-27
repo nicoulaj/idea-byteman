@@ -53,6 +53,7 @@
     KEYWORD_RETURN="return"
     KEYWORD_THROW="throw"
     KEYWORD_NEW="new"
+    KEYWORD_NULL="null"
     KEYWORD_AFTER="AFTER"
     KEYWORD_ALL="ALL"
     KEYWORD_AT="AT"
@@ -93,7 +94,6 @@
     TERN_IF="?"
     COLON=":"
     DOLLAR="$identifier"
-    NULL_LITERAL="null"
     IDENTIFIER="identifier"
     BOOLEAN_LITERAL="boolean"
     INTEGER_LITERAL="integer"
@@ -232,59 +232,64 @@ nothing_actions ::=
   { extends="actions" }
 
 expression_actions ::=
-  (expression (SEMI|COMMA))* (expression | throw_return_expression) SEMI?
+  (expression (SEMI|COMMA))* (expression | throw_return_action) SEMI?
   { extends="actions" }
 
-throw_return_expression ::=
-  throw_expression | return_expression
+throw_return_action ::=
+  throw_action | return_action
+  { extends="expression" }
 
-throw_expression ::=
+throw_action ::=
   KEYWORD_THROW KEYWORD_NEW? qualified_name LPAREN expression_list? RPAREN
-  { extends="throw_return_expression" }
+  { extends="throw_return_action" }
+
+return_action ::=
+  KEYWORD_RETURN expression?
+  { extends="throw_return_action" }
 
 expression_list ::=
   (expression (SEMI|COMMA))* expression
 
-return_expression ::=
-  KEYWORD_RETURN expression?
-  { extends="throw_return_expression" }
-
 expression ::=
-  base_expression | binary_expression | ternary_expression
+  operator_expression | base_expression
 
-binary_expression ::=
-  (base_expression (OR|AND|LT|LE|EQ|NE|GE|GT|URSH|RSH|LSH|BOR|BAND|BXOR|PLUS|MINUS|MUL|DIV|MOD) expression)+
+operator_expression ::=
+  unary_operator_expression | binary_operator_expression | ternary_operator_expression
   { extends="expression" }
 
-ternary_expression ::=
-  (base_expression TERN_IF expression COLON expression)+
+unary_operator_expression ::=
+  (NOT|TWIDDLE|MINUS) expression
+  { extends="base_expression" }
+
+binary_operator_expression ::=
+  base_expression (OR|AND|LT|LE|EQ|NE|GE|GT|URSH|RSH|LSH|BOR|BAND|BXOR|PLUS|MINUS|MUL|DIV|MOD) expression
+  { extends="expression" }
+
+ternary_operator_expression ::=
+  base_expression TERN_IF expression COLON expression
   { extends="expression" }
 
 base_expression ::=
-    unary_oper_expression
-  | array_expression
+    array_expression
   | field_expression
-  | meth_expression
+  | method_expression
   | new_expression
   | simple_expression
   | null_expression
   | simple_name
   | assign_expression
-
-unary_oper_expression ::=
-  (NOT|TWIDDLE|MINUS) expression
-  { extends="base_expression" }
+  { extends="expression" }
 
 array_expression ::=
-  (simple_expression|simple_name|field_expression|meth_expression) (LSQUARE expression RSQUARE)+
+  (simple_expression|simple_name|field_expression|method_expression) (LSQUARE expression RSQUARE)+
   { extends="base_expression" }
 
 field_expression ::=
     qualified_name DOT simple_name
-  | (simple_expression|meth_expression) (DOT simple_name)+
+  | (simple_expression|method_expression) (DOT simple_name)+
   { extends="base_expression" }
 
-meth_expression ::=
+method_expression ::=
   ( ((qualified_name|simple_expression) DOT)* simple_name LPAREN expression_list? RPAREN )+
   { extends="base_expression" }
 
@@ -309,7 +314,7 @@ simple_expression ::=
   { extends="base_expression" }
 
 null_expression ::=
-  NULL_LITERAL
+  KEYWORD_NULL
   { extends="base_expression" }
 
 simple_name ::=

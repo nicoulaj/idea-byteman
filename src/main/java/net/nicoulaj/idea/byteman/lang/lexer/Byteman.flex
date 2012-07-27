@@ -132,7 +132,7 @@ Comment= "#" [^\r\n]*
   "?"                                                                { return TERN_IF; }
   ":"                                                                { return COLON; }
   "$!" | "$^" | "$#" | "$*" | "$@" | "$"{Integer} | "$"{Identifier}  { return DOLLAR; }
-  "NULL" | "null"                                                    { return NULL_LITERAL; }
+  "NULL" | "null"                                                    { return KEYWORD_NULL; }
   {Identifier}                                                       { return IDENTIFIER; }
   {Integer}                                                          { return INTEGER_LITERAL; }
   {Float}                                                            { return FLOAT_LITERAL; }
@@ -145,9 +145,7 @@ Comment= "#" [^\r\n]*
 
 <STRING> {
   \"                                                                 { yybegin(YYINITIAL); return STRING_LITERAL; }
-  [^\n\r\"\\]+                                                       { return STRING_LITERAL; }
-  \\t  | \\n | \\r | \\\" | \\                                       { return STRING_LITERAL; }
-  \n                                                                 { return ERROR_ELEMENT; }
+  (\\\"|[^\n\r\"]|\\[\n\r\ \t\b])*                                   { return STRING_LITERAL; }
   [^]                                                                { return ERROR_ELEMENT; }
 }
 

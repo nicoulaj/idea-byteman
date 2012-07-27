@@ -19,6 +19,8 @@
 package net.nicoulaj.idea.byteman.lang.lexer;
 
 import com.intellij.lexer.FlexAdapter;
+import com.intellij.lexer.MergingLexerAdapter;
+import net.nicoulaj.idea.byteman.lang.BytemanTokenTypeSets;
 
 /**
  * {@link com.intellij.lexer.Lexer} implementation for Byteman.
@@ -28,10 +30,10 @@ import com.intellij.lexer.FlexAdapter;
  * @author <a href="mailto:julien.nicoulaud@gmail.com">Julien Nicoulaud</a>
  * @since 0.1
  */
-public class BytemanLexer extends FlexAdapter {
+public class BytemanLexer extends MergingLexerAdapter {
 
     /** Build a new instance of {@link BytemanLexer}. */
     public BytemanLexer() {
-        super(new BytemanFlexLexer());
+        super(new FlexAdapter(new BytemanFlexLexer()), BytemanTokenTypeSets.MERGED_CONSECUTIVES_SET);
     }
 }
