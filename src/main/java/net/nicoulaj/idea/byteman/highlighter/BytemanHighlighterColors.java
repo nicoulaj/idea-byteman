@@ -35,8 +35,9 @@ import java.awt.*;
  */
 class BytemanHighlighterColors implements HighlighterColors {
 
-    /** Colors used by default. */
+    /* Colors used by default. */
     public static final Color DARK_BLUE = new Color(0, 0, 128);
+    public static final Color DARK_GREEN = new Color(0, 128, 0);
 
     /** Default style for TODO. */
     public static final TextAttributesKey KEYWORD_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
@@ -110,7 +111,7 @@ class BytemanHighlighterColors implements HighlighterColors {
 
     /** Default style for TODO. */
     public static final TextAttributesKey STRING_ATTR_KEY = TextAttributesKey.createTextAttributesKey(
-            "BYTEMAN.STRING", new TextAttributes(null, null, null, null, Font.PLAIN)
+            "BYTEMAN.STRING", new TextAttributes(DARK_GREEN, null, null, null, Font.BOLD)
     );
 
     /** Default style for TODO. */
