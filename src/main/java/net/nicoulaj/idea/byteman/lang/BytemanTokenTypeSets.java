@@ -123,7 +123,7 @@ public interface BytemanTokenTypeSets {
     TokenSet DOLLAR_PREFIXED_IDENTIFIER_SET = TokenSet.create(DOLLAR);
 
     /** TODO token type set. */
-    TokenSet IDENTIFIER_SET = TokenSet.create(IDENTIFIER);
+    TokenSet IDENTIFIER_SET = TokenSet.create(IDENTIFIER, QUOTED_IDENTIFIER);
 
     /** TODO token type set. */
     TokenSet NUMBER_SET = TokenSet.create(INTEGER_LITERAL,
@@ -140,9 +140,6 @@ public interface BytemanTokenTypeSets {
 
     /** TODO token type set. */
     TokenSet COMMENT_OR_WHITE_SPACE_SET = TokenSet.orSet(COMMENT_SET, WHITE_SPACE_SET);
-
-    /** Token types for which two consecutives tokens are merged. */
-    TokenSet MERGED_CONSECUTIVES_SET = TokenSet.create(STRING_LITERAL);
 
     /** TODO token type set. */
     TokenSet ERROR_SET = TokenSet.create(ERROR_ELEMENT);

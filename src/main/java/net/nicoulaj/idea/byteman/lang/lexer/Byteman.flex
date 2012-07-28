@@ -41,8 +41,8 @@ import static com.intellij.psi.TokenType.*;
 %type IElementType
 %eof{  return;
 %eof}
-%state STRING
-%state IN_QUOTEDIDENT
+%state IN_STRING_LITERAL
+%state IN_QUOTED_IDENTIFIER
 %state IN_RULE_NAME_WHITESPACE
 %state IN_RULE_NAME
 %state IN_CLASS_REF_WHITESPACE
@@ -59,8 +59,8 @@ import static com.intellij.psi.TokenType.*;
     }
 %}
 
-LineTerminator = \r | \n | \r\n
-WhiteSpace = {LineTerminator} | [ \t\f]
+EOL = \r\n | \r | \n
+WhiteSpace = {EOL} | [ \t\f]
 Identifier = ([A-Za-z_]) ([A-Za-z0-9$_])*
 PosInteger = 0 | [1-9][0-9]*
 Sign = [+-]
@@ -136,23 +136,22 @@ Comment= "#" [^\r\n]*
   {Identifier}                                                       { return IDENTIFIER; }
   {Integer}                                                          { return INTEGER_LITERAL; }
   {Float}                                                            { return FLOAT_LITERAL; }
-  \"                                                                 { yybegin(STRING); return STRING_LITERAL; }
-  \'                                                                 { yybegin(IN_QUOTEDIDENT); return IDENTIFIER; }
+  \"                                                                 { yybegin(IN_STRING_LITERAL); return STRING_LITERAL; }
+  \'                                                                 { yybegin(IN_QUOTED_IDENTIFIER); return QUOTED_IDENTIFIER; }
   {Comment}                                                          { return COMMENT; }
-  {WhiteSpace} | {LineTerminator}                                    { return WHITE_SPACE; }
+  {WhiteSpace}                                                       { return WHITE_SPACE; }
   [^]                                                                { return ERROR_ELEMENT; }
 }
 
-<STRING> {
+<IN_STRING_LITERAL> {
   \"                                                                 { yybegin(YYINITIAL); return STRING_LITERAL; }
   (\\\"|[^\n\r\"]|\\[\n\r\ \t\b])*                                   { return STRING_LITERAL; }
   [^]                                                                { return ERROR_ELEMENT; }
 }
 
-<IN_QUOTEDIDENT> {
-  [^\n\r']+                                                          { return IDENTIFIER; }
-  '                                                                  { yybegin(YYINITIAL); return IDENTIFIER; }
-  {LineTerminator}                                                   { return ERROR_ELEMENT; }
+<IN_QUOTED_IDENTIFIER> {
+  \'                                                                 { yybegin(YYINITIAL); return QUOTED_IDENTIFIER; }
+  [^\n\r\']+                                                         { return QUOTED_IDENTIFIER; }
   [^]                                                                { return ERROR_ELEMENT; }
 }
 
@@ -163,7 +162,7 @@ Comment= "#" [^\r\n]*
 
 <IN_RULE_NAME> {
   [^\n\r]+                                                           { return RULE_NAME; }
-  {LineTerminator}                                                   { yybegin(YYINITIAL); return WHITE_SPACE; }
+  {EOL}                                                              { yybegin(YYINITIAL); return WHITE_SPACE; }
   [^]                                                                { return ERROR_ELEMENT; }
 }
 
@@ -175,7 +174,7 @@ Comment= "#" [^\r\n]*
 <IN_CLASS_REF> {
   "^"                                                                { return OVERRIDE; }
   [^\n\r]+                                                           { return CLASS_REF; }
-  {LineTerminator}                                                   { yybegin(YYINITIAL); return WHITE_SPACE; }
+  {EOL}                                                              { yybegin(YYINITIAL); return WHITE_SPACE; }
   [^]                                                                { return ERROR_ELEMENT; }
 }
 
@@ -186,6 +185,6 @@ Comment= "#" [^\r\n]*
 
 <IN_METHOD_REF> {
   [^\n\r]+                                                           { return METHOD_REF; }
-  {LineTerminator}                                                   { yybegin(YYINITIAL); return WHITE_SPACE; }
+  {EOL}                                                              { yybegin(YYINITIAL); return WHITE_SPACE; }
   [^]                                                                { return ERROR_ELEMENT; }
 }

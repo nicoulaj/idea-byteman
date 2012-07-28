@@ -95,6 +95,7 @@
     COLON=":"
     DOLLAR="$identifier"
     IDENTIFIER="identifier"
+    QUOTED_IDENTIFIER="quoted identifier"
     BOOLEAN_LITERAL="boolean"
     INTEGER_LITERAL="integer"
     FLOAT_LITERAL="float"
@@ -318,7 +319,7 @@ null_expression ::=
   { extends="base_expression" }
 
 simple_name ::=
-  IDENTIFIER
+  IDENTIFIER | QUOTED_IDENTIFIER
   { extends="base_expression" }
 
 qualified_name ::=
