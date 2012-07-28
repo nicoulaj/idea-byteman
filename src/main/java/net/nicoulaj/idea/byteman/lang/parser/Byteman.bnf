@@ -233,20 +233,20 @@ nothing_actions ::=
   { extends="actions" }
 
 expression_actions ::=
-  (expression (SEMI|COMMA))* (expression | throw_return_action) SEMI?
+  expression_list ((SEMI|COMMA) last_statement_expression)? SEMI?
   { extends="actions" }
 
-throw_return_action ::=
-  throw_action | return_action
+last_statement_expression ::=
+  throw_expression | return_expression
   { extends="expression" }
 
-throw_action ::=
+throw_expression ::=
   KEYWORD_THROW KEYWORD_NEW? qualified_name LPAREN expression_list? RPAREN
-  { extends="throw_return_action" }
+  { extends="last_statement_expression" }
 
-return_action ::=
+return_expression ::=
   KEYWORD_RETURN expression?
-  { extends="throw_return_action" }
+  { extends="last_statement_expression" }
 
 expression_list ::=
   (expression (SEMI|COMMA))* expression
@@ -260,15 +260,15 @@ operator_expression ::=
 
 unary_operator_expression ::=
   (NOT|TWIDDLE|MINUS) expression
-  { extends="base_expression" }
+  { extends="operator_expression" }
 
 binary_operator_expression ::=
   base_expression (OR|AND|LT|LE|EQ|NE|GE|GT|URSH|RSH|LSH|BOR|BAND|BXOR|PLUS|MINUS|MUL|DIV|MOD) expression
-  { extends="expression" }
+  { extends="operator_expression" }
 
 ternary_operator_expression ::=
   base_expression TERN_IF expression COLON expression
-  { extends="expression" }
+  { extends="operator_expression" }
 
 base_expression ::=
     array_expression
