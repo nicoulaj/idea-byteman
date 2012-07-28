@@ -38,6 +38,7 @@ public interface BytemanTokenTypeSets {
                                            KEYWORD_DO,
                                            KEYWORD_RULE,
                                            KEYWORD_CLASS,
+                                           KEYWORD_INTERFACE,
                                            KEYWORD_METHOD,
                                            KEYWORD_ENDRULE,
                                            KEYWORD_NOTHING,
