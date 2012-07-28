@@ -22,8 +22,8 @@ import com.intellij.lexer.FlexAdapter;
 import com.intellij.lexer.MergingLexerAdapter;
 import com.intellij.psi.tree.TokenSet;
 
-import static net.nicoulaj.idea.byteman.lang.BytemanTypes.QUOTED_IDENTIFIER;
-import static net.nicoulaj.idea.byteman.lang.BytemanTypes.STRING_LITERAL;
+import static com.intellij.psi.TokenType.WHITE_SPACE;
+import static net.nicoulaj.idea.byteman.lang.BytemanTypes.*;
 
 /**
  * {@link com.intellij.lexer.Lexer} implementation for Byteman.
@@ -36,7 +36,12 @@ import static net.nicoulaj.idea.byteman.lang.BytemanTypes.STRING_LITERAL;
 public class BytemanLexer extends MergingLexerAdapter {
 
     /** Token types for which two consecutives tokens are merged. */
-    private static final TokenSet TOKENS_TO_MERGE = TokenSet.create(STRING_LITERAL, QUOTED_IDENTIFIER);
+    private static final TokenSet TOKENS_TO_MERGE = TokenSet.create(
+            COMMENT,
+            WHITE_SPACE,
+            STRING_LITERAL,
+            QUOTED_IDENTIFIER
+    );
 
     /** Build a new instance of {@link BytemanLexer}. */
     public BytemanLexer() {
