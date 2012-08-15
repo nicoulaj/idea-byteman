@@ -25,7 +25,7 @@
   <property name="idea.version.eap" value="IC-120.152"/>
   <property name="idea.version" value="${idea.version.eap}"/>
   <property name="idea.tag" value="storm/120.145"/>
-  <property name="grammar-kit.commit" value="e7878bdf7e2b7e6b82a946b850c0009fa39bc131"/>
+  <property name="grammar-kit.version" value="11672"/>
 
   <!-- Paths definition -->
   <dirname property="project.basedir" file="${ant.file}"/>
@@ -75,9 +75,9 @@
   <target name="download-jflex" description="Download and unpack IntelliJ IDEA Community Edition sources" depends="check-jflex" unless="jflex.present">
     <mkdir dir="${jflex.home}"/>
     <get src="https://github.com/JetBrains/intellij-community/tarball/${idea.tag}"
-         dest="${project.lib.directory}/IDEA-IC-${idea.version}-src.tar.gz"
+         dest="${project.lib.directory}/IDEA-${idea.version}-src.tar.gz"
          skipexisting="true"/>
-    <untar src="${project.lib.directory}/IDEA-IC-${idea.version}-src.tar.gz"
+    <untar src="${project.lib.directory}/IDEA-${idea.version}-src.tar.gz"
            dest="${jflex.home}"
            compression="gzip">
       <patternset>
@@ -92,9 +92,13 @@
     <available file="${grammar-kit.jar}" property="grammar-kit.present"/>
   </target>
   <target name="download-grammar-kit" description="Download and unpack Grammar kit" depends="check-grammar-kit" unless="grammar-kit.present">
-    <get src="https://github.com/JetBrains/Grammar-Kit/raw/${grammar-kit.commit}/binaries/grammar-kit.jar"
-         dest="${grammar-kit.jar}"
+    <get src="http://plugins.intellij.net/plugin/download?updateId=${grammar-kit.version}"
+         dest="${project.lib.directory}/grammar-kit.zip"
          skipexisting="true"/>
+    <unzip src="${project.lib.directory}/grammar-kit.zip"
+           dest="${project.lib.directory}">
+      <regexpmapper from="[^/]*/lib/(.*)" to="\1"/>
+    </unzip>
   </target>
 
   <target name="dependencies" depends="download-idea,download-jflex,download-grammar-kit" description="Get project dependencies"/>
