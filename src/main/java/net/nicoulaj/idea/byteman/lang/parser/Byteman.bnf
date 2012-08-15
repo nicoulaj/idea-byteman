@@ -255,7 +255,7 @@ expression ::=
   operator_expression | base_expression
 
 operator_expression ::=
-  unary_operator_expression | binary_operator_expression | ternary_operator_expression
+  binary_operator_expression | unary_operator_expression | ternary_operator_expression
   { extends="expression" }
 
 unary_operator_expression ::=
